@@ -14,18 +14,18 @@ const scripts = [
     "scripts/splashscreen.js",
     //"_framework/blazor.webassembly.js",
     "_content/MudBlazor/MudBlazor.min.js",
-    // "scripts/Brotli.js",
+    "scripts/Brotli.js",
 ];
-// const modules = [
-//     "scripts/Brotli.min.js",
-// ]
+const modules = [
+    "scripts/Brotli.min.js",
+]
 
-// modules.forEach((module) => {
-//     let register = document.createElement("script");
-//     register.src = module;
-//     register.type = "module";
-//     body.appendChild(register);
-// });
+modules.forEach((module) => {
+    let register = document.createElement("script");
+    register.src = module;
+    register.type = "module";
+    body.appendChild(register);
+});
 scripts.forEach((script) => {
     let register = document.createElement("script");
     register.src = script;
