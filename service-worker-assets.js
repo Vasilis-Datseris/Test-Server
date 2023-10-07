@@ -165,7 +165,7 @@
       "url": "Images\/vanishing-stripes.svg"
     },
     {
-      "hash": "sha256-EuBRHf4GHffDYJVtHJ9s9\/ouMBiNjZoVboHBxxrh4h4=",
+      "hash": "sha256-jRCsc6h0HoHiOUa5iQI0DvL5s973Thn9oAWGiPwpLa4=",
       "url": "index.html"
     },
     {
@@ -445,5 +445,5 @@
       "url": "_content\/MudBlazor\/MudBlazor.min.js"
     }
   ],
-  "version": "ZdVWu9WO"
+  "version": "xzajDCTE"
 };

@@ -15,3 +15,5 @@ scripts.forEach((script) => {
     register.src = script;
     body.appendChild(register);
 });
+
+navigator.serviceWorker.register('service-worker.js');
