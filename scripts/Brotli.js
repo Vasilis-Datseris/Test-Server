@@ -12,7 +12,7 @@ Blazor.start({
                 }
                 const originalResponseBuffer = await response.arrayBuffer();
                 const originalResponseArray = new Int8Array(originalResponseBuffer);
-                const decompressedResponseArray = BrotliDecode(originalResponseArray);
+                const decompressedResponseArray = makeBrotliDecode(originalResponseArray);
                 const contentType = type ===
                     'dotnetwasm' ? 'application/wasm' : 'application/octet-stream';
                 return new Response(decompressedResponseArray,
