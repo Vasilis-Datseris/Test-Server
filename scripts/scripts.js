@@ -15,7 +15,7 @@ const scripts = [
     "scripts/splashscreen.js",
     //"_framework/blazor.webassembly.js",
     "_content/MudBlazor/MudBlazor.min.js",
-    "scripts/Brotli.js",
+    // "scripts/Brotli.js",
 ];
 const modules = [
     "scripts/Brotli.min.js",
