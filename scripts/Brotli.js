@@ -6,7 +6,7 @@ Blazor.start({
         console.log("name: " + name)
         console.log("defaultUri: " + type)
         console.log("integrity: " + integrity)
-        if (type !== 'dotnetjs' && /*location.hostname !== 'localhost' &&*/ type !== 'configuration') {
+        if (type !== 'dotnetjs' && location.hostname !== 'localhost' && type !== 'configuration') {
             return (async function () {
                 const response = await fetch(defaultUri + '.br', { cache: 'no-cache' });
                 if (!response.ok) {
