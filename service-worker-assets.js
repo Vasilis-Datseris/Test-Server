@@ -197,20 +197,12 @@
       "url": "Lottie\/Loading.json"
     },
     {
-      "hash": "sha256-juSAsFqR4q5mbEKmZPzIi2sb+8ovKrZ64EVZObk\/JJg=",
-      "url": "Lottie\/Loading.lottie"
-    },
-    {
       "hash": "sha256-ktjo8sH8ur42+TaaGvv+IHZo62M4sla1QvUAEtYd3Gc=",
       "url": "Lottie\/planet.json"
     },
     {
       "hash": "sha256-dYUleui7P8zB7OZbqH2i2Iprw\/TDXTZAIlsfMH4DTcY=",
       "url": "Lottie\/Space.json"
-    },
-    {
-      "hash": "sha256-Q7l95H34yY+dl0QcMiODlTMZ\/WyJ7L2LTE\/9o\/AYZiE=",
-      "url": "Lottie\/Space.lottie"
     },
     {
       "hash": "sha256-IJD0yLkoG54vseMlccg\/ZNyWVBeISBhoHlF2T26GXEI=",
@@ -221,12 +213,8 @@
       "url": "manifest.json"
     },
     {
-      "hash": "sha256-iI\/lzAalyx+6nTJl1vgI8Ow2qd7BVEB+oQBDXoY\/CWo=",
+      "hash": "sha256-2KJM+yUOui2ALgux2SqaCwl2zcmnQepyV2yIHK3GKzM=",
       "url": "scripts\/Brotli.js"
-    },
-    {
-      "hash": "sha256-gSWo9rb3KjrbmgHToq4uVgrW2UCjOH3NzOvBiFhV44w=",
-      "url": "scripts\/Brotli.min.js"
     },
     {
       "hash": "sha256-v9iwHvZr5KTFpjORns3Zopk+DYgObKdVLULckJrpPLU=",
@@ -247,10 +235,6 @@
     {
       "hash": "sha256-Ur5KK+MoQihdd8HSxMnDE3DvPPO+h65yijSCAZL+I+4=",
       "url": "scripts\/Waves.js"
-    },
-    {
-      "hash": "sha256-rRPcZ6IFeHnXAR40b3aqti666ndSHDxXrxm7z6uw3TI=",
-      "url": "web.config"
     },
     {
       "hash": "sha256-lOCs45frNf+D7me6lKLgUhRCdt4VwHCp9H6Ct+YWzfs=",
@@ -461,5 +445,5 @@
       "url": "_content\/MudBlazor\/MudBlazor.min.js"
     }
   ],
-  "version": "eAduaRGj"
+  "version": "ZdVWu9WO"
 };
