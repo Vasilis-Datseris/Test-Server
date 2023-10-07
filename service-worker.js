@@ -19,9 +19,11 @@ async function onInstall(event) {
         .filter(asset => offlineAssetsInclude.some(pattern => pattern.test(asset.url)))
         .filter(asset => !offlineAssetsExclude.some(pattern => pattern.test(asset.url)))
         .map(asset => new Request(asset.url, { integrity: asset.hash, cache: 'no-cache' }));
-    console.log(assetsRequests);
     console.dir(assetsRequests);
-    await caches.open(cacheName).then(cache => cache.addAll(assetsRequests));
+    await caches.open(cacheName).then(cache => {
+        console.log(cache);
+        cache.addAll(assetsRequests);
+    });
 }
 
 async function onActivate(event) {
