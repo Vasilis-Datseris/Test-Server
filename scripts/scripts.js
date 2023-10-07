@@ -8,7 +8,6 @@ const body = document.getElementsByTagName('Body')[0];
 const scripts = [
     //"https://unpkg.com/@lottiefiles/lottie-player@latest/dist/lottie-player.js",
     "scripts/Lottie-Player.min.js",
-    "scripts/Brotli.min.js",
     "scripts/Lottie.js",
     "scripts/Waves.js",
     "scripts/Flappy.js",
