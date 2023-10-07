@@ -1,0 +1,106 @@
+﻿.Splashscreen {
+    background: #536DFE;
+    top: 0;
+    position: absolute;
+    height: 100vh;
+    width: 100%;
+    z-index: 9999;
+    display: flex;
+    flex-flow: column;
+    overflow: hidden;
+}
+
+.Container {
+    position: relative;
+    height: 100vh;
+    width: 100%;
+    display: flex;
+    flex-flow: column;
+    justify-content: center;
+    align-items: center;
+    opacity: 1;
+}
+
+.Title {
+    position: absolute;
+    display: flex;
+    flex-flow: column;
+    align-items: center;
+    top: 15%;
+}
+
+.Username, .Specialty {
+    font-size: 30px;
+    font-family: Raleway;
+    font-weight: 600;
+    padding: 8px 16px;
+    color: snow;
+    text-shadow: 0 0 3px black;
+    z-index: 10;
+}
+
+.Specialty {
+    font-size: 20px;
+    border: 1px solid snow;
+    border-radius: 10rem;
+    width: fit-content;
+}
+
+.Splash-lottie {
+    position: relative;
+    padding: 0 15px;
+    height: 100%;
+    display: flex;
+    flex-flow: column;
+    align-items: center;
+    /*max-width: 700px;*/
+}
+
+.lottie-spaceship {
+    width: 100vh;
+}
+
+.lottie-loading {
+    position: absolute;
+    height: 150px;
+    bottom: 0;
+    right: 0;
+    width: fit-content;
+}
+
+.Evaporize {
+    animation: Fade 1s ease-in-out forwards;
+}
+
+@keyframes Burn {
+    0% {
+        opacity: 1;
+    }
+    100% {
+        opacity: 0;
+    }
+}
+
+@keyframes Breathe {
+    40%, 60% {
+        background: transparent;
+    }
+    50% {
+        background: green;
+    }
+}
+
+@keyframes Background {
+    0%,100% {
+        background: #536DFE;
+    }
+}
+
+@keyframes Fade {
+    0%,80% {
+        opacity: 1;
+    }
+    100% {
+        opacity: 0;
+    }
+}
