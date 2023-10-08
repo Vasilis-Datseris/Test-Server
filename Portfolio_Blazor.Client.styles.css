@@ -205,7 +205,18 @@ lottie-player:host(#shadow-root)[b-2cehlepzno] {
     background: red;
 }
 /* /Components/Playground/Enumerables.razor.rz.scp.css */
-body[b-z26en0eal5] {
+[b-z26en0eal5] .mud-card {
+    height: 100%;
+    display: flex;
+    flex-flow: column;
+}
+
+[b-z26en0eal5] .mud-card-header {
+    padding-top: 55px;
+}
+
+[b-z26en0eal5] .mud-card-content {
+    flex-grow: 1;
 }
 /* /Components/Playground/Flappy.razor.rz.scp.css */
 [b-7wwiktpinm] .flappy-container {
@@ -226,13 +237,52 @@ body[b-z26en0eal5] {
 }
 
 /* /Components/Playground/Multi_Thread.razor.rz.scp.css */
-body[b-i0v933z04y] {
+[b-i0v933z04y] .mud-card {
+    height: 100%;
+    display: flex;
+    flex-flow: column;
+}
+
+[b-i0v933z04y] .mud-card-header {
+    padding-top: 55px;
+}
+
+[b-i0v933z04y] .mud-card-content {
+    flex-grow: 1;
+    display: flex;
+    flex-flow: column;
+}
+
+[b-i0v933z04y] .mud-chart {
+    flex-grow: 1;
 }
 /* /Components/Playground/Numbers.razor.rz.scp.css */
-body[b-q4yj7134fx] {
+[b-q4yj7134fx] .mud-card {
+    height: 100%;
+    display: flex;
+    flex-flow: column;
+}
+
+[b-q4yj7134fx] .mud-card-header {
+    padding-top: 55px;
+}
+
+[b-q4yj7134fx] .mud-card-content {
+    flex-grow: 1;
 }
 /* /Components/Playground/ThemePlayer.razor.rz.scp.css */
-body[b-hnj7zyoycq] {
+[b-hnj7zyoycq] .mud-card {
+    height: 100%;
+    display: flex;
+    flex-flow: column;
+}
+
+[b-hnj7zyoycq] .mud-card-header {
+    padding-top: 55px;
+}
+
+[b-hnj7zyoycq] .mud-card-content {
+    flex-grow: 1;
 }
 /* /Components/Playground/WebGL.razor.rz.scp.css */
 [b-ualo0a1i1g] #waves {
@@ -240,11 +290,24 @@ body[b-hnj7zyoycq] {
     width: 100%;
     height: 100%;
 }
-[b-ualo0a1i1g] .canvas-container {
-    height: 90vh;
+[b-ualo0a1i1g] .webgl-container {
+    height: 99.5%;
+    height: 100%;
+    overflow: hidden;
 }
 /* /Components/Playground/Yield.razor.rz.scp.css */
-body[b-v98o32eak6] {
+[b-v98o32eak6] .mud-card {
+    height: 100%;
+    display: flex;
+    flex-flow: column;
+}
+
+[b-v98o32eak6] .mud-card-header {
+    padding-top: 55px;
+}
+
+[b-v98o32eak6] .mud-card-content {
+    flex-grow: 1;
 }
 /* /Components/Signature.razor.rz.scp.css */
 .signature[b-qqt9bmnyvj] {
@@ -439,6 +502,57 @@ body[b-9jskk8k1ii] {
     animation-direction: reverse;
 }
 
+[b-mg60vqr6ts] .mud-progress-circular {
+    color: var(--mud-palette-surface);
+}
+
+
+/*::deep .orbit-open {
+    animation: none;
+    animation-play-state: paused;
+}*/
+/*::deep .orbit-open {
+    transition: .5s all ease-in-out;
+    top: var(--mud-appbar-height);
+    left: 0;
+    animation: none;
+}*/
+/*::deep .selector-open {
+    transition: .5s all ease-in-out;
+    opacity: 1;
+    top: -40vh !important;
+    left: -50vw;
+    width: 100vw !important;
+    height: 95vh !important;
+    transform: none;
+    border-radius: 0;
+    background: var(--mud-palette-surface);
+}*/
+
+[b-mg60vqr6ts] .button-menu {
+    position: absolute;
+    top: 0;
+    left: 0;
+    z-index: 9999;
+}
+
+[b-mg60vqr6ts] .window {
+    position: relative;
+    opacity: 0;
+    height: calc(100vh - var(--mud-appbar-height));
+    animation: Fade-In-b-mg60vqr6ts 1s linear forwards;
+}
+
+@keyframes Fade-In-b-mg60vqr6ts {
+    0% {
+        opacity: 0;
+        filter: blur(.5rem);
+    }
+    100% {
+        opacity: 1;
+        filter: blur(0);
+    }
+}
 @keyframes Appear-b-mg60vqr6ts {
     0% {
         top: 0;
