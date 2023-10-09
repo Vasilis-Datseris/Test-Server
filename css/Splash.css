@@ -91,13 +91,13 @@
 }
 
 @keyframes Background {
-    0%,100% {
+    0%, 100% {
         background: #536DFE;
     }
 }
 
 @keyframes Fade {
-    0%,80% {
+    0%, 80% {
         opacity: 1;
     }
     100% {

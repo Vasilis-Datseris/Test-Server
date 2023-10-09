@@ -1,7 +1,7 @@
 ﻿self.assetsManifest = {
   "assets": [
     {
-      "hash": "sha256-lU8gx39nNbtJdb401ZgHFZnsahdJR7due4lronI9CcU=",
+      "hash": "sha256-4t\/GMAm5wqFieQaLBjdOrX2fQ0qUSKVQqqQuIKrGZ\/E=",
       "url": "css\/Splash.css"
     },
     {
@@ -165,7 +165,7 @@
       "url": "Images\/vanishing-stripes.svg"
     },
     {
-      "hash": "sha256-Ned7nUBk3BFWJDSdAE0cWgSambHM4yQt6ZEfHjbMY\/o=",
+      "hash": "sha256-9nBTSE95QqkgIzAQofWSxC55H2Aj81yenWSvGCuv6fI=",
       "url": "index.html"
     },
     {
@@ -445,5 +445,5 @@
       "url": "_content\/MudBlazor\/MudBlazor.min.js"
     }
   ],
-  "version": "U3aX9JYz"
+  "version": "HbOjfLg3"
 };
