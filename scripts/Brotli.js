@@ -2,14 +2,12 @@ let BrotliDecode = (() => { const f = Int32Array.from([256, 402, 436, 468, 500, 
 
 Blazor.start({
     loadBootResource: function (type, name, defaultUri, integrity) {
-        if (type !== 'dotnetjs' && location.hostname !== 'localhost' && type !== 'configuration') {
-            console.log('type:',type);
-            console.log('name:',name);
-            console.log('defaultUri:',defaultUri);
 
+        if (type !== 'dotnetjs' && location.hostname !== 'localhost' && type !== 'configuration') {
             return (async function () {
-                console.log(await fetch(defaultUri, { cache: 'no-cache'}));
-                console.log(await fetch(defaultUri + '.br', { cache: 'no-cache'}));
+                console.log('type:', type);
+                console.log('name:', name);
+                console.log('defaultUri:', defaultUri);
                 const response = await fetch(defaultUri + '.br', { cache: 'no-cache' });
                 if (!response.ok) {
                     throw new Error(response.statusText);

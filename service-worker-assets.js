@@ -213,7 +213,7 @@
       "url": "manifest.json"
     },
     {
-      "hash": "sha256-2KJM+yUOui2ALgux2SqaCwl2zcmnQepyV2yIHK3GKzM=",
+      "hash": "sha256-\/1XLvrTGDqPBSc\/+2CnZ8rs4jxUeTWX9NLc1kqDcdSs=",
       "url": "scripts\/Brotli.js"
     },
     {
@@ -445,5 +445,5 @@
       "url": "_content\/MudBlazor\/MudBlazor.min.js"
     }
   ],
-  "version": "WBaT4p5+"
+  "version": "U3aX9JYz"
 };
