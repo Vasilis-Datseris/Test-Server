@@ -6,6 +6,9 @@
     align-items: center;
 }
 
+/* /Components/Introduction.razor.rz.scp.css */
+body[b-tt1a0ky6ah] {
+}
 /* /Components/Kronos.razor.rz.scp.css */
 [b-ayi7nw45fs] .kronos-cont {
     position: relative;
@@ -19,14 +22,10 @@
 
 [b-ayi7nw45fs] .main-star {
     transition: 1s all ease;
-    background: radial-gradient( var(--mud-palette-surface) 35%, var(--mud-palette-primary) 70%);
-    background-size: 500% 500%;
-    background-position: -400px -400px;
-    background-repeat: no-repeat;
-    border-radius: 50%;
-    box-shadow: 2.5px 5px 30px var(--mud-palette-primary);
-    filter: blur(0.5px);
+    opacity: 0;
+    aspect-ratio: 1.5;
     z-index: 10;
+    animation: FadeIn-b-ayi7nw45fs .75s forwards linear;
 }
 
 [b-ayi7nw45fs] .kronos {
@@ -38,13 +37,6 @@
     align-items: center;
     /*background: green;*/
     height: 100%;
-}
-
-[b-ayi7nw45fs] .main-star:hover {
-    transition: 1s all ease;
-    box-shadow: 0 0 30px var(--mud-palette-primary);
-    background-position: 0px 0px;
-    filter: blur(0px);
 }
 
 [b-ayi7nw45fs] .kronos:hover .kronos-item, [b-ayi7nw45fs] .kronos:hover  .kronos-satellite, [b-ayi7nw45fs] .kronos:hover .kronos-image {
@@ -101,11 +93,12 @@
     }
     10% {
         transform: translate(calc(-300px + 50%), calc(-3vh + 50%)) scale(1.2);
-        opacity: 1;
+        opacity: .5;
     }
     20% {
         transform: translate(calc(-350px + 50%), 0) scale(1.5);
         z-index: 9;
+        opacity: 1;
     }
     30% {
         transform: translate(calc(-270px + 50%), calc(7.5vh - 50%)) scale(2);
@@ -122,15 +115,16 @@
     }
     70% {
         transform: translate(calc(270px - 50%), calc(7.5vh - 50%)) scale(2);
+        z-index: 11;
+        opacity: 1;
     }
     80% {
         transform: translate(calc(350px - 50%), 0) scale(1.5); /*450px*/ /*1500%*/
-        z-index: 11;
+        z-index: 9;
     }
     90% {
         transform: translate(calc(300px - 50%), calc(-3vh + 50%)) scale(1.2);
-        z-index: 9;
-        opacity: 1;
+        opacity: .5;
     }
 }
 @keyframes RotationMini-b-ayi7nw45fs {
@@ -142,11 +136,12 @@
     }
     10% {
         transform: translate(-36vw, -3vh) scale(1.2);
-        opacity: 1;
+        opacity: .5;
     }
     20% {
         transform: translate(-44vw, 0) scale(1.5);
         z-index: 9;
+        opacity: 1;
     }
     30% {
         transform: translate(-38.5vw, 5vh) scale(2);
@@ -163,15 +158,16 @@
     }
     70% {
         transform: translate(38.5vw, 5vh) scale(2);
+        opacity: 1;
+        z-index: 11;
     }
     80% {
         transform: translate(44vw, 0) scale(1.5); /*450px*//*1500%*/
-        z-index: 11;
+        z-index: 9;
     }
     90% {
         transform: translate(36vw, -3vh) scale(1.2);
-        z-index: 9;
-        opacity: 1;
+        opacity: .5;
     }
 }
 @keyframes BreathOut-b-ayi7nw45fs {
@@ -192,6 +188,26 @@
     45%, 55% {
         opacity: 1;
         filter: blur(0);
+    }
+}
+@keyframes FadeIn-b-ayi7nw45fs {
+    0% {
+        opacity: 0;
+        filter: blur(1rem);
+    }
+    100% {
+        opacity: 1;
+        filter: blur(.5px);
+    }
+}
+@keyframes World-b-ayi7nw45fs {
+    0% {
+        /*transform: translateX(0%);*/
+        background-position-x: 0;
+    }
+    100% {
+        /*transform: translateX(-100%);*/
+        background-position-x: 100%;
     }
 }
 /* /Components/Lottie.razor.rz.scp.css */
@@ -446,6 +462,8 @@ body[b-0ufpo1lhba] {
     flex-flow: column;
     justify-content: center;
     align-items: center;
+    position: relative;
+    height: calc(100vh - var(--mud-appbar-height));
 }
 
 [b-6vnklzeg9k] .info-container {
