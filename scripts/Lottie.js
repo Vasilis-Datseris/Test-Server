@@ -36,3 +36,7 @@ installPortfolio = async () => {
         return result.outcome === 'accepted';
     } 
 }
+initialization = async () => {
+    let main = document.getElementsByClassName('main-container')[0];
+    main.addEventListener('touchmove', function () { e.preventDefault(); }, { passive: false });
+}
