@@ -562,6 +562,42 @@ body[b-9jskk8k1ii] {
     animation: Fade-In-b-mg60vqr6ts 1s linear forwards;
 }
 
+/*::deep .carousels {
+    height: 50vh;
+}
+
+::deep .carousel-item {
+    display: flex;
+    flex-flow: row;
+}*/
+[b-mg60vqr6ts] .slider {
+    display: flex;
+    flex-direction: row;
+    /*flex-wrap: wrap;*/
+    gap: 12px;
+    overflow-x: scroll;
+}
+
+[b-mg60vqr6ts] .slider-card {
+    position: relative;
+    min-width: 350px;
+    width: 400px;
+    flex-grow: 1;
+    display: flex;
+    flex-flow: column;
+}
+
+[b-mg60vqr6ts] .card-aside {
+    height: 60%;
+    position: absolute;
+    left: 0;
+    border-radius: inherit;
+    padding: 1rem;
+    display: flex;
+    flex-flow: column;
+    align-items: center;
+}
+
 @keyframes Fade-In-b-mg60vqr6ts {
     0% {
         opacity: 0;
