@@ -1,3 +1,6 @@
+/* /Components/Chapters.razor.rz.scp.css */
+body[b-1ge8i28o82] {
+}
 /* /Components/ContactMenu.razor.rz.scp.css */
 [b-e5rdyr31df] .menu-container {
     display: flex;
@@ -252,6 +255,9 @@ lottie-player:host(#shadow-root)[b-2cehlepzno] {
     z-index: 2;
 }
 
+/* /Components/Playground/Fractals.razor.rz.scp.css */
+body[b-n4wjjnmwwh] {
+}
 /* /Components/Playground/Multi_Thread.razor.rz.scp.css */
 [b-i0v933z04y] .mud-card {
     height: 100%;
@@ -460,8 +466,8 @@ body[b-0ufpo1lhba] {
 [b-6vnklzeg9k] .main-container {
     display: flex;
     flex-flow: column;
-    justify-content: center;
-    align-items: center;
+    /*justify-content: center;*/
+    /*align-items: center;*/
     position: relative;
     overscroll-behavior: contain;
     height: calc(100vh - var(--mud-appbar-height));
@@ -471,6 +477,18 @@ body[b-0ufpo1lhba] {
     display: flex;
     flex-flow: row;
     flex-wrap: wrap;
+}
+
+@keyframes Fade-In-b-6vnklzeg9k {
+    0% {
+        opacity: 0;
+        filter: blur(1rem);
+    }
+
+    100% {
+        opacity: 1;
+        filter: blur(.5px);
+    }
 }
 /* /Pages/NotFound.razor.rz.scp.css */
 body[b-9jskk8k1ii] {
