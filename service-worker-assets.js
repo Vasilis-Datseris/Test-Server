@@ -233,7 +233,7 @@
       "url": "scripts\/Lottie-Player.min.js"
     },
     {
-      "hash": "sha256-WCcQdBEdpQuvBg+LI7vC+PNDxAEPsaojADysASiRiV8=",
+      "hash": "sha256-oXx3oO6fmjd7nk+97r2mzXc\/PkKvwtyvWMhLb2D1PrI=",
       "url": "scripts\/Lottie.js"
     },
     {
@@ -273,7 +273,7 @@
       "url": "_framework\/icudt_no_CJK.dat"
     },
     {
-      "hash": "sha256-7y0xzy1sNk1A15f+y6+\/x7MRAI5UgOuNXguOe2\/KTt8=",
+      "hash": "sha256-fX82sDRyp+lsTG9A1Z8Tz\/mCYggmirN+pfHIBU5I1vY=",
       "url": "_framework\/blazor.boot.json"
     },
     {
@@ -349,7 +349,7 @@
       "url": "_framework\/MudBlazor.dll"
     },
     {
-      "hash": "sha256-DX\/bdXc088v1rhG+7DkUKXb8Ncjy4kt4tfpQ6LxoZn8=",
+      "hash": "sha256-BaHMfL76UuDuMxR9oQ1YH5HCnOHGUOFiIGD4AMpA\/kQ=",
       "url": "_framework\/Portfolio_Blazor.Client.dll"
     },
     {
@@ -457,5 +457,5 @@
       "url": "_content\/MudBlazor\/MudBlazor.min.js"
     }
   ],
-  "version": "bnDDyl0D"
+  "version": "uh9jVDS8"
 };

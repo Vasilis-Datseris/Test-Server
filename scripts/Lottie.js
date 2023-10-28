@@ -40,6 +40,5 @@ initialization = async () => {
     let main = document.getElementsByClassName('main-container')[0];
     main.addEventListener('touchmove', function (e) {
         e.preventDefault();
-        console.log('touchmove', e)
     }, { passive: false });
 }
