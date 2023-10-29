@@ -471,6 +471,7 @@ body[b-0ufpo1lhba] {
     position: relative;
     overscroll-behavior: contain;
     height: calc(100vh - var(--mud-appbar-height));
+    overflow: clip;
 }
 
 [b-6vnklzeg9k] .info-container {
