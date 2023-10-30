@@ -331,6 +331,15 @@ body[b-n4wjjnmwwh] {
 [b-v98o32eak6] .mud-card-content {
     flex-grow: 1;
 }
+/* /Components/ScrollImages.razor.rz.scp.css */
+
+[b-p4wi5lmbxt] .asteroid {
+    /*will-change: scroll-position, opacity;*/  /*transform*/
+    transition: .25s all ease;
+    position: absolute;
+    bottom: 0;
+    /*left: 0;*/
+}
 /* /Components/Signature.razor.rz.scp.css */
 .signature[b-qqt9bmnyvj] {
     display: flex;

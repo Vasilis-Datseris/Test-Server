@@ -13,6 +13,46 @@
       "url": "Images\/abstract-timekeeper-media.svg"
     },
     {
+      "hash": "sha256-kNv\/ajfEuDCmpw\/KVY1Okb8LlBoNwaMm86snZXkeGvw=",
+      "url": "Images\/Asteroids\/Blue.png"
+    },
+    {
+      "hash": "sha256-QHAgdRu5o7A7TltAMJ9yNLatlobYNMpg1wuXp2tz06Q=",
+      "url": "Images\/Asteroids\/Blue2.png"
+    },
+    {
+      "hash": "sha256-879SmlgUIihnL2RdjMgnH6zGy7Ct4x6HJPdvMQCD+H8=",
+      "url": "Images\/Asteroids\/Brown.png"
+    },
+    {
+      "hash": "sha256-enbyRwQGuwcr4ar3a6QZONuO+pwWCd4vwACEyjVd\/a4=",
+      "url": "Images\/Asteroids\/Green.png"
+    },
+    {
+      "hash": "sha256-fOXB7p4df9GOjN+qKivxenqeLNXurpyp5Qq7fx+8eFo=",
+      "url": "Images\/Asteroids\/Green2.png"
+    },
+    {
+      "hash": "sha256-rh5jr9bg6GeO2wQNzTEan3QSAX5D\/D5NMV5+bGXYRmg=",
+      "url": "Images\/Asteroids\/Molten.png"
+    },
+    {
+      "hash": "sha256-gDsryRInGMdUbM1CPsGbefhkJ9KSaA7vroCywx2P\/x8=",
+      "url": "Images\/Asteroids\/Molten2.png"
+    },
+    {
+      "hash": "sha256-jRK0hXgUin8C5vxxJFjhbdKYzqOoKbla\/8iDJiv7JOc=",
+      "url": "Images\/Asteroids\/Molten3.png"
+    },
+    {
+      "hash": "sha256-tDonTeC7xnZj\/nTDJSBskXCjmjQu\/kVmQf4dysJSbvY=",
+      "url": "Images\/Asteroids\/Red-Parallax.png"
+    },
+    {
+      "hash": "sha256-LWQXVdVhQpmq\/pnJAIntrtIdgwswFaeb18cVpoUVMoc=",
+      "url": "Images\/Asteroids\/Red.png"
+    },
+    {
       "hash": "sha256-8QOCPcZKfcZj5V5+8uqCyQgf38eCBDZt2XuSMssuBAg=",
       "url": "Images\/Avatars\/blazor-logo.png"
     },
@@ -273,7 +313,7 @@
       "url": "_framework\/icudt_no_CJK.dat"
     },
     {
-      "hash": "sha256-nJEyO0fLOWpQNunZiqhHgBmoT+Vkpa7o8I2qz5e423w=",
+      "hash": "sha256-UxJV1sfsbTWstwPJKikncJZJrfVJOIYxiVWyKblEc8U=",
       "url": "_framework\/blazor.boot.json"
     },
     {
@@ -349,7 +389,7 @@
       "url": "_framework\/MudBlazor.dll"
     },
     {
-      "hash": "sha256-mWAPDsptZaiJ8GP9bvPnhAbJJR5jFenMSBCpSPM3d9M=",
+      "hash": "sha256-1x1baX1C1\/rNR9OLhK4teQ8PMwhBw4pbWiGWyh\/0eqQ=",
       "url": "_framework\/Portfolio_Blazor.Client.dll"
     },
     {
@@ -445,7 +485,7 @@
       "url": "_framework\/System.Threading.Tasks.Parallel.dll"
     },
     {
-      "hash": "sha256-d782neVjDtGsYazjJrmR43PhFTSqf6TCTckYYCm4d58=",
+      "hash": "sha256-u8JpHlbZTyykhnDq4FyXuMA84ZmWue12jIyWN6uJzkI=",
       "url": "Portfolio_Blazor.Client.styles.css"
     },
     {
@@ -457,5 +497,5 @@
       "url": "_content\/MudBlazor\/MudBlazor.min.js"
     }
   ],
-  "version": "qvI7k3D+"
+  "version": "H2Spnt55"
 };
