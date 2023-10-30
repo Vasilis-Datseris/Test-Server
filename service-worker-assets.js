@@ -313,7 +313,7 @@
       "url": "_framework\/icudt_no_CJK.dat"
     },
     {
-      "hash": "sha256-IeP1oGhmWIOlG71NSPFdMuRhNrL2uSC3LSA2YeCh0j0=",
+      "hash": "sha256-1pfXRiBoSuHUtNMx8Fh7T8szjS1dYoFcVCvyuergKbg=",
       "url": "_framework\/blazor.boot.json"
     },
     {
@@ -389,7 +389,7 @@
       "url": "_framework\/MudBlazor.dll"
     },
     {
-      "hash": "sha256-iR3QWQBcaG9UBPFw+k85xf9rnRbk9WxNhf+lXnaXx7A=",
+      "hash": "sha256-ba7cHaCa2eh1xm3ValSKZaxwG\/jvG3vBNHagCUGjI1Y=",
       "url": "_framework\/Portfolio_Blazor.Client.dll"
     },
     {
@@ -497,5 +497,5 @@
       "url": "_content\/MudBlazor\/MudBlazor.min.js"
     }
   ],
-  "version": "MHNGkICY"
+  "version": "Zyhb2JX8"
 };
