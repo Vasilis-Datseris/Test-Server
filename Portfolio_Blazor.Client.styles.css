@@ -1,3 +1,12 @@
+/* /Components/Asteroids.razor.rz.scp.css */
+
+[b-rrqrw0eaar] .asteroid {
+    /*will-change: scroll-position, opacity;*/  /*transform*/
+    transition: .25s all ease;
+    position: absolute;
+    bottom: 0;
+    /*left: 0;*/
+}
 /* /Components/Chapters.razor.rz.scp.css */
 .chapters[b-1ge8i28o82] {
     transition: .25s all ease;
@@ -13,15 +22,13 @@
 
 [b-1ge8i28o82] .personal-info {
     width: 100%;
-    display: flex;
-    flex-flow: column;
-    justify-content: end;
-    align-items: center;
+    position: relative;
 }
 
 [b-1ge8i28o82] .info-message {
     transition: .25s all ease-in-out;
-    
+    position: absolute;
+    bottom: 0;
 }
 /* /Components/ContactMenu.razor.rz.scp.css */
 [b-e5rdyr31df] .menu-container {
@@ -352,15 +359,6 @@ body[b-n4wjjnmwwh] {
 
 [b-v98o32eak6] .mud-card-content {
     flex-grow: 1;
-}
-/* /Components/ScrollImages.razor.rz.scp.css */
-
-[b-p4wi5lmbxt] .asteroid {
-    /*will-change: scroll-position, opacity;*/  /*transform*/
-    transition: .25s all ease;
-    position: absolute;
-    bottom: 0;
-    /*left: 0;*/
 }
 /* /Components/Signature.razor.rz.scp.css */
 .signature[b-qqt9bmnyvj] {

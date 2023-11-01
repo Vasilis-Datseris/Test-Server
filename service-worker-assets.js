@@ -209,7 +209,7 @@
       "url": "Images\/World.png"
     },
     {
-      "hash": "sha256-2FdnTK+d+iNznNwdAkFkp04kAadsXJf03ozOutopj6A=",
+      "hash": "sha256-2MH1JifI477I9C0KDh6+LlEVrQIjePl+NwHxOwfJWIE=",
       "url": "index.html"
     },
     {
@@ -313,7 +313,7 @@
       "url": "_framework\/icudt_no_CJK.dat"
     },
     {
-      "hash": "sha256-4TAgOjLmLrsihbR6gTTOYRNdeEll9xoTGh61g1R5lAA=",
+      "hash": "sha256-wSaj+qDElkDRtX9vGDN0VhXxpYzw4rJoIQZWbjfTdkk=",
       "url": "_framework\/blazor.boot.json"
     },
     {
@@ -389,7 +389,7 @@
       "url": "_framework\/MudBlazor.dll"
     },
     {
-      "hash": "sha256-kZMZfrmYoADUqhG4TKCcG\/kKWqrC49QkBezqGWeBiZk=",
+      "hash": "sha256-kKGWQVHIgjNOv1A9u+D\/n3+JnyRkqMAFnUaP8bQh3NQ=",
       "url": "_framework\/Portfolio_Blazor.Client.dll"
     },
     {
@@ -485,7 +485,7 @@
       "url": "_framework\/System.Threading.Tasks.Parallel.dll"
     },
     {
-      "hash": "sha256-X6UZkFVhmbr9lJoJpfAiMx5zOfmj1V9CAVxjcroF\/YE=",
+      "hash": "sha256-t9sP3fe3\/LTqjNr5bd+HvE6tPITJQZEIgVMbnMDlVjU=",
       "url": "Portfolio_Blazor.Client.styles.css"
     },
     {
@@ -497,5 +497,5 @@
       "url": "_content\/MudBlazor\/MudBlazor.min.js"
     }
   ],
-  "version": "f5\/tLdPt"
+  "version": "PxWrarYe"
 };
