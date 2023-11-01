@@ -1,5 +1,27 @@
 /* /Components/Chapters.razor.rz.scp.css */
-body[b-1ge8i28o82] {
+.chapters[b-1ge8i28o82] {
+    transition: .25s all ease;
+    position: absolute;
+    bottom: 0;
+    width: 100%;
+    height: 2470vh;
+    display: flex;
+    transform: perspective(300px) rotateX(20deg);
+    transform-origin: 50% 100%;
+    overflow: hidden;
+}
+
+[b-1ge8i28o82] .personal-info {
+    width: 100%;
+    display: flex;
+    flex-flow: column;
+    justify-content: end;
+    align-items: center;
+}
+
+[b-1ge8i28o82] .info-message {
+    transition: .25s all ease-in-out;
+    
 }
 /* /Components/ContactMenu.razor.rz.scp.css */
 [b-e5rdyr31df] .menu-container {
