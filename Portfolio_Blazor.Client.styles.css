@@ -11,12 +11,27 @@
 .card-cont[b-m937k8m3uh] {
     position: absolute;
     width: 100%;
-    height: 85vh;
+    height: 100vh;
     bottom: 0;
+    overflow: hidden;
+    transition: .1s all ease-in-out;
 }
 
 [b-m937k8m3uh] .banner-card {
     height: 100%;
+}
+
+[b-m937k8m3uh] .kronos-shadow {
+    background: radial-gradient(color-mix(in srgb, var(--mud-palette-primary), white)-0%, var(--mud-palette-primary)70%);
+    background: var(--mud-palette-background);
+    /*background: red;*/
+    transition: .1s transform ease-in-out;
+    position: absolute;
+    left: 50%;
+    top: -10vh;
+    border-radius: 50%;
+    /*filter: blur(2.5rem);*/
+    aspect-ratio: 1;
 }
 /* /Components/Chapters.razor.rz.scp.css */
 .chapters[b-1ge8i28o82] {
@@ -130,7 +145,18 @@ body[b-tt1a0ky6ah] {
 [b-ayi7nw45fs] .kronos-image {
     transition: .25s all ease-in-out;
     opacity: 0;
+    border-radius: 50% !important;
+    aspect-ratio: 1;
     animation: BreathIn-b-ayi7nw45fs 15s linear infinite;
+}
+
+[b-ayi7nw45fs] .kronos-banner {
+    aspect-ratio: 1;
+    position: absolute;
+    z-index: 99;
+    transform: translateX(2px);
+    object-fit: cover;
+    border-radius: 50%;
 }
 
 @keyframes Rotation-b-ayi7nw45fs {
