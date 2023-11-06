@@ -19,6 +19,7 @@
 
 [b-m937k8m3uh] .banner-card {
     height: 100%;
+    position: relative;
 }
 
 [b-m937k8m3uh] .kronos-shadow {
@@ -32,6 +33,45 @@
     border-radius: 50%;
     /*filter: blur(2.5rem);*/
     aspect-ratio: 1;
+}
+
+[b-m937k8m3uh] .card-content {
+    position: absolute;
+    width: 80vw;
+    height: 50vh;
+    bottom: 0;
+    left: 50%;
+    transform: translateX(-50%);
+    display: flex;
+    flex-flow: column;
+}
+
+[b-m937k8m3uh] .card-content > div {
+    display: flex;
+    flex-grow: 1;
+}
+
+[b-m937k8m3uh] .card-content .mud-paper {
+    transition: .1s all ease-in-out;
+    flex-grow: 1;
+    transform-style: preserve-3d;
+}
+
+[b-m937k8m3uh] .card-footer {
+    position: absolute;
+    height: 10vh;
+    width: 100vw;
+    left: 0;
+    bottom: 0;
+    background: red;
+    background: linear-gradient(var(--mud-palette-surface) 50%, var(--mud-palette-secondary) 55%);
+}
+
+[b-m937k8m3uh] .card-footer img {
+    height: 10vh;
+    color: var(--mud-palette-surface);
+    fill: var(--mud-palette-surface);
+    mask-image: linear-gradient(var(--mud-palette-surface), var(--mud-palette-secondary));
 }
 /* /Components/Chapters.razor.rz.scp.css */
 .chapters[b-1ge8i28o82] {
@@ -55,6 +95,7 @@
     transition: .25s all ease-in-out;
     position: absolute;
     bottom: 0;
+    width: 100%;
 }
 /* /Components/ContactMenu.razor.rz.scp.css */
 [b-e5rdyr31df] .menu-container {
@@ -80,7 +121,6 @@ body[b-tt1a0ky6ah] {
     display: flex;
     flex-flow: column;
     justify-content: center;
-    /*background: red;*/
     align-items: center;
 }
 
@@ -94,12 +134,9 @@ body[b-tt1a0ky6ah] {
 
 [b-ayi7nw45fs] .kronos {
     position: absolute !important;
-    /*top: 300px;*/
-    /*top: 20vh;*/
     display: flex;
     justify-content: center;
     align-items: center;
-    /*background: green;*/
     height: 100%;
 }
 
@@ -151,6 +188,7 @@ body[b-tt1a0ky6ah] {
 }
 
 [b-ayi7nw45fs] .kronos-banner {
+    transition: .25s filter, opacity ease-in-out;
     aspect-ratio: 1;
     position: absolute;
     z-index: 99;
@@ -273,16 +311,6 @@ body[b-tt1a0ky6ah] {
     100% {
         opacity: 1;
         filter: blur(.5px);
-    }
-}
-@keyframes World-b-ayi7nw45fs {
-    0% {
-        /*transform: translateX(0%);*/
-        background-position-x: 0;
-    }
-    100% {
-        /*transform: translateX(-100%);*/
-        background-position-x: 100%;
     }
 }
 /* /Components/Lottie.razor.rz.scp.css */
