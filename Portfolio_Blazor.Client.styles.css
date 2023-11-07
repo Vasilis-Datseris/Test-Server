@@ -66,6 +66,7 @@
     bottom: 0;
     background: red;
     background: linear-gradient(var(--mud-palette-surface) 50%, var(--mud-palette-secondary) 55%);
+    background: linear-gradient(var(--mud-palette-surface) 50%, var(--mud-palette-dark) 55%);
 }
 
 [b-m937k8m3uh] .card-footer img {
