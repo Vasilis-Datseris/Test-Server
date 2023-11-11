@@ -19,26 +19,3 @@ OnRender = (container) => {
 }
 
 
-window.addEventListener('beforeinstallprompt', (e) => {
-    InstallPrompt = e;
-
-    InstallPrompt.userChoice.then(function (choiceResult) {
-        //console.log(choiceResult.outcome); // either "accepted" or "dismissed"
-
-        //try {
-        //    DotNet.invokeMethod('Portfolio_Blazor.Client', 'Download_Toast', choiceResultmax-width: {(_isPhone ? "100%" : _isTablet ? "75%" : "50%")}       return Result.outcome === 'accepted';
-    });
-})
-
-installPortfolio = async () => {
-    if (InstallPrompt !== null) {
-        let result = await InstallPrompt.prompt();
-        return result.outcome === 'accepted';
-    } 
-}
-initialization = async () => {
-    let main = document.getElementsByClassName('main-container')[0];
-    main.addEventListener('touchmove', function (e) {
-        e.preventDefault();
-    }, { passive: false });
-}

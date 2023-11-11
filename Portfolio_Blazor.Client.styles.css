@@ -36,6 +36,7 @@
 }
 
 [b-m937k8m3uh] .card-content {
+    transition: .1s opacity, transform ease-in-out; 
     position: absolute;
     width: 80vw;
     height: 50vh;
@@ -48,7 +49,7 @@
 
 [b-m937k8m3uh] .card-content > div {
     display: flex;
-    flex-grow: 1;
+    justify-content: space-evenly;
 }
 
 [b-m937k8m3uh] .card-content .mud-paper {
@@ -59,14 +60,14 @@
 }
 
 [b-m937k8m3uh] .card-footer {
+    transition: .1s all ease-in-out;
     position: absolute;
-    height: 10vh;
     width: 100vw;
     left: 0;
     bottom: 0;
     background: red;
     background: linear-gradient(var(--mud-palette-surface) 50%, var(--mud-palette-secondary) 55%);
-    background: linear-gradient(var(--mud-palette-surface) 50%, var(--mud-palette-dark) 55%);
+    background: var(--mud-palette-dark);
 }
 
 [b-m937k8m3uh] .card-footer img {
@@ -74,6 +75,42 @@
     color: var(--mud-palette-surface);
     fill: var(--mud-palette-surface);
     mask-image: linear-gradient(var(--mud-palette-surface), var(--mud-palette-secondary));
+}
+
+[b-m937k8m3uh] .paper-bot {
+    transition: .1s opacity ease-in-out;
+    display: flex;
+    flex-flow: column;
+    justify-content: center;
+    align-items: center;
+    background: transparent;
+    color: var(--mud-palette-surface);
+}
+
+[b-m937k8m3uh] .paper-bot .mud-list-item-text > p {
+    display: flex;
+    flex-flow: row;
+    flex-wrap: wrap;
+    gap: 3px;
+}
+
+[b-m937k8m3uh] .avatar-group {
+    display: flex;
+    flex-flow: row;
+    gap: 3px;
+}
+
+[b-m937k8m3uh] .surface {
+    background: var(--mud-palette-surface);
+    
+}
+
+[b-m937k8m3uh] .tertiary {
+    color: var(--mud-palette-tertiary);
+}
+
+[b-m937k8m3uh] .info {
+    color: var(--mud-palette-info);
 }
 /* /Components/Chapters.razor.rz.scp.css */
 .chapters[b-1ge8i28o82] {
@@ -115,6 +152,7 @@ body[b-tt1a0ky6ah] {
     position: absolute;
     transition: .25s all ease-in-out;
     left: 50%;
+    z-index: 9;
 }
 
 [b-ayi7nw45fs] .kronos-cont {
@@ -572,7 +610,6 @@ body[b-0ufpo1lhba] {
     /*align-items: center;*/
     position: relative;
     overscroll-behavior: contain;
-    height: calc(100vh - var(--mud-appbar-height));
     overflow: clip;
 }
 
@@ -614,10 +651,11 @@ body[b-9jskk8k1ii] {
     transform: translate(-50%, -50%);
 }
 
-/*::deep .sign {
-    padding: 8px 16px;
-    border-radius: 1.5rem 1px;
-}*/
+[b-mg60vqr6ts] .sign {
+    opacity: 0;
+    animation: Fade-In-b-mg60vqr6ts 1s linear forwards;
+    animation-delay: 1s;
+}
 
 [b-mg60vqr6ts] .selector {
     transition: .25s all ease-in-out;
