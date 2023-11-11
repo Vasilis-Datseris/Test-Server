@@ -141,7 +141,7 @@
       "url": "Images\/Projects\/Xamarin-Intro.png"
     },
     {
-      "hash": "sha256-fPS7pwKPhh9\/TcPhuVu5FiMh9ls849FYGDrujQe7yJw=",
+      "hash": "sha256-ph49snHE\/ACIg86UfbdmveZypSumnwwwY6mwpYjAvao=",
       "url": "index.html"
     },
     {
@@ -249,7 +249,7 @@
       "url": "_framework\/icudt_no_CJK.dat"
     },
     {
-      "hash": "sha256-ghG6qg7+I01RIiy6nX7oDgWGDD7J+GQ+eoIhms7aQwA=",
+      "hash": "sha256-BProYyc7bp4xdCOdjzI0U39F6\/cIknRxx80gSJmxzBw=",
       "url": "_framework\/blazor.boot.json"
     },
     {
@@ -325,7 +325,7 @@
       "url": "_framework\/MudBlazor.dll"
     },
     {
-      "hash": "sha256-eQRHlz42Wpu2syK3eOE+xcp\/FypSfYQRvTVryird4rI=",
+      "hash": "sha256-azSStZLmuo\/8sEjqnYa\/OE90xjbcr2zSpW2wnM\/1E+M=",
       "url": "_framework\/Portfolio_Blazor.Client.dll"
     },
     {
@@ -433,5 +433,5 @@
       "url": "_content\/MudBlazor\/MudBlazor.min.js"
     }
   ],
-  "version": "w6VByCjA"
+  "version": "RME8JTi6"
 };
