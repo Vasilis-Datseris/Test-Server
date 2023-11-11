@@ -141,7 +141,7 @@
       "url": "Images\/Projects\/Xamarin-Intro.png"
     },
     {
-      "hash": "sha256-xEy4Diih0CaQqfi21zbZyDcHKPBKyCA\/Qq9QgLLrLmQ=",
+      "hash": "sha256-fPS7pwKPhh9\/TcPhuVu5FiMh9ls849FYGDrujQe7yJw=",
       "url": "index.html"
     },
     {
@@ -433,5 +433,5 @@
       "url": "_content\/MudBlazor\/MudBlazor.min.js"
     }
   ],
-  "version": "ZZ38n3ol"
+  "version": "JYjI5uqU"
 };
