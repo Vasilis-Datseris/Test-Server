@@ -1,5 +1,5 @@
 const body = document.getElementsByTagName('Body')[0];
-const parallelWorker = new Worker("scripts/ParallelWorker.js");
+const parallelWorker = new Worker("Scripts/ParallelWorker.js");
 let Net;
 parallelWorker.addEventListener("message", (e) => {
     const data = e.data;
@@ -9,13 +9,13 @@ parallelWorker.addEventListener("message", (e) => {
 
 const scripts = [
     //"https://unpkg.com/@lottiefiles/lottie-player@latest/dist/lottie-player.js",
-    "scripts/Brotli.js",
-    "scripts/Lottie-Player.min.js",
-    "scripts/Lottie.js",
-    "scripts/ParallelWorker.js",
-    "scripts/Waves.js",
-    "scripts/Flappy.js",
-    "scripts/Splashscreen.js",
+    "Scripts/Brotli.js",
+    "Scripts/Lottie-Player.min.js",
+    "Scripts/Lottie.js",
+    "Scripts/ParallelWorker.js",
+    "Scripts/Waves.js",
+    "Scripts/Flappy.js",
+    "Scripts/Splashscreen.js",
     "_content/MudBlazor/MudBlazor.min.js",
 ];
 scripts.forEach((script) => {
