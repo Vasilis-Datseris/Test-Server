@@ -50,13 +50,58 @@
 [b-m937k8m3uh] .card-content > div {
     display: flex;
     justify-content: space-evenly;
+    gap: 1px;
 }
 
-[b-m937k8m3uh] .card-content .mud-paper {
-    transition: .1s all ease-in-out;
+[b-m937k8m3uh] .card-content > div:last-child {
+    position: absolute;
+    width: 100%;
+    bottom: 0;
+}
+
+[b-m937k8m3uh] .card-content .mud-card {
+    transition: .25s all ease-in-out;
+    background: var(--mud-palette-background);
+    height: fit-content;
+    align-self: center;
     flex-grow: 1;
     opacity: 0;
-    transform-style: preserve-3d;
+}
+
+[b-m937k8m3uh] .card-content .mud-card-content  {
+    display: flex;
+    flex-flow: column;
+    align-items: center;
+    justify-content: center;
+}
+
+[b-m937k8m3uh] .card-content .mud-card-actions {
+    overflow: hidden;
+}
+
+[b-m937k8m3uh] .card-content .mud-button {
+    transition: .25s all ease-in-out; 
+}
+
+[b-m937k8m3uh] .status-card {
+    display: flex;
+    align-items: center;
+    gap: 9px;
+    padding: 6px;
+    overflow:  hidden;
+}
+
+[b-m937k8m3uh] .status-card > div {
+    transition: .25s all ease-in-out;
+    width: 100%;
+}
+
+[b-m937k8m3uh] .divider {
+    transition: .25s all ease-in-out;
+    display: flex;
+    flex-flow: row;
+    margin: 5px 0;
+    width: 100%;
 }
 
 [b-m937k8m3uh] .card-footer {
