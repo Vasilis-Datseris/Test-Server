@@ -1,19 +1,19 @@
-RegisterInterval = () => {
-	fullscreenInterval = window.setInterval(function () {
-		FullScreen(fullscreen)
-	}, 1000);
-}
+//RegisterInterval = () => {
+//	fullscreenInterval = window.setInterval(function () {
+//		FullScreen(fullscreen)
+//	}, 1000);
+//}
 GameClosed = () => {
 	clearInterval(fullscreenInterval);
 }
-FullScreen = (isFull) => {
-	fullscreen = isFull;
-	c = document.getElementById("flappy");
-	//try {
-	//	SetCanvas(c.clientWidth ??= 0, c.clientHeight ??=0);
-	//} catch (e) { console.log(e) }
-	renderer.setSize(fullscreen ? window.innerWidth : c.clientWidth, fullscreen ? window.innerHeight : c.clientHeight)
-}
+//FullScreen = (isFull) => {
+//	fullscreen = isFull;
+//	c = document.getElementById("flappy");
+//	//try {
+//	//	SetCanvas(c.clientWidth ??= 0, c.clientHeight ??=0);
+//	//} catch (e) { console.log(e) }
+//	renderer.setSize(fullscreen ? window.innerWidth : c.clientWidth, fullscreen ? window.innerHeight : c.clientHeight)
+//}
 Flappy = () => {
 	ThreeMinified();
     SetKeyboard();
@@ -108,7 +108,7 @@ function StartGame() {
 	// playing field variables
 	fieldWidth = 1000, fieldHeight = 500, fieldDepth = 100;
 
-	RegisterInterval();
+	//RegisterInterval();
 	setup();
 }
 
