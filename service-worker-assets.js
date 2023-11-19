@@ -21,6 +21,14 @@
       "url": "Images\/Asteroids\/Brown.png"
     },
     {
+      "hash": "sha256-xVW3svwbPNWKp23\/BPmNszBDvcqM4LTjcHDKEuPCuyE=",
+      "url": "Images\/Asteroids\/Core.png"
+    },
+    {
+      "hash": "sha256-g8YWBGyJBD5vFFe8cm5kjZn9+XaGH5moAzG5cAfHnnQ=",
+      "url": "Images\/Asteroids\/Core1.png"
+    },
+    {
       "hash": "sha256-enbyRwQGuwcr4ar3a6QZONuO+pwWCd4vwACEyjVd\/a4=",
       "url": "Images\/Asteroids\/Green.png"
     },
@@ -41,12 +49,28 @@
       "url": "Images\/Asteroids\/Molten3.png"
     },
     {
+      "hash": "sha256-eHc+Bmbs663CK0eZ\/nyXbh1RK58W0FLV9vYuHDx9T2E=",
+      "url": "Images\/Asteroids\/Orbit.png"
+    },
+    {
+      "hash": "sha256-d0SAQpPgjhG1BXhI2qIPSXc9C6BPdmUaRApMujcRJjw=",
+      "url": "Images\/Asteroids\/Orbit1.png"
+    },
+    {
       "hash": "sha256-tDonTeC7xnZj\/nTDJSBskXCjmjQu\/kVmQf4dysJSbvY=",
       "url": "Images\/Asteroids\/Red-Parallax.png"
     },
     {
       "hash": "sha256-LWQXVdVhQpmq\/pnJAIntrtIdgwswFaeb18cVpoUVMoc=",
       "url": "Images\/Asteroids\/Red.png"
+    },
+    {
+      "hash": "sha256-msfbJDUYYPZlKAHbJmfb\/ehmFThnGQZ9FF3WNYYOrCM=",
+      "url": "Images\/Asteroids\/Rock.png"
+    },
+    {
+      "hash": "sha256-sKKDwyUnmm\/RD\/neew+PTwedBL4icYYzKoIp0oSEyk8=",
+      "url": "Images\/Asteroids\/Rock2.png"
     },
     {
       "hash": "sha256-a+X8k1kK+uTq7hr7eKKlRMQfn6RXik0r08ZdU6hYPuY=",
@@ -249,7 +273,7 @@
       "url": "_framework\/icudt_no_CJK.dat"
     },
     {
-      "hash": "sha256-LsCsnwf6bd8d8YaTysSEzk7jabDbvGw0A1yARkSxh+c=",
+      "hash": "sha256-jLAFoSbG99Vkz\/ythX1btqHLkIqiJMy6hHrHcSeytpc=",
       "url": "_framework\/blazor.boot.json"
     },
     {
@@ -321,11 +345,11 @@
       "url": "_framework\/Microsoft.JSInterop.WebAssembly.dll"
     },
     {
-      "hash": "sha256-nQ+kBpubl7WUwAsfbZ2CuTiHyTm56MW0EUCOLb9wlxw=",
+      "hash": "sha256-STqD3XEkk+oJQWPae7kVu5LQ8acwkp18jKPCa2iT7mo=",
       "url": "_framework\/MudBlazor.dll"
     },
     {
-      "hash": "sha256-YLO9ArIJe+w39nAW0B3GsYCY5M5iRquxuDa7vQrdGUY=",
+      "hash": "sha256-bi2ij4satPs9CC\/pEdDr0FS1GPgE0OQiFWjgKXqTM2g=",
       "url": "_framework\/Portfolio_Blazor.Client.dll"
     },
     {
@@ -385,7 +409,7 @@
       "url": "_framework\/System.ObjectModel.dll"
     },
     {
-      "hash": "sha256-aON36NrgUy7CCfvF5FK\/N3h1E+ak7npfJp1GD0ghjh0=",
+      "hash": "sha256-pH6YrXupQEjysF6RSjp\/+x9JnE7CoDhq6QS1Qaj9qkA=",
       "url": "_framework\/System.Private.CoreLib.dll"
     },
     {
@@ -393,7 +417,7 @@
       "url": "_framework\/System.Private.Uri.dll"
     },
     {
-      "hash": "sha256-3BnTyNtVDR+GGR8dKzDhUproQlyijZrruQic\/kxcM\/M=",
+      "hash": "sha256-WPrudQPSAX0gE1FRko8fKc3f1sJ6RxJyRKpX2wI2tKA=",
       "url": "_framework\/System.Runtime.dll"
     },
     {
@@ -421,7 +445,7 @@
       "url": "_framework\/System.Threading.Tasks.Parallel.dll"
     },
     {
-      "hash": "sha256-PuNnVmMFx+wkvqjxE9tAKxP7mUXc6kKXR6Ha+Sgynxs=",
+      "hash": "sha256-BI4BLo+AY7aD+JaCcx5WiubZNlGrB8V2CB0ARiqT3jk=",
       "url": "Portfolio_Blazor.Client.styles.css"
     },
     {
@@ -433,5 +457,5 @@
       "url": "_content\/MudBlazor\/MudBlazor.min.js"
     }
   ],
-  "version": "MimrW1nK"
+  "version": "9qQg1YO5"
 };

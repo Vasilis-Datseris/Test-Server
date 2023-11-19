@@ -2,10 +2,30 @@
 
 [b-rrqrw0eaar] .asteroid {
     /*will-change: scroll-position, opacity;*/  /*transform*/
-    transition: .25s all ease;
+    transition: .5s all ease;
     position: absolute;
     bottom: 0;
     /*left: 0;*/
+}
+
+[b-rrqrw0eaar] .spinner {
+    animation: Spinner-b-rrqrw0eaar 1s linear infinite;
+}
+
+[b-rrqrw0eaar] .spinner-opp {
+    animation: SpinnerOpp-b-rrqrw0eaar 1s linear infinite;
+}
+
+@keyframes Spinner-b-rrqrw0eaar {
+    to {
+        rotate: 1turn;
+    }
+}
+
+@keyframes SpinnerOpp-b-rrqrw0eaar {
+    to {
+        rotate: -1turn;
+    }
 }
 /* /Components/BannerCard.razor.rz.scp.css */
 .card-cont[b-m937k8m3uh] {
@@ -176,7 +196,7 @@
 }
 
 [b-1ge8i28o82] .info-message {
-    transition: .25s all ease-in-out;
+    transition: .75s all;
     position: absolute;
     bottom: 0;
     width: 100%;
@@ -451,7 +471,7 @@ body[b-n4wjjnmwwh] {
 }
 
 [b-i0v933z04y] .mud-card-header {
-    padding-top: 55px;
+    padding-left: 55px;
 }
 
 [b-i0v933z04y] .mud-card-content {
@@ -485,7 +505,7 @@ body[b-n4wjjnmwwh] {
 }
 
 [b-hnj7zyoycq] .mud-card-header {
-    padding-top: 55px;
+    padding-left: 55px;
 }
 
 [b-hnj7zyoycq] .mud-card-content {
@@ -510,7 +530,7 @@ body[b-n4wjjnmwwh] {
 }
 
 [b-v98o32eak6] .mud-card-header {
-    padding-top: 55px;
+    padding-left: 55px;
 }
 
 [b-v98o32eak6] .mud-card-content {
