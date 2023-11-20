@@ -483,6 +483,33 @@ body[b-n4wjjnmwwh] {
 [b-i0v933z04y] .mud-chart {
     flex-grow: 1;
 }
+
+[b-i0v933z04y] .slider-box {
+    display: flex;
+    flex-flow: row;
+    align-items: end;
+    flex-wrap: wrap;
+    gap: 1rem;
+}
+
+[b-i0v933z04y] .slider-box .mud-field {
+    position: relative;
+}
+
+[b-i0v933z04y] .slider-box .slider-box {
+    flex-wrap: nowrap;
+    height: 90px;
+    width: 100%;
+}
+
+[b-i0v933z04y] .slider-container {
+    width: unset;
+    height: 100%; 
+    position: absolute;
+    right: 5px;
+    bottom: 0;
+    transform: rotateY(180deg);
+}
 /* /Components/Playground/Numbers.razor.rz.scp.css */
 [b-q4yj7134fx] .mud-card {
     height: 100%;
