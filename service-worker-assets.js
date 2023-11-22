@@ -225,7 +225,7 @@
       "url": "Scripts\/Flappy.js"
     },
     {
-      "hash": "sha256-3XEwgJE6+gb3\/j20S16d8g9bRyYyE52UJUBLxv5jq\/k=",
+      "hash": "sha256-d1JWCQWLEo7oKH7TVQNuxr+c8T89FoRb9zsJrakoX8w=",
       "url": "Scripts\/Fractals.js"
     },
     {
@@ -277,7 +277,7 @@
       "url": "_framework\/icudt_no_CJK.dat"
     },
     {
-      "hash": "sha256-VmatZqHbb975NEkkVplsjgPDcbDnyTcoxVcOkt4LpPs=",
+      "hash": "sha256-JuELsgUOt+R7f1l9MzN3VbtHVNogSw1BeRDn57wlJUU=",
       "url": "_framework\/blazor.boot.json"
     },
     {
@@ -349,11 +349,11 @@
       "url": "_framework\/Microsoft.JSInterop.WebAssembly.dll"
     },
     {
-      "hash": "sha256-Hp+5JgtKww9DxSp86FsXvcVphMG167gzGSfoMrIJsaQ=",
+      "hash": "sha256-rKmm\/LPb+38fOWHZZjCKQoiqY57FJ0TZ7Vz9o6vZVew=",
       "url": "_framework\/MudBlazor.dll"
     },
     {
-      "hash": "sha256-oVWkuayFmhKgOo\/EgbG\/tU7yjZ1Sn+9AekhtIqsf51g=",
+      "hash": "sha256-FdSX0Z+RIIN8frCGFagzfAAEpyKPfFBV2Y70CagoIP0=",
       "url": "_framework\/Portfolio_Blazor.Client.dll"
     },
     {
@@ -421,7 +421,7 @@
       "url": "_framework\/System.Private.Uri.dll"
     },
     {
-      "hash": "sha256-WPrudQPSAX0gE1FRko8fKc3f1sJ6RxJyRKpX2wI2tKA=",
+      "hash": "sha256-dc1eHoWQMs\/pEdmxTpGjkAnBGwkngqot7bzlnoS0KaM=",
       "url": "_framework\/System.Runtime.dll"
     },
     {
@@ -461,5 +461,5 @@
       "url": "_content\/MudBlazor\/MudBlazor.min.js"
     }
   ],
-  "version": "mlo7LOa1"
+  "version": "pMDCbgUW"
 };
