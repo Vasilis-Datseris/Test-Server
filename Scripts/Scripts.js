@@ -14,6 +14,7 @@ const scripts = [
     "Scripts/Lottie.js",
     "Scripts/ParallelWorker.js",
     "Scripts/Waves.js",
+    "Scripts/Fractals.js",
     "Scripts/Flappy.js",
     "Scripts/Splashscreen.js",
     "_content/MudBlazor/MudBlazor.min.js",

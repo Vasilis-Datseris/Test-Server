@@ -1,0 +1,318 @@
+var Fractal = {
+    destset: "julia",
+    startparamusage: "invert",
+    xysqrcalc: "sinx",
+    paramanim: "c2",
+    calculator: "sin",
+    cx: 0,
+    cy: 0,
+    zoom: 0.5,
+    center: [0, 0],
+    animationspeed: 3
+}
+
+Fractals = () => {
+    window.requestAnimFrame = function () {
+        return window.requestAnimationFrame || window.webkitRequestAnimationFrame || window.mozRequestAnimationFrame || function (a) {
+            window.setTimeout(a, 1E3 / 60)
+        }
+    }();
+    init();
+}
+
+UpdateFractal = (e) => {
+    Fractal.destset = e;
+    FractalRefresh();
+}
+
+UpdateFractalType = (e) => {
+    Fractal.startparamusage = e;
+    FractalRefresh();
+}
+
+UpdateFractalSquare = (e) => {
+    Fractal.xysqrcalc = e;
+    FractalRefresh();
+}
+
+UpdateFractalAnimation = (e) => {
+    Fractal.paramanim = e;
+    FractalRefresh();
+}
+
+UpdateFractalExecution = (e) => {
+    Fractal.calculator = e;
+    FractalRefresh();
+}
+
+FractalRefresh = () => {
+    let canvas = document.getElementById('canvas');
+    const parent = canvas.parentElement;
+    parent.removeChild(canvas);
+    setTimeout(() => {
+        parent.appendChild(canvas);
+        init();
+    }, 1000);
+}
+
+
+function compileShader(a, b, d) {
+    d = a.createShader(d);
+    a.shaderSource(d, b);
+    a.compileShader(d);
+    if (!a.getShaderParameter(d, a.COMPILE_STATUS))
+        throw "could not compile shader:" + a.getShaderInfoLog(d);
+    return d
+}
+function createProgram(a, b, d) {
+    var g = a.createProgram();
+    a.attachShader(g, b);
+    a.attachShader(g, d);
+    a.linkProgram(g);
+    if (!a.getProgramParameter(g, a.LINK_STATUS))
+        throw "program filed to link:" + a.getProgramInfoLog(g);
+    return g
+}
+function createProgramFromSrc(a, b, d) {
+    return createProgram(a, compileShader(a, b, a.VERTEX_SHADER), compileShader(a, d, a.FRAGMENT_SHADER))
+}
+function getShader(a, b) {
+    var d = document.getElementById(b);
+    if (!d)
+        return null;
+    for (var g = "", c = d.firstChild; c;) {
+        if (c.nodeType == 3)
+            g += c.textContent;
+        c = c.nextSibling
+    }
+    if (d.type == "x-shader/x-fragment")
+        d = a.createShader(a.FRAGMENT_SHADER);
+    else if (d.type == "x-shader/x-vertex")
+        d = a.createShader(a.VERTEX_SHADER);
+    else
+        return null;
+    a.shaderSource(d, g);
+    a.compileShader(d);
+    if (!a.getShaderParameter(d, a.COMPILE_STATUS)) {
+        alert(a.getShaderInfoLog(d));
+        return null
+    }
+    return d
+}
+function initShaders(a) {
+    var b = getShader(a, "shader-vs")
+        , d = getShader(a, "shader-fs")
+        , g = a.createProgram();
+    a.attachShader(g, b);
+    a.attachShader(g, d);
+    a.linkProgram(g);
+    a.getProgramParameter(g, a.LINK_STATUS) || alert("Could not initialise shaders");
+    return g
+}
+function initGL() {
+    var a = document.getElementById("canvas")
+        , b = a.getContext("webgl") || a.getContext("experimental-webgl");
+    b.disable(b.DEPTH_TEST);
+    b.clearColor(0, 0, 0, 0);
+    b.viewport(0, 0, a.width, a.height);
+    return b
+}
+function vertexShaderSrc() {
+    return "precision highp float;attribute vec2 v;uniform vec2 center;uniform vec2 scalev;uniform vec2 start;uniform float time;varying vec2 p;varying vec2 ps;varying float clr;void main(void) {gl_Position = vec4(v.x, v.y, 0, 1);p = v*scalev+center;ps = start;clr=time;}"
+}
+var optionsdef = {
+    startparamusage: {
+        standard: {
+            name: "Standard",
+            code: "vec2 startp(float x,float y) {return vec2(x,y);}"
+        },
+        invert: {
+            code: "vec2 startp(float x,float y) {float d = x * x + y * y; if (d == 0.0) { x = y = 10e10; } else { x /= d; y /= d;};return vec2(x,y);}",
+            name: "Invertiert"
+        },
+        sin: {
+            name: "Kreis",
+            code: "vec2 startp(float x,float y) {float d = sqrt(x * x + y * y);x*=sin(1.0*x);y*=cos(1.0*y);return vec2(x,y);}"
+        },
+        exp: {
+            name: "Exponentiell",
+            code: "vec2 startp(float x,float y) {\t\t\t\tfloat d = sqrt(x * x + y * y);x=x*exp(x/d);y=y*exp(y/d);return vec2(x,y);}"
+        }
+    },
+    calculator: {
+        z2: {
+            name: "Quad",
+            code: "y = y * x;\t\t\ty += y + py;\t\t\tx = xsqr - ysqr + px;"
+        },
+        z3: {
+            name: "Cubic",
+            code: "x = x * (xsqr - 3.0 * ysqr) + px;\t\t\ty = y * (3.0 * xsqr - ysqr) + py;"
+        },
+        z4: {
+            name: "Quart",
+            code: "y = y * x * (4.0 * xsqr - 4.0 * ysqr) + py;\t\t\tx = (xsqr * xsqr + (ysqr - 6.0 * xsqr) * ysqr) + px;"
+        },
+        z5: {
+            name: "Quint",
+            code: "y = y * (5.0 * xsqr * (xsqr - 2.0 * ysqr) + ysqr * ysqr) + py;\t\t\tx = x * (xsqr * xsqr + 5.0 * ysqr * (ysqr - 2.0 * xsqr)) + px;"
+        },
+        z6: {
+            name: "Hex",
+            code: "float yt, xt, ydm = y;\t\t\tyt = y * (5.0 * xsqr * (xsqr - 2.0 * ysqr) + ysqr * ysqr);\t\t\txt = x * (xsqr * xsqr + 5.0 * ysqr * (ysqr - 2.0 * xsqr));\t\t\ty = yt * x + xt * ydm + py;\t\t\tx = xt * x - yt * ydm + px;"
+        },
+        reziprok: {
+            name: "Reziprok",
+            code: "float xdm = x;\t\t\tx = px + (x * px + y * py) / (xsqr + ysqr) + sin(x * (xsqr - 3.0 * ysqr));\t\t\ty = py + (px * y - xdm * py) / (xsqr + ysqr) + y * (3.0 * xsqr - ysqr) + py;"
+        },
+        sin: {
+            name: "Sin",
+            code: "float expy = exp(y),expmy = exp(-y);\t\t\tfloat xx= sin(x)*(expy+expmy)*0.5;\t\t\tfloat yy= cos(x)*(expy-expmy)*0.5;\t\t\ty = yy*px+xx*py;\t\t\tx = xx*px-yy*py;"
+        }
+    },
+    xysqrcalc: {
+        standard: {
+            name: "keine",
+            code: "xysqr =xsqr+ ysqr;"
+        },
+        sinx: {
+            name: "sin(y)",
+            code: "xysqr =sin(xsqr) + ysqr;"
+        },
+        siny: {
+            name: "sin(y)",
+            code: "xysqr =xsqr + sin(ysqr);"
+        },
+        poly: {
+            name: "Polynom",
+            code: "xysqr =xsqr*xsqr +(ysqr*ysqr*ysqr);"
+        },
+        exp: {
+            name: "Exponentiell",
+            code: "xysqr =exp(xsqr) +exp(ysqr);"
+        }
+    },
+    paramanim: {
+        zero: {
+            name: "Zero",
+            f: function (a, b) {
+                b.cx = 0;
+                b.cy = 0
+            }
+        },
+        c1: {
+            name: "Kreis Radius .25 um (-1,0)",
+            f: function (a, b) {
+                b.cx = 0.25 * Math.cos(a) - 1;
+                b.cy = 0.25 * Math.sin(a)
+            }
+        },
+        c2: {
+            name: "Kreis Radius 1 um (0,0)",
+            f: function (a, b) {
+                b.cx = Math.cos(a);
+                b.cy = Math.sin(a)
+            }
+        },
+        cardio: {
+            name: "Kardio",
+            f: function (a, b) {
+                b.cx = (Math.cos(a) - Math.cos(2 * a) / 2) / 2;
+                b.cy = (Math.sin(a) - Math.sin(2 * a) / 2) / 2
+            }
+        }
+    },
+    destset: {
+        julia: {
+            code: "float x=p.x,y=p.y,px=ps.x,py=ps.y;vec2 d=startp(x,y);x=d[0];y=d[1];",
+            name: "Julia"
+        },
+        mandel: {
+            code: "float x=ps.x, y=ps.y,px=p.x,py=p.y;vec2 d=startp(px,py);px=d[0];py=d[1];",
+            name: "Mandelbrot"
+        },
+        var1: {
+            code: "float x=p.x, y=ps.y,px=ps.x,py=p.y;vec2 d=startp(x,py);x=d[0];py=d[1];",
+            name: "var1"
+        },
+        var2: {
+            code: "float x=ps.x, y=p.y,px=p.x,py=ps.y;vec2 d=startp(px,y);px=d[0];y=d[1];",
+            name: "var2"
+        }
+    }
+};
+function fragmentShaderSrc(a) {
+    var b = "precision highp float;varying vec2 p;varying vec2 ps;varying float clr;const int maxit = 50;const float border = 100.0;float mfac=1.0/log(border);vec4 getcolor(int n,float x, float y, float xysqr) {float v =( float(n) - log2( mfac * log(sqrt(xysqr)))) / float(maxit);v = ( 1.0+(sin(27.0*v)) )/2.0;return vec4(v,v*v,0.1-v*0.1, 1.0);}vec4 getcolorinside(float x, float y, float xysqr) {float c =  log( 1.0 / ( (x-y)*(x+y) ));return vec4(c*0.0,c*0.0,c*0.0, 0.0);}" + optionsdef.startparamusage[a.startparamusage].code;
+    b += "void main(void) {" + optionsdef.destset[a.destset].code + "float xsqr;float ysqr;float xysqr;bool inside = true;";
+    b += "xsqr = x * x;ysqr = y * y;for (int n=0;n<maxit;n++){" + optionsdef.calculator[a.calculator].code + "xsqr = x * x;\tysqr = y * y;" + optionsdef.xysqrcalc[a.xysqrcalc].code + "\tif ( xysqr > border ) {\t\tgl_FragColor = getcolor(n,x,y,xysqr);\t\tinside = false;\t\tbreak;\t}}if (inside) {\tgl_FragColor = getcolorinside(x,y,xysqr);}}";
+    return b
+}
+function init() {
+    function a() {
+        j && f.deleteProgram(j);
+        j = createProgramFromSrc(f, vertexShaderSrc(), fragmentShaderSrc(Fractal));
+        p = f.getUniformLocation(j, "center");
+        q = f.getUniformLocation(j, "scalev");
+        m = f.getUniformLocation(j, "start");
+        r = f.getUniformLocation(j, "time");
+        n = f.getAttribLocation(j, "v");
+        f.useProgram(j)
+    }
+    function b() {
+        var e = g.width / g.height;
+        f.clear(f.COLOR_BUFFER_BIT);
+        f.uniform2f(q, e / Fractal.zoom, 1 / Fractal.zoom);
+        f.uniform2f(m, Fractal.cx, Fractal.cy);
+        f.uniform2f(p, Fractal.center[0], Fractal.center[1]);
+        f.uniform1f(r, o);
+        f.drawArrays(f.TRIANGLE_STRIP, 0, 4)
+    }
+    var g = document.getElementById("canvas"), f = initGL(), j, p, q, m, r, n;
+    //Fractal = {
+    //    destset: Fractal,
+    //    startparamusage: FractalType,
+    //    xysqrcalc: FractalSquare,
+    //    paramanim: FractalAnimation,
+    //    calculator: FractalExecution,
+    //    cx: 0,
+    //    cy: 0,
+    //    zoom: 0.5,
+    //    center: [0, 0],
+    //    animationspeed: 3
+    //};
+    a();
+    var o = 0;
+    f.enableVertexAttribArray(n);
+    var u = f.createBuffer();
+    f.bindBuffer(f.ARRAY_BUFFER, u);
+    f.bufferData(f.ARRAY_BUFFER, new Float32Array([1, 1, -1, 1, 1, -1, -1, -1]), f.STATIC_DRAW);
+    f.vertexAttribPointer(n, 2, f.FLOAT, false, 0, 0);
+    window.onresize = function () {
+        var e = document.getElementById('canvas').parentElement
+            , h = document.getElementsByTagName("body")[0];
+        g.width = h.offsetWidth || window.innerWidth || e.clientWidth || h.clientWidth;
+        g.height = h.offsetHeight || window.innerHeight || e.clientHeight || h.clientHeight;
+        f.viewport(0, 0, g.width, g.height)
+    }
+        ;
+    window.onresize();
+    f.uniform2f(m, Fractal.cx, Fractal.cy);
+    var i = null;
+    (function e() {
+        requestAnimFrame(e);
+        var c = Fractal
+        o += parseFloat(c.animationspeed / 1e4);
+        optionsdef.paramanim[c.paramanim].f(o, c);
+        if (i) {
+            i.f++;
+            var h = i.f / 10;
+            h *= h;
+            c.center[0] = i.x0 + h * (i.x - i.x0);
+            c.center[1] = i.y0 + h * (i.y - i.y0);
+            if (i.f == 10)
+                i = null
+        }
+        b()
+    }
+    )();
+    b();
+}

@@ -498,7 +498,7 @@ body[b-n4wjjnmwwh] {
 
 [b-i0v933z04y] .slider-box .slider-box {
     flex-wrap: nowrap;
-    height: 90px;
+    min-height: 90px;
     width: 99.7%;
 }
 
