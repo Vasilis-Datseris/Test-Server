@@ -34,45 +34,37 @@ ChangeColor = (red, green, blue, transparent) => {
 }
 
 MovePerspective = (e) => {
-    if (Fractal.zoom > 0.4 && e.deltaY < 0 || Fractal.zoom < 20 && e.deltaY > 0) {
-        Fractal.zoom += e.deltaY * .001;
-        FractalRefresh();
+    if (Fractal.zoom > 0.4 && e.deltaY < 0 || Fractal.zoom < 2000 && e.deltaY > 0) {
+        if (e.deltaY > 0)
+            Fractal.zoom += Fractal.zoom / 10;
+        else
+            Fractal.zoom -= Fractal.zoom / 10;
     }
+}
+
+UpdateSpeed = (e) => {
+    Fractal.animationspeed = e;
 }
 
 UpdateFractal = (e) => {
     Fractal.destset = e;
-    FractalRefresh();
 }
 
 UpdateFractalType = (e) => {
     Fractal.startparamusage = e;
-    FractalRefresh();
 }
 
 UpdateFractalSquare = (e) => {
     Fractal.xysqrcalc = e;
-    FractalRefresh();
 }
 
 UpdateFractalAnimation = (e) => {
     Fractal.paramanim = e;
-    FractalRefresh();
 }
 
 UpdateFractalExecution = (e) => {
     Fractal.calculator = e;
-    FractalRefresh();
 }
-
-FractalRefresh = () => {
-    //let canvas = document.getElementById('canvas');
-    //const parent = canvas.parentElement;
-    //parent.removeChild(canvas);
-    //parent.appendChild(canvas);
-        //init();
-}
-
 
 function compileShader(a, b, d) {
     d = a.createShader(d);
@@ -260,7 +252,7 @@ var optionsdef = {
 };
 function fragmentShaderSrc(a) {
     //var b = "precision highp float;varying vec2 p;varying vec2 ps;varying float clr;const int maxit = 50;const float border = 100.0;float mfac=1.0/log(border);vec4 getcolor(int n,float x, float y, float xysqr) {float v =( float(n) - log2( mfac * log(sqrt(xysqr)))) / float(maxit);v = ( 1.0+(sin(27.0*v)) )/2.0;return vec4(v,v*v,0.1-v*0.1, 1.0);}vec4 getcolorinside(float x, float y, float xysqr) {float c =  log( 1.0 / ( (x-y)*(x+y) ));return vec4(c*0.0,c*0.0,c*0.0, 0.0);}" + optionsdef.startparamusage[a.startparamusage].code;
-    var b = "precision highp float;varying vec2 p;varying vec2 ps;varying float clr;const int maxit = 50;const float border = 100.0;float mfac=1.0/log(border);vec4 getcolor(int n,float x, float y, float xysqr) {float v =( float(n) - log2( mfac * log(sqrt(xysqr)))) / float(maxit);v = ( 1.0+(sin(27.0*v)) )/2.0;return vec4(" + fractalColor.red + "+v," + fractalColor.green + "-v," + fractalColor.blue + "/v, " + fractalColor.transparent + ");}vec4 getcolorinside(float x, float y, float xysqr) {float c =  log( 1.0 / ( (x-y)*(x+y) ));return vec4(c*0.0,c*0.0,c*0.0, 0.0);}" + optionsdef.startparamusage[a.startparamusage].code;
+    var b = "precision highp float;varying vec2 p;varying vec2 ps;varying float clr;const int maxit = 50;const float border = 100.0;float mfac=1.0/log(border);vec4 getcolor(int n,float x, float y, float xysqr) {float v =( float(n) - log2( mfac * log(sqrt(xysqr)))) / float(maxit);v = ( 1.0+(sin(27.0*v)) )/2.0;return vec4(" + fractalColor.red + "-v," + fractalColor.green + "-v," + fractalColor.blue + "-(v*.3), " + fractalColor.transparent + ");}vec4 getcolorinside(float x, float y, float xysqr) {float c =  log( 1.0 / ( (x-y)*(x+y) ));return vec4(c*0.0,c*0.0,c*0.0, 0.0);}" + optionsdef.startparamusage[a.startparamusage].code;
     b += "void main(void) {" + optionsdef.destset[a.destset].code + "float xsqr;float ysqr;float xysqr;bool inside = true;";
     b += "xsqr = x * x;ysqr = y * y;for (int n=0;n<maxit;n++){" + optionsdef.calculator[a.calculator].code + "xsqr = x * x;\tysqr = y * y;" + optionsdef.xysqrcalc[a.xysqrcalc].code + "\tif ( xysqr > border ) {\t\tgl_FragColor = getcolor(n,x,y,xysqr);\t\tinside = false;\t\tbreak;\t}}if (inside) {\tgl_FragColor = getcolorinside(x,y,xysqr);}}";
     //b += "xsqr = x * x;ysqr = y * y;for (int n=0;n<maxit;n++){" + optionsdef.calculator[a.calculator].code + "xsqr = x * x;\tysqr = y * y;" + optionsdef.xysqrcalc[a.xysqrcalc].code + "\tif ( xysqr > border ) {\t\tgl_FragColor = getcolor(n,x,y,xysqr);\t\tinside = false;\t\tbreak;\t}}if (inside) {\tgl_FragColor = getcolorinside(x,y,xysqr);}}";
@@ -286,21 +278,42 @@ function init() {
         f.uniform1f(r, o);
         f.drawArrays(f.TRIANGLE_STRIP, 0, 4)
     }
-    var g = document.getElementById("canvas"), f = initGL(), j, p, q, m, r, n;
+    function k(e) {
+        i = {
+            //x: Fractal.center[0] + (e.x - x) / 10,
+            x: 2 * (e.clientX / g.width - 0.5) * (g.width / g.height) / Fractal.zoom + Fractal.center[0],
+            y: Fractal.center[1] - 2 * (e.clientY / g.height - 0.5) / Fractal.zoom,
+            //y: Fractal.center[1]-(e.y - y) / 10,
+            x0: Fractal.center[0],
+            y0: Fractal.center[1],
+            f: 0
+        }
+        //console.log("i", i.x, i.y);
+        x = e.x;
+        y = e.y;
+    }
+    var g = document.getElementById("canvas"), f = initGL(), j, p, q, m, r, n, x, y;
     let destset = Fractal.destset, startparamusage = Fractal.startparamusage, xy = Fractal.xysqrcalc, anim = Fractal.paramanim, calc = Fractal.calculator;
     let red = fractalColor.red, green = fractalColor.green, blue = fractalColor.blue, transparent = fractalColor.transparent;
-    g.addEventListener("scroll", (e) => {
+    g.addEventListener("mouseup", (e) => {
+        x = 0;
+        y = 0;
+        g.removeEventListener("mousemove", k);
+    });
+    g.addEventListener("mousedown", (e) => {
         e.preventDefault();
-        console.log("")
-        e = e.originalEvent;
-        var h = e.detail;
-        if (e = h ? h * -120 : e.wheelDeltaY) {
-            h = 1.125;
-            if (e < 0)
-                h = 1 / h;
-            c.zoom *= h;
-            b()
-        }
+        x = e.x;
+        y = e.y;
+        g.addEventListener("mousemove", k);
+        //e = e.originalEvent;
+        //var h = e.detail;
+        //if (e = h ? h * -120 : e.wheelDeltaY) {
+        //    h = 1.125;
+        //    if (e < 0)
+        //        h = 1 / h;
+        //    c.zoom *= h;
+        //    b()
+        //}
     });
     a();
     var o = 0;
@@ -312,9 +325,11 @@ function init() {
     window.onresize = function () {
         var e = document.getElementById('canvas').parentElement
             , h = document.getElementsByTagName("body")[0];
-        g.width = h.offsetWidth || window.innerWidth || e.clientWidth || h.clientWidth;
-        g.height = h.offsetHeight || window.innerHeight || e.clientHeight || h.clientHeight;
-        f.viewport(0, 0, e.clientWidth, e.clientHeight);
+        //g.width = h.offsetWidth || window.innerWidth || e.clientWidth || h.clientWidth;
+        //g.height = h.offsetHeight || window.innerHeight || e.clientHeight || h.clientHeight;
+        g.width = h.clientWidth;
+        g.height = h.clientHeight;
+        f.viewport(0, 0, h.clientWidth, h.clientHeight);
     };
         
     window.onresize();
