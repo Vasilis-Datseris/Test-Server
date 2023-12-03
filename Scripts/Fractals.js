@@ -11,11 +11,12 @@ var Fractal = {
     animationspeed: 3
 }
 let fractalColor = {
-    "red": 0.5, 
-    "green": 0.5,
-    "blue": 0.5,
+    "red": 0.01, 
+    "green": 0.01,
+    "blue": 0.99,
     "transparent" : 1.0
 }
+let interval = 0;
 
 Fractals = () => {
     window.requestAnimFrame = function () {
@@ -23,7 +24,50 @@ Fractals = () => {
             window.setTimeout(a, 1E3 / 60)
         }
     }();
+    Rainbow();
     init();
+}
+
+Rainbow = () => {
+    let r = 0, g = 0, b = 0;
+    interval = 10;
+
+    setInterval(() => {
+        if (r < 255 && g == 0 && b <= 255) {
+            r++;
+        }
+
+        if (r == 255 && g == 0 && b > 0) {
+            b--;
+        }
+
+        if (r == 255 && b == 0 && g <= 255) {
+            g++;
+        }
+
+        if (r > 0 && g == 255 && b == 0) {
+            r--;
+        }
+
+        if (r == 0 && g == 255 && b <= 255) {
+            b++;
+        }
+
+        if (b == 255 && g == 255 && r > 0) {
+            r--;
+        }
+
+        if (r == 0 && b == 255 && g > 0) {
+            g--;
+        }
+
+        fractalColor.red = r / 256;
+        fractalColor.green = g / 256;
+        fractalColor.blue = b / 256;
+
+        setTimeout(() => {  }
+            , interval);
+    }, interval);
 }
 
 ChangeColor = (red, green, blue, transparent) => {
@@ -34,11 +78,11 @@ ChangeColor = (red, green, blue, transparent) => {
 }
 
 MovePerspective = (e) => {
-    if (Fractal.zoom > 0.4 && e.deltaY < 0 || Fractal.zoom < 2000 && e.deltaY > 0) {
+    if (Fractal.zoom > 0.4 && e.deltaY > 0 || Fractal.zoom < 1000 && e.deltaY < 0) {
         if (e.deltaY > 0)
-            Fractal.zoom += Fractal.zoom / 10;
-        else
             Fractal.zoom -= Fractal.zoom / 10;
+        else
+            Fractal.zoom += Fractal.zoom / 10;
     }
 }
 
@@ -139,37 +183,9 @@ var optionsdef = {
         invert: {
             code: "vec2 startp(float x,float y) {float d = x * x + y * y; if (d == 0.0) { x = y = 10e10; } else { x /= d; y /= d;};return vec2(x,y);}",
             name: "Invertiert"
-        },
-        sin: {
-            name: "Kreis",
-            code: "vec2 startp(float x,float y) {float d = sqrt(x * x + y * y);x*=sin(1.0*x);y*=cos(1.0*y);return vec2(x,y);}"
-        },
-        exp: {
-            name: "Exponentiell",
-            code: "vec2 startp(float x,float y) {\t\t\t\tfloat d = sqrt(x * x + y * y);x=x*exp(x/d);y=y*exp(y/d);return vec2(x,y);}"
         }
     },
     calculator: {
-        z2: {
-            name: "Quad",
-            code: "y = y * x;\t\t\ty += y + py;\t\t\tx = xsqr - ysqr + px;"
-        },
-        z3: {
-            name: "Cubic",
-            code: "x = x * (xsqr - 3.0 * ysqr) + px;\t\t\ty = y * (3.0 * xsqr - ysqr) + py;"
-        },
-        z4: {
-            name: "Quart",
-            code: "y = y * x * (4.0 * xsqr - 4.0 * ysqr) + py;\t\t\tx = (xsqr * xsqr + (ysqr - 6.0 * xsqr) * ysqr) + px;"
-        },
-        z5: {
-            name: "Quint",
-            code: "y = y * (5.0 * xsqr * (xsqr - 2.0 * ysqr) + ysqr * ysqr) + py;\t\t\tx = x * (xsqr * xsqr + 5.0 * ysqr * (ysqr - 2.0 * xsqr)) + px;"
-        },
-        z6: {
-            name: "Hex",
-            code: "float yt, xt, ydm = y;\t\t\tyt = y * (5.0 * xsqr * (xsqr - 2.0 * ysqr) + ysqr * ysqr);\t\t\txt = x * (xsqr * xsqr + 5.0 * ysqr * (ysqr - 2.0 * xsqr));\t\t\ty = yt * x + xt * ydm + py;\t\t\tx = xt * x - yt * ydm + px;"
-        },
         reziprok: {
             name: "Reziprok",
             code: "float xdm = x;\t\t\tx = px + (x * px + y * py) / (xsqr + ysqr) + sin(x * (xsqr - 3.0 * ysqr));\t\t\ty = py + (px * y - xdm * py) / (xsqr + ysqr) + y * (3.0 * xsqr - ysqr) + py;"
@@ -191,24 +207,9 @@ var optionsdef = {
         siny: {
             name: "sin(y)",
             code: "xysqr =xsqr + sin(ysqr);"
-        },
-        poly: {
-            name: "Polynom",
-            code: "xysqr =xsqr*xsqr +(ysqr*ysqr*ysqr);"
-        },
-        exp: {
-            name: "Exponentiell",
-            code: "xysqr =exp(xsqr) +exp(ysqr);"
         }
     },
     paramanim: {
-        zero: {
-            name: "Zero",
-            f: function (a, b) {
-                b.cx = 0;
-                b.cy = 0
-            }
-        },
         c1: {
             name: "Kreis Radius .25 um (-1,0)",
             f: function (a, b) {
@@ -222,13 +223,6 @@ var optionsdef = {
                 b.cx = Math.cos(a);
                 b.cy = Math.sin(a)
             }
-        },
-        cardio: {
-            name: "Kardio",
-            f: function (a, b) {
-                b.cx = (Math.cos(a) - Math.cos(2 * a) / 2) / 2;
-                b.cy = (Math.sin(a) - Math.sin(2 * a) / 2) / 2
-            }
         }
     },
     destset: {
@@ -239,20 +233,12 @@ var optionsdef = {
         mandel: {
             code: "float x=ps.x, y=ps.y,px=p.x,py=p.y;vec2 d=startp(px,py);px=d[0];py=d[1];",
             name: "Mandelbrot"
-        },
-        var1: {
-            code: "float x=p.x, y=ps.y,px=ps.x,py=p.y;vec2 d=startp(x,py);x=d[0];py=d[1];",
-            name: "var1"
-        },
-        var2: {
-            code: "float x=ps.x, y=p.y,px=p.x,py=ps.y;vec2 d=startp(px,y);px=d[0];y=d[1];",
-            name: "var2"
         }
     }
 };
 function fragmentShaderSrc(a) {
     //var b = "precision highp float;varying vec2 p;varying vec2 ps;varying float clr;const int maxit = 50;const float border = 100.0;float mfac=1.0/log(border);vec4 getcolor(int n,float x, float y, float xysqr) {float v =( float(n) - log2( mfac * log(sqrt(xysqr)))) / float(maxit);v = ( 1.0+(sin(27.0*v)) )/2.0;return vec4(v,v*v,0.1-v*0.1, 1.0);}vec4 getcolorinside(float x, float y, float xysqr) {float c =  log( 1.0 / ( (x-y)*(x+y) ));return vec4(c*0.0,c*0.0,c*0.0, 0.0);}" + optionsdef.startparamusage[a.startparamusage].code;
-    var b = "precision highp float;varying vec2 p;varying vec2 ps;varying float clr;const int maxit = 50;const float border = 100.0;float mfac=1.0/log(border);vec4 getcolor(int n,float x, float y, float xysqr) {float v =( float(n) - log2( mfac * log(sqrt(xysqr)))) / float(maxit);v = ( 1.0+(sin(27.0*v)) )/2.0;return vec4(" + fractalColor.red + "-v," + fractalColor.green + "-v," + fractalColor.blue + "-(v*.3), " + fractalColor.transparent + ");}vec4 getcolorinside(float x, float y, float xysqr) {float c =  log( 1.0 / ( (x-y)*(x+y) ));return vec4(c*0.0,c*0.0,c*0.0, 0.0);}" + optionsdef.startparamusage[a.startparamusage].code;
+    var b = "precision highp float;varying vec2 p;varying vec2 ps;varying float clr;const int maxit = 50;const float border = 100.0;float mfac=1.0/log(border);vec4 getcolor(int n,float x, float y, float xysqr) {float v =( float(n) - log2( mfac * log(sqrt(xysqr)))) / float(maxit);v = ( 1.0+(sin(27.0*v)) )/2.0;return vec4(" + fractalColor.red.toFixed(2) + "-v," + fractalColor.green.toFixed(2) + "-v," + fractalColor.blue.toFixed(2) + "-v, " + fractalColor.transparent + ");}vec4 getcolorinside(float x, float y, float xysqr) {float c =  log( 1.0 / ( (x-y)*(x+y) ));return vec4(c*0.0,c*0.0,c*0.0, 0.0);}" + optionsdef.startparamusage[a.startparamusage].code;
     b += "void main(void) {" + optionsdef.destset[a.destset].code + "float xsqr;float ysqr;float xysqr;bool inside = true;";
     b += "xsqr = x * x;ysqr = y * y;for (int n=0;n<maxit;n++){" + optionsdef.calculator[a.calculator].code + "xsqr = x * x;\tysqr = y * y;" + optionsdef.xysqrcalc[a.xysqrcalc].code + "\tif ( xysqr > border ) {\t\tgl_FragColor = getcolor(n,x,y,xysqr);\t\tinside = false;\t\tbreak;\t}}if (inside) {\tgl_FragColor = getcolorinside(x,y,xysqr);}}";
     //b += "xsqr = x * x;ysqr = y * y;for (int n=0;n<maxit;n++){" + optionsdef.calculator[a.calculator].code + "xsqr = x * x;\tysqr = y * y;" + optionsdef.xysqrcalc[a.xysqrcalc].code + "\tif ( xysqr > border ) {\t\tgl_FragColor = getcolor(n,x,y,xysqr);\t\tinside = false;\t\tbreak;\t}}if (inside) {\tgl_FragColor = getcolorinside(x,y,xysqr);}}";
@@ -279,31 +265,23 @@ function init() {
         f.drawArrays(f.TRIANGLE_STRIP, 0, 4)
     }
     function k(e) {
-        i = {
-            //x: Fractal.center[0] + (e.x - x) / 10,
-            x: 2 * (e.clientX / g.width - 0.5) * (g.width / g.height) / Fractal.zoom + Fractal.center[0],
-            y: Fractal.center[1] - 2 * (e.clientY / g.height - 0.5) / Fractal.zoom,
-            //y: Fractal.center[1]-(e.y - y) / 10,
-            x0: Fractal.center[0],
-            y0: Fractal.center[1],
-            f: 0
-        }
-        //console.log("i", i.x, i.y);
-        x = e.x;
-        y = e.y;
+        x = xBase - e.clientX;
+        y = e.clientY - yBase;
+        xBase = e.clientX;
+        yBase = e.clientY;
     }
-    var g = document.getElementById("canvas"), f = initGL(), j, p, q, m, r, n, x, y;
+    var g = document.getElementById("canvas"), f = initGL(), j, p, listener, q, m, r, n, x = Fractal.center[0], y = Fractal.center[1], xBase, yBase;
     let destset = Fractal.destset, startparamusage = Fractal.startparamusage, xy = Fractal.xysqrcalc, anim = Fractal.paramanim, calc = Fractal.calculator;
     let red = fractalColor.red, green = fractalColor.green, blue = fractalColor.blue, transparent = fractalColor.transparent;
     g.addEventListener("mouseup", (e) => {
-        x = 0;
-        y = 0;
         g.removeEventListener("mousemove", k);
+        //xBase = 0;
+        //yBase = 0;
     });
     g.addEventListener("mousedown", (e) => {
         e.preventDefault();
-        x = e.x;
-        y = e.y;
+        xBase = e.clientX;
+        yBase = e.clientY;
         g.addEventListener("mousemove", k);
         //e = e.originalEvent;
         //var h = e.detail;
@@ -344,15 +322,19 @@ function init() {
         }
         o += parseFloat(Fractal.animationspeed / 1e4);
         optionsdef.paramanim[Fractal.paramanim].f(o, Fractal);
-        if (i) {
-            i.f++;
-            var h = i.f / 10;
-            h *= h;
-            Fractal.center[0] = i.x0 + h * (i.x - i.x0);
-            Fractal.center[1] = i.y0 + h * (i.y - i.y0);
-            if (i.f == 10)
-                i = null
-        }
+        //if (i) {
+        //    i.f++;
+        //    var h = i.f / 10;
+        //    h *= h;
+        //    Fractal.center[0] = i.x0 + h * (i.x - i.x0);
+        //    Fractal.center[1] = i.y0 + h * (i.y - i.y0);
+        //    if (i.f == 10)
+        //        i = null
+        //}
+        if (Fractal.center[0] != Fractal.center[0] + (x / 1000 * Fractal.zoom))
+            Fractal.center[0] = Fractal.center[0] + (x / 1000 * Fractal.zoom);
+        if (Fractal.center[1] != Fractal.center[1] + (y / 1000 * Fractal.zoom))
+            Fractal.center[1] = Fractal.center[1] + (y / 1000 * Fractal.zoom);
         b()
     }
     )();
