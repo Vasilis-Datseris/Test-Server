@@ -510,6 +510,23 @@ body[b-n4wjjnmwwh] {
     bottom: 0;
     transform: rotateY(180deg);
 }
+
+[b-i0v933z04y] .mud-tabs-toolbar {
+    background: transparent;
+}
+
+[b-i0v933z04y] .mud-input-label-animated {
+    background: var(--mud-palette-background);
+}
+
+[b-i0v933z04y] .lightmode .mud-input-label-animated {
+    background: unset;
+}
+
+[b-i0v933z04y] .mud-input-slot {
+    background: linear-gradient(90deg, Transparent 0%, var(--mud-palette-surface) 100%) !important;
+    overflow: hidden;
+}
 /* /Components/Playground/Numbers.razor.rz.scp.css */
 [b-q4yj7134fx] .mud-card {
     height: 100%;
@@ -880,6 +897,15 @@ body[b-9jskk8k1ii] {
 
 [b-mg60vqr6ts] .fade-in {
     animation: Fade-In-b-mg60vqr6ts .5s forwards ease-in-out;
+}
+
+[b-mg60vqr6ts] .mud-chart svg * {
+    transition: .25s all ease-in-out;
+}
+
+[b-mg60vqr6ts] .mud-card-actions {
+    display: flex;
+    justify-content: center;
 }
 
 @keyframes Fade-In-b-mg60vqr6ts {
