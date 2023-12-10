@@ -428,20 +428,6 @@ lottie-player[b-2cehlepzno] {
 lottie-player:host(#shadow-root)[b-2cehlepzno] {
     background: red;
 }
-/* /Components/Playground/Enumerables.razor.rz.scp.css */
-[b-z26en0eal5] .mud-card {
-    height: 100%;
-    display: flex;
-    flex-flow: column;
-}
-
-/*::deep .mud-card-header {
-    padding-top: 55px;
-}*/
-
-[b-z26en0eal5] .mud-card-content {
-    flex-grow: 1;
-}
 /* /Components/Playground/Flappy.razor.rz.scp.css */
 [b-7wwiktpinm] .flappy-container {
     width: 100%;
@@ -462,6 +448,20 @@ lottie-player:host(#shadow-root)[b-2cehlepzno] {
 
 /* /Components/Playground/Fractals.razor.rz.scp.css */
 body[b-n4wjjnmwwh] {
+}
+/* /Components/Playground/MemoryAllocation.razor.rz.scp.css */
+[b-0lpvww0run] .mud-card {
+    height: 100%;
+    display: flex;
+    flex-flow: column;
+}
+
+/*::deep .mud-card-header {
+    padding-top: 55px;
+}*/
+
+[b-0lpvww0run] .mud-card-content {
+    flex-grow: 1;
 }
 /* /Components/Playground/Multi_Thread.razor.rz.scp.css */
 [b-i0v933z04y] .mud-card {
@@ -830,6 +830,7 @@ body[b-9jskk8k1ii] {
 [b-mg60vqr6ts] .window {
     transition: .25s all ease-in-out;
     position: relative;
+    overflow: hidden;
     opacity: 0;
     animation: Fade-In-b-mg60vqr6ts 1s linear forwards;
 }
