@@ -543,6 +543,12 @@ body[b-n4wjjnmwwh] {
 [b-q4yj7134fx] .mud-chart {
     flex-grow: 1;
 }
+
+[b-q4yj7134fx] .tab-container {
+    flex-wrap: wrap;
+    max-height: 30vh;
+    overflow: overlay;
+}
 /* /Components/Playground/ThemePlayer.razor.rz.scp.css */
 [b-hnj7zyoycq] .mud-card {
     height: 100%;

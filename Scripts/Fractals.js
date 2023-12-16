@@ -17,8 +17,19 @@ let fractalColor = {
     "transparent" : 1.0
 }
 let interval = 0;
+let isPlaying = false, isRainbow = true;
+let r = 0, g = 0, b = 0;
+
+FractalRainbow = (Playing) => {
+    isRainbow = Playing;
+}
+
+FractalsStop = () => {
+    isPlaying = false;
+}
 
 Fractals = () => {
+    isPlaying = true;
     window.requestAnimFrame = function () {
         return window.requestAnimationFrame || window.webkitRequestAnimationFrame || window.mozRequestAnimationFrame || function (a) {
             window.setTimeout(a, 1E3 / 60)
@@ -29,10 +40,9 @@ Fractals = () => {
 }
 
 Rainbow = () => {
-    let r = 0, g = 0, b = 0;
-    interval = 10;
+    
 
-    setInterval(() => {
+    //while (isPlaying) {
         if (r < 255 && g == 0 && b <= 255) {
             r++;
         }
@@ -65,9 +75,11 @@ Rainbow = () => {
         fractalColor.green = g / 256;
         fractalColor.blue = b / 256;
 
-        setTimeout(() => {  }
-            , interval);
-    }, interval);
+    setTimeout(() => {
+        if (isPlaying && isRainbow)
+            Rainbow();
+    }, 20);
+    //}
 }
 
 ChangeColor = (red, green, blue, transparent) => {
@@ -331,11 +343,12 @@ function init() {
         //    if (i.f == 10)
         //        i = null
         //}
-        if (Fractal.center[0] != Fractal.center[0] + (x / 1000 * Fractal.zoom))
-            Fractal.center[0] = Fractal.center[0] + (x / 1000 * Fractal.zoom);
-        if (Fractal.center[1] != Fractal.center[1] + (y / 1000 * Fractal.zoom))
-            Fractal.center[1] = Fractal.center[1] + (y / 1000 * Fractal.zoom);
-        b()
+        if (Fractal.center[0] != Fractal.center[0] + (x / (100 * Fractal.zoom)))
+            Fractal.center[0] = Fractal.center[0] + (x / (100 * Fractal.zoom));
+        if (Fractal.center[1] != Fractal.center[1] + (y / (100 * Fractal.zoom)))
+            Fractal.center[1] = Fractal.center[1] + (y / (100 * Fractal.zoom));
+        if (isPlaying)
+            b();
     }
     )();
     b();
