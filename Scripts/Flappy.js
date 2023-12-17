@@ -14,7 +14,12 @@ GameClosed = () => {
 //	//} catch (e) { console.log(e) }
 //	renderer.setSize(fullscreen ? window.innerWidth : c.clientWidth, fullscreen ? window.innerHeight : c.clientHeight)
 //}
+FlappyStop = () => {
+	isPlayingFlappy = false;
+}
+let isPlayingFlappy = false;
 Flappy = () => {
+	isPlayingFlappy = true;
 	ThreeMinified();
     SetKeyboard();
     StartGame();
@@ -67,7 +72,7 @@ var obstacleWidth;
 var obstacleContainer;
 var clock;
 var deltaTim;
-var g;
+var gravity;
 var cubeSpeedY;
 var cubeFlySpeedY;
 var cubeFlyHeight;
@@ -95,7 +100,7 @@ function StartGame() {
 	obstacleWidth = 100;
 	obstacleContainer = new Array();
 	clock = new THREE.Clock();
-	g = 600;
+	gravity = 600;
 	cubeSpeedY = 15;
 	cubeFlySpeedY = 270;
 	cubeFlyHeight = 50;
@@ -237,7 +242,8 @@ function draw() {
 	// Attention: requestAnimationFrame() does not guarantee a fixed frame-rate
 	// and not all browsers natively support the call.
 	// You need time-deltas to calculate the realistic physics
-	requestAnimationFrame(draw);
+	if (isPlayingFlappy)
+		requestAnimationFrame(draw);
 
 	// process game logic
 	if (!gameStarted) {
@@ -382,8 +388,8 @@ function cubeUpdate() {
 		cubeSpeedY = -cubeFlySpeedY;
 	}
 	// gravity effect
-	cube.position.y -= Math.ceil(deltaTime * cubeSpeedY + g * deltaTime * deltaTime / 2);
-	cubeSpeedY += g * deltaTime;
+	cube.position.y -= Math.ceil(deltaTime * cubeSpeedY + gravity * deltaTime * deltaTime / 2);
+	cubeSpeedY += gravity * deltaTime;
 	// if cube touch the floor
 	if (cube.position.y < -fieldHeight / 2 + cubeSize / 2) {
 		gameOverFun();
@@ -464,8 +470,8 @@ function gameOverFun() {
 function cubeFall() {
 
 	// gravity effect fall
-	cube.position.y -= Math.ceil(deltaTime * cubeSpeedY + g * deltaTime * deltaTime / 2);
-	cubeSpeedY += g * deltaTime;
+	cube.position.y -= Math.ceil(deltaTime * cubeSpeedY + gravity * deltaTime * deltaTime / 2);
+	cubeSpeedY += gravity * deltaTime;
 	// if cube touch the floor
 	if (cube.position.y < -fieldHeight / 2 + cubeSize / 2) {
 		cube.position.y = -fieldHeight / 2 + cubeSize / 2;

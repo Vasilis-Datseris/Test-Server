@@ -34,6 +34,7 @@ SOFTWARE.
  */
 
 let canvas;
+let isPlayingWaves = false;
 
 function SetCanvas(Width, Height) {
     try {
@@ -42,7 +43,12 @@ function SetCanvas(Width, Height) {
     } catch (e) { console.error(e) }
 }
 
+WavesStop = () => {
+    isPlayingWaves = false;
+}
+
 Waves = () => {
+    isPlayingWaves = true;
     try {
         canvas = document.getElementById('waves');
         if (canvas === null)
@@ -1087,7 +1093,8 @@ Waves = () => {
         if (!config.PAUSED)
             step(dt);
         render(null);
-        requestAnimationFrame(update);
+        if (isPlayingWaves)
+            requestAnimationFrame(update);
     }
 
     function calcDeltaTime() {

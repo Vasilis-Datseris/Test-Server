@@ -17,7 +17,7 @@ let fractalColor = {
     "transparent" : 1.0
 }
 let interval = 0;
-let isPlaying = false, isRainbow = true;
+let isPlayingFractals = false, isRainbow = true;
 let r = 0, g = 0, b = 0;
 
 FractalRainbow = (Playing) => {
@@ -25,11 +25,11 @@ FractalRainbow = (Playing) => {
 }
 
 FractalsStop = () => {
-    isPlaying = false;
+    isPlayingFractals = false;
 }
 
 Fractals = () => {
-    isPlaying = true;
+    isPlayingFractals = true;
     window.requestAnimFrame = function () {
         return window.requestAnimationFrame || window.webkitRequestAnimationFrame || window.mozRequestAnimationFrame || function (a) {
             window.setTimeout(a, 1E3 / 60)
@@ -326,7 +326,8 @@ function init() {
     f.uniform2f(m, Fractal.cx, Fractal.cy);
     var i = null;
     (function e() {
-        requestAnimFrame(e);
+        if (isPlayingFractals)
+            requestAnimFrame(e);
         if (destset != Fractal.destset || startparamusage != Fractal.startparamusage || xy != Fractal.xysqrcalc || anim != Fractal.paramanim || calc != Fractal.calculator || red != fractalColor || green != fractalColor.green || blue != fractalColor.blue || transparent != fractalColor.transparent)
         {
             destset = Fractal.destset, startparamusage = Fractal.startparamusage, xy = Fractal.xysqrcalc, anim = Fractal.paramanim, calc = Fractal.calculator, red = fractalColor.red, green = fractalColor.green, blue = fractalColor.blue, transparent = fractalColor.transparent;
@@ -347,7 +348,7 @@ function init() {
             Fractal.center[0] = Fractal.center[0] + (x / (100 * Fractal.zoom));
         if (Fractal.center[1] != Fractal.center[1] + (y / (100 * Fractal.zoom)))
             Fractal.center[1] = Fractal.center[1] + (y / (100 * Fractal.zoom));
-        if (isPlaying)
+        if (isPlayingFractals)
             b();
     }
     )();

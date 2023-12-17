@@ -221,11 +221,11 @@
       "url": "Scripts\/Brotli.js"
     },
     {
-      "hash": "sha256-DSYccdJUVptCBAZLNZHF8aYppXw2owFrF\/jvMgR8jKg=",
+      "hash": "sha256-SGMFwgXatEm6\/GHclUrar0OjHLm5p4WD1y3Zh1n8Qv8=",
       "url": "Scripts\/Flappy.js"
     },
     {
-      "hash": "sha256-GTRoWXvjNzkI3T1BJvp0hAYiCBDEdqmbwBW7l6GdWlo=",
+      "hash": "sha256-RzhVqxpcnWQejJktn3YNewCaA0PgBNQkjjPW8p+DhMA=",
       "url": "Scripts\/Fractals.js"
     },
     {
@@ -245,7 +245,7 @@
       "url": "Scripts\/Splashscreen.js"
     },
     {
-      "hash": "sha256-Ur5KK+MoQihdd8HSxMnDE3DvPPO+h65yijSCAZL+I+4=",
+      "hash": "sha256-3wbYUnk7OM3hjz6Uawb7IsaqdgjnNPGx+8BZLmCJ3sY=",
       "url": "Scripts\/Waves.js"
     },
     {
@@ -277,7 +277,7 @@
       "url": "_framework\/icudt_no_CJK.dat"
     },
     {
-      "hash": "sha256-sUb85nmSwHv\/uK3qPROvsuk5RfAGpxXqk4lgOmQaawQ=",
+      "hash": "sha256-T4YXjhDiBxxFIhktpuQR4JhvSrjjuPTz5k8euIvgHQs=",
       "url": "_framework\/blazor.boot.json"
     },
     {
@@ -353,7 +353,7 @@
       "url": "_framework\/MudBlazor.dll"
     },
     {
-      "hash": "sha256-FfbKwCtoDRweEoVOI2e2OLF1Ee9Xzzw+bje6Wf6i3lw=",
+      "hash": "sha256-kZwmGEHTV23jHv0qXUlS0b17jSdHZjU+GjMvEmzTvNU=",
       "url": "_framework\/Portfolio_Blazor.Client.dll"
     },
     {
@@ -461,5 +461,5 @@
       "url": "_content\/MudBlazor\/MudBlazor.min.js"
     }
   ],
-  "version": "OSVYPCKl"
+  "version": "9id15gn\/"
 };
