@@ -1,7 +1,7 @@
 {
   "entryAssembly": "Portfolio_Blazor.Client",
   "resources": {
-    "hash": "sha256-iShZMoB32Ru5EBgpU4Q12+ksYjXUO5O7mjrBf1yiovk=",
+    "hash": "sha256-KyJLuKCGtYpP2wk3kvOspwM88usZqHs2Tvw1ocotYJE=",
     "runtime": {
       "dotnet.7.0.14.e6su9ng5kd.js": "sha256-YWGUknGRzP/fgO6YjvCJKPVQNZAPEd6ll+rHfQEIW+I=",
       "dotnet.timezones.blat": "sha256-t5xviiOQTfAsF0UDhmcyalKiaehUmf/sqJl97tmPM0M=",
@@ -28,8 +28,8 @@
       "Microsoft.Extensions.Primitives.dll": "sha256-eXvGx2jcjpTPEJoAHBsW/VuMPbNyyU+AsuhPmkzSSRY=",
       "Microsoft.JSInterop.dll": "sha256-63y/e7bagSMMu1euDBIkcYhhK0D2VjrmeqebKTsuE14=",
       "Microsoft.JSInterop.WebAssembly.dll": "sha256-bzbqcJ6KmXNtttCdwlY3JqqzIuFo0rRDUc7qjI8CKYM=",
-      "MudBlazor.dll": "sha256-rq2/TdkNzd7J2kuv3fYciIAMIDjbUK8QH6E2R/5jn2Y=",
-      "Portfolio_Blazor.Client.dll": "sha256-QH5LNtHgLZAwrlQ/zEP/8mwNPa0zDyu/fV0rHF3Sdcg=",
+      "MudBlazor.dll": "sha256-7wpbeuMqQYC4eODjuqtlVMJqBWgE0a2/nxCoA7rQLqU=",
+      "Portfolio_Blazor.Client.dll": "sha256-FfbKwCtoDRweEoVOI2e2OLF1Ee9Xzzw+bje6Wf6i3lw=",
       "System.Collections.Concurrent.dll": "sha256-OQ+SLxhZSa38CZb5r2n5qpBcrPf5/Cu3hyAGoOcwm7c=",
       "System.Collections.dll": "sha256-t7Tz2VVL4lXdNncwQMA4BptyUkPLYhkMW+g99AEsgRo=",
       "System.ComponentModel.Annotations.dll": "sha256-rd32LLkzwP4EppuTMbZuCQuywhEs6gaOugoT4DN4zmU=",

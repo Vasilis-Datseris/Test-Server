@@ -538,16 +538,48 @@ body[b-n4wjjnmwwh] {
     flex-grow: 1;
     display: flex;
     flex-flow: column;
+    padding: 0;
 }
 
 [b-q4yj7134fx] .mud-chart {
     flex-grow: 1;
 }
 
+[b-q4yj7134fx] .numbers-menu {
+    display: flex;
+    flex-flow: row;
+    gap: .5rem;
+    padding: 0 6px;
+    justify-content: space-between;
+    align-items: end;
+}
+
+[b-q4yj7134fx] .numbers-menu > div {
+}
+
 [b-q4yj7134fx] .tab-container {
     flex-wrap: wrap;
     max-height: 30vh;
     overflow: overlay;
+}
+
+[b-q4yj7134fx] .tab-container-mini {
+    max-height: 10vh;
+    display: flex;
+    overflow: auto;
+    scrollbar-width: thin;
+}
+
+[b-q4yj7134fx] .mud-switch {
+    margin: 0;
+}
+
+[b-q4yj7134fx] .tab-container-mini::-webkit-scrollbar {
+    height: 2px;
+}
+
+[b-q4yj7134fx] .mud-card-actions {
+    padding-bottom: 0;
 }
 /* /Components/Playground/ThemePlayer.razor.rz.scp.css */
 [b-hnj7zyoycq] .mud-card {
