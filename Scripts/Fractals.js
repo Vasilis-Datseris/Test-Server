@@ -22,6 +22,8 @@ let r = 0, g = 0, b = 0;
 
 FractalRainbow = (Playing) => {
     isRainbow = Playing;
+    if (isRainbow)
+        Rainbow();
 }
 
 FractalsStop = () => {
@@ -76,7 +78,7 @@ Rainbow = () => {
         fractalColor.blue = b / 256;
 
     setTimeout(() => {
-        if (isPlaying && isRainbow)
+        if (isPlayingFractals && isRainbow)
             Rainbow();
     }, 20);
     //}
