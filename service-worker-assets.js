@@ -1,7 +1,7 @@
 ﻿self.assetsManifest = {
   "assets": [
     {
-      "hash": "sha256-5upKktH4aC2NdukbW1iz2kKaOrXo37AOIsPceQyn6h4=",
+      "hash": "sha256-gnF8hTGLiU0Wx3jwy5JYq8TPKr5kGSL7ACSnMuNez4E=",
       "url": "css\/Splash.css"
     },
     {
@@ -525,5 +525,5 @@
       "url": "_content\/MudBlazor\/MudBlazor.min.js"
     }
   ],
-  "version": "XkjJnblB"
+  "version": "NgfI85OZ"
 };
