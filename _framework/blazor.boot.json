@@ -1,7 +1,7 @@
 {
   "entryAssembly": "Portfolio_Blazor.Client",
   "resources": {
-    "hash": "sha256-LvpHpN16Mp56DxLYVOMzcJyQWcSoQ+5QXiaWlz+Go9U=",
+    "hash": "sha256-wy6L8du0E89yh9NcTyey+v8y05CGtH1TNfAyOmxgNBI=",
     "runtime": {
       "dotnet.7.0.14.e6su9ng5kd.js": "sha256-YWGUknGRzP/fgO6YjvCJKPVQNZAPEd6ll+rHfQEIW+I=",
       "dotnet.timezones.blat": "sha256-t5xviiOQTfAsF0UDhmcyalKiaehUmf/sqJl97tmPM0M=",
@@ -28,8 +28,8 @@
       "Microsoft.Extensions.Primitives.dll": "sha256-eXvGx2jcjpTPEJoAHBsW/VuMPbNyyU+AsuhPmkzSSRY=",
       "Microsoft.JSInterop.dll": "sha256-63y/e7bagSMMu1euDBIkcYhhK0D2VjrmeqebKTsuE14=",
       "Microsoft.JSInterop.WebAssembly.dll": "sha256-bzbqcJ6KmXNtttCdwlY3JqqzIuFo0rRDUc7qjI8CKYM=",
-      "MudBlazor.dll": "sha256-7wpbeuMqQYC4eODjuqtlVMJqBWgE0a2/nxCoA7rQLqU=",
-      "Portfolio_Blazor.Client.dll": "sha256-9c/5ediGdjAEEyQwoqfo83CjTT1+IAMi8bQL9lBPqCA=",
+      "MudBlazor.dll": "sha256-VQMQNSUIOlFv2uM75Vjd/QX9XgHBlXTBok71j3RegOg=",
+      "Portfolio_Blazor.Client.dll": "sha256-q1efRwEGLg4sb52QJPR+/sTCLCM08nDjU+25pkLIsl0=",
       "System.Collections.Concurrent.dll": "sha256-OQ+SLxhZSa38CZb5r2n5qpBcrPf5/Cu3hyAGoOcwm7c=",
       "System.Collections.dll": "sha256-t7Tz2VVL4lXdNncwQMA4BptyUkPLYhkMW+g99AEsgRo=",
       "System.ComponentModel.Annotations.dll": "sha256-rd32LLkzwP4EppuTMbZuCQuywhEs6gaOugoT4DN4zmU=",
@@ -46,7 +46,7 @@
       "System.ObjectModel.dll": "sha256-72aFl0ikStAa6490mFWT4OYM7kLqnw0KjGdmuDarvsM=",
       "System.Private.CoreLib.dll": "sha256-gmthxxbmxgbFBmgdG9QBatpJqrkYFc37wYCZwOFGxq4=",
       "System.Private.Uri.dll": "sha256-00xKGjtotgXXJfLZ4hEWqY+b8fDTdEn2WAJno5R9uVQ=",
-      "System.Runtime.dll": "sha256-Tlt2Q1I2prufBva/qKXBwjwd7Yzhfw5VKkXZNQHZ9zM=",
+      "System.Runtime.dll": "sha256-YbJUG7Z/XAZwmiCgbQ0fObC4Q8UO3NL0Roll/PZtYVk=",
       "System.Runtime.InteropServices.JavaScript.dll": "sha256-VWz04biFj26tVuFlRigU8c7KAHGvLoIdMY59k1odeqk=",
       "System.Runtime.Numerics.dll": "sha256-lOkBTXJq+hH4WISDdc5QB44uajcLriJWGHIpMnPU5GM=",
       "System.Text.Encodings.Web.dll": "sha256-bOs2gamD3eRmuwPs45F7UWWjRzRCriJxq1eZcdFogwk=",

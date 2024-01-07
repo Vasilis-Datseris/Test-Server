@@ -109,6 +109,70 @@
       "url": "Images\/mud.svg"
     },
     {
+      "hash": "sha256-b5s3FxILIedmp\/32X7R4EicyqhqVZnehss\/LcISd9NM=",
+      "url": "Images\/Playground\/Flappy.png"
+    },
+    {
+      "hash": "sha256-VOt6YnHRTJlWPAvwGlEHnqEux04hh+6nSmPsojL\/01k=",
+      "url": "Images\/Playground\/Flappy2.png"
+    },
+    {
+      "hash": "sha256-aUgK2n6NZTuehTBvT980Bn9+hN1\/7p8rYxWBPlfvlSk=",
+      "url": "Images\/Playground\/Fractals.png"
+    },
+    {
+      "hash": "sha256-uC4vl\/xnSdLEzfZwIyBFnlXlUlEztpeWUwICqQKSWjE=",
+      "url": "Images\/Playground\/Fractals2.png"
+    },
+    {
+      "hash": "sha256-Xh2Hucxo5\/IWSdjo1WT03eKJx6gT7QE6EDr1fg0zlbA=",
+      "url": "Images\/Playground\/Memory.png"
+    },
+    {
+      "hash": "sha256-cSG4toWZRQLCC1PB+\/XO1nwt639OtB1oKbN8Awpyn48=",
+      "url": "Images\/Playground\/Memory2.png"
+    },
+    {
+      "hash": "sha256-QHbt8ZoBLbhpnkl+XcZQlgAr6r25kIA1KqG3nc49rw8=",
+      "url": "Images\/Playground\/Multi.png"
+    },
+    {
+      "hash": "sha256-dGH7Jq1fN1Wu5OkMlw4PLO2OC2imDtJgYnWh+LDi99k=",
+      "url": "Images\/Playground\/Multi2.png"
+    },
+    {
+      "hash": "sha256-0AtD\/7DFpWtBqKK6dKJeyR2EqkiNwzXrJEylhs3emdU=",
+      "url": "Images\/Playground\/Numbers.png"
+    },
+    {
+      "hash": "sha256-VkgeckUSIvWZcNExbnS4rYxzwk8PGSCMn+lz7\/JZuIk=",
+      "url": "Images\/Playground\/Numbers2.png"
+    },
+    {
+      "hash": "sha256-HGEK7Lb+mN\/E4+\/YvK1TgkPJU78tIcRrC2Qo9RC\/0JM=",
+      "url": "Images\/Playground\/Theme.png"
+    },
+    {
+      "hash": "sha256-WjbsJZIkiftDgwurTcfll4sF1vp0SNbSlLr\/Uu1k2rs=",
+      "url": "Images\/Playground\/Theme2.png"
+    },
+    {
+      "hash": "sha256-EF+GJFKmlhpyFiHQtTSLiif7TC\/bC5xsfCUGfEB83Pw=",
+      "url": "Images\/Playground\/WebGL.png"
+    },
+    {
+      "hash": "sha256-mF2Lf9siuPmU0DJI6kIf3zp5B5Q8FmTAwXHF32cFFzU=",
+      "url": "Images\/Playground\/WebGL2.png"
+    },
+    {
+      "hash": "sha256-9rdcqHRB3aHBujUYh4c2R9EQ6rnr7kE1jqli0xWf3l4=",
+      "url": "Images\/Playground\/Yield.png"
+    },
+    {
+      "hash": "sha256-o3V5WTfXYDv8wrUVLR3s9Kv5Egxc4FvO5+NKAN++RVI=",
+      "url": "Images\/Playground\/Yield2.png"
+    },
+    {
       "hash": "sha256-g7BiXV\/CMLTOeeaqi4wxTn7tiHwzfHT7vwpsNsyr25A=",
       "url": "Images\/Projects\/Blazor_1.png"
     },
@@ -225,7 +289,7 @@
       "url": "Scripts\/Flappy.js"
     },
     {
-      "hash": "sha256-W6w4BWlLpk1DoFPGQ49fv8DfbQ0qNsej1sOc06I2Vng=",
+      "hash": "sha256-pkLelIP2wjcKkTHA0SIAtH6ETh9pmfSl3sejxJa1gJA=",
       "url": "Scripts\/Fractals.js"
     },
     {
@@ -277,7 +341,7 @@
       "url": "_framework\/icudt_no_CJK.dat"
     },
     {
-      "hash": "sha256-dtbIZirfQ85yT3BDMhdEncHCxIBTqUKSc6p2VKUhmJM=",
+      "hash": "sha256-\/RN0GgJyF2976Aw+NnzSI\/nUpKTnLpWvH2ATy1Ii3X4=",
       "url": "_framework\/blazor.boot.json"
     },
     {
@@ -349,11 +413,11 @@
       "url": "_framework\/Microsoft.JSInterop.WebAssembly.dll"
     },
     {
-      "hash": "sha256-7wpbeuMqQYC4eODjuqtlVMJqBWgE0a2\/nxCoA7rQLqU=",
+      "hash": "sha256-VQMQNSUIOlFv2uM75Vjd\/QX9XgHBlXTBok71j3RegOg=",
       "url": "_framework\/MudBlazor.dll"
     },
     {
-      "hash": "sha256-9c\/5ediGdjAEEyQwoqfo83CjTT1+IAMi8bQL9lBPqCA=",
+      "hash": "sha256-q1efRwEGLg4sb52QJPR+\/sTCLCM08nDjU+25pkLIsl0=",
       "url": "_framework\/Portfolio_Blazor.Client.dll"
     },
     {
@@ -421,7 +485,7 @@
       "url": "_framework\/System.Private.Uri.dll"
     },
     {
-      "hash": "sha256-Tlt2Q1I2prufBva\/qKXBwjwd7Yzhfw5VKkXZNQHZ9zM=",
+      "hash": "sha256-YbJUG7Z\/XAZwmiCgbQ0fObC4Q8UO3NL0Roll\/PZtYVk=",
       "url": "_framework\/System.Runtime.dll"
     },
     {
@@ -449,7 +513,7 @@
       "url": "_framework\/System.Threading.Tasks.Parallel.dll"
     },
     {
-      "hash": "sha256-oeyx4IPXQ5lpQVLdAzwIBkiyL0k2sAtaiLTXE545p30=",
+      "hash": "sha256-4E8viZev8wjaHD870IFszBvWGh7a\/VcuggOPf+MvTno=",
       "url": "Portfolio_Blazor.Client.styles.css"
     },
     {
@@ -461,5 +525,5 @@
       "url": "_content\/MudBlazor\/MudBlazor.min.js"
     }
   ],
-  "version": "AJ8mg2E1"
+  "version": "XkjJnblB"
 };

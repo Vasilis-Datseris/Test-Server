@@ -463,6 +463,10 @@ body[b-n4wjjnmwwh] {
 [b-0lpvww0run] .mud-card-content {
     flex-grow: 1;
 }
+
+[b-0lpvww0run] .mud-input-control-input-container label {
+    background: var(--mud-palette-background);
+}
 /* /Components/Playground/Multi_Thread.razor.rz.scp.css */
 [b-i0v933z04y] .mud-card {
     height: 100%;
@@ -580,6 +584,10 @@ body[b-n4wjjnmwwh] {
 
 [b-q4yj7134fx] .mud-card-actions {
     padding-bottom: 0;
+}
+
+[b-q4yj7134fx] .mud-chart svg * {
+    transition: unset !important;
 }
 /* /Components/Playground/ThemePlayer.razor.rz.scp.css */
 [b-hnj7zyoycq] .mud-card {
@@ -714,41 +722,31 @@ body[b-n4wjjnmwwh] {
     min-width: 45%;
 }
 [b-hdgtfy8u58] .mud-card .mud-card-content {
-    margin: auto;
     padding: 0;
     transition: .25s all ease-in-out;
     height: 100%;
 }
-
-[b-hdgtfy8u58] .slider {
-}
 [b-hdgtfy8u58] .slider .mud-tabs-panels {
     padding: 1rem;
 }
-
 [b-hdgtfy8u58] .graph .mud-card-content {
     transition-delay: 1s;
-    width: 100%;
-    max-width: 700px;
-    padding: 1rem 5vw;
-}
-[b-hdgtfy8u58] .graph .mud-card-content:hover {
-    transition: .25s all ease-in-out;
-    max-width: 1000px;
+    max-height: 400px;
+    padding: 1rem 1vw;
 }
 [b-hdgtfy8u58] .mud-card-header {
     transition: .5s all ease-in-out;
     background: linear-gradient(90deg, Transparent -25%, var(--mud-palette-primary) 50%, var(--mud-palette-secondary) 130%);
     background-size: 200%;
 }
-/*::deep .mud-card-header div {
-    color: #fff;
-    mix-blend-mode: difference;
-
-}*/
 [b-hdgtfy8u58] .mud-card:hover .mud-card-header {
     background-position-x: 100%;
     color: var(--mud-palette-warning);
+}
+[b-hdgtfy8u58] .mud-chart {
+    display: flex;
+    height: 100%;
+    align-items: center;
 }
 /* /Pages/Expertise.razor.rz.scp.css */
 body[b-0ufpo1lhba] {
@@ -947,14 +945,30 @@ body[b-9jskk8k1ii] {
     justify-content: center;
 }
 
+[b-mg60vqr6ts] .custom-carousel {
+    height: 100%;
+    position: absolute;
+    width: 100%;
+}
+
+[b-mg60vqr6ts] .image-hue {
+    animation: HueRotate-b-mg60vqr6ts 10s infinite;
+}
+
+@keyframes HueRotate-b-mg60vqr6ts {
+    0% {
+        filter: hue-rotate(0);
+    }
+    100% {
+        filter: hue-rotate(360deg);
+    }
+}
 @keyframes Fade-In-b-mg60vqr6ts {
     0% {
         opacity: 0;
-        filter: blur(.5rem);
     }
     100% {
         opacity: 1;
-        filter: blur(0);
     }
 }
 @keyframes Appear-b-mg60vqr6ts {

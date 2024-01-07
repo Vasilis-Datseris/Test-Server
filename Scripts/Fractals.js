@@ -18,7 +18,7 @@ let fractalColor = {
 }
 let interval = 0;
 let isPlayingFractals = false, isRainbow = true;
-let r = 0, g = 0, b = 0;
+let r = 0, g = 0, b = 255;
 
 FractalRainbow = (Playing) => {
     isRainbow = Playing;
@@ -42,9 +42,7 @@ Fractals = () => {
 }
 
 Rainbow = () => {
-    
-
-    //while (isPlaying) {
+    setTimeout(() => {
         if (r < 255 && g == 0 && b <= 255) {
             r++;
         }
@@ -77,11 +75,9 @@ Rainbow = () => {
         fractalColor.green = g / 256;
         fractalColor.blue = b / 256;
 
-    setTimeout(() => {
         if (isPlayingFractals && isRainbow)
             Rainbow();
-    }, 20);
-    //}
+    }, 50);
 }
 
 ChangeColor = (red, green, blue, transparent) => {
