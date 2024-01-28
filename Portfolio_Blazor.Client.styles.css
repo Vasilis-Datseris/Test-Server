@@ -628,8 +628,17 @@ body[b-n4wjjnmwwh] {
 }
 
 [b-v98o32eak6] .mud-chart {
-    flex-grow: 1;
+    /*flex-grow: 1;*/
 }
+
+/*::deep .mud-chart svg {
+    margin: 0 auto;
+    height: auto;
+}
+
+::deep .mud-chart .mud-chart-legend {
+    margin: unset;
+}*/
 /* /Components/Signature.razor.rz.scp.css */
 .signature[b-qqt9bmnyvj] {
     display: flex;
@@ -833,29 +842,6 @@ body[b-9jskk8k1ii] {
     color: var(--mud-palette-surface);
 }
 
-
-/*::deep .orbit-open {
-    animation: none;
-    animation-play-state: paused;
-}*/
-/*::deep .orbit-open {
-    transition: .5s all ease-in-out;
-    top: var(--mud-appbar-height);
-    left: 0;
-    animation: none;
-}*/
-/*::deep .selector-open {
-    transition: .5s all ease-in-out;
-    opacity: 1;
-    top: -40vh !important;
-    left: -50vw;
-    width: 100vw !important;
-    height: 95vh !important;
-    transform: none;
-    border-radius: 0;
-    background: var(--mud-palette-surface);
-}*/
-
 [b-mg60vqr6ts] .button-menu {
     position: absolute;
     top: 0;
@@ -875,14 +861,6 @@ body[b-9jskk8k1ii] {
     height: 100%;
 }
 
-/*::deep .carousels {
-    height: 50vh;
-}
-
-::deep .carousel-item {
-    display: flex;
-    flex-flow: row;
-}*/
 [b-mg60vqr6ts] .card-layout {
     display: flex;
     flex-wrap: wrap;
@@ -908,6 +886,10 @@ body[b-9jskk8k1ii] {
     flex-grow: 1;
     display: flex;
     flex-flow: column;
+}
+
+[b-mg60vqr6ts] .slider-card:hover .mud-card-header {
+    
 }
 
 [b-mg60vqr6ts] .card2 {
@@ -945,6 +927,15 @@ body[b-9jskk8k1ii] {
     justify-content: center;
 }
 
+[b-mg60vqr6ts] .carousel-container {
+    position: relative;
+    display: flex;
+    flex-flow: column;
+    padding: 0;
+    height: 100%;
+    overflow-y: hidden;
+}
+
 [b-mg60vqr6ts] .custom-carousel {
     height: 100%;
     position: absolute;
@@ -952,7 +943,32 @@ body[b-9jskk8k1ii] {
 }
 
 [b-mg60vqr6ts] .image-hue {
+    transition: .25s transform ease-in-out;
+    height: 100% !important;
+    width: 100% !important;
+    object-fit: cover;
     animation: HueRotate-b-mg60vqr6ts 10s infinite;
+}
+
+[b-mg60vqr6ts] .slider-card:hover .image-hue {
+    transition: .5s transform ease-in-out;
+    transform: scale(1.2);
+}
+
+[b-mg60vqr6ts] .hoverable {
+    opacity: 0;
+    transition: .25s opacity ease;
+    z-index: 10;
+    height: 30%;
+    display: flex;
+    align-items: end;
+    justify-content: center;
+    background: linear-gradient(0deg, var(--mud-palette-surface), transparent);
+}
+
+[b-mg60vqr6ts] .slider-card:hover .hoverable {
+    transition: .5s opacity ease;
+    opacity: 1;
 }
 
 @keyframes HueRotate-b-mg60vqr6ts {
@@ -1005,6 +1021,9 @@ body[b-z0b4xlexf9] {
     overflow: hidden;
 }
 /* /Shared/Drawer.razor.rz.scp.css */
+[b-m8tu23ybre] .mud-drawer {
+    will-change: width;
+}
 /* /Shared/MainLayout.razor.rz.scp.css */
 .page[b-ksr2vl0kgb] {
     position: relative;
