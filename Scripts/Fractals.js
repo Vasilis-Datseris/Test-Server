@@ -11,10 +11,10 @@ var Fractal = {
     animationspeed: 3
 }
 let fractalColor = {
-    "red": 0.01, 
+    "red": 0.01,
     "green": 0.01,
     "blue": 0.99,
-    "transparent" : 1.0
+    "transparent": 1.0
 }
 let interval = 0;
 let isPlayingFractals = false, isRainbow = true;
@@ -285,8 +285,7 @@ function init() {
     let red = fractalColor.red, green = fractalColor.green, blue = fractalColor.blue, transparent = fractalColor.transparent;
     g.addEventListener("mouseup", (e) => {
         g.removeEventListener("mousemove", k);
-        //xBase = 0;
-        //yBase = 0;
+        k(e);
     });
     g.addEventListener("mousedown", (e) => {
         e.preventDefault();
@@ -319,15 +318,14 @@ function init() {
         g.height = h.clientHeight;
         f.viewport(0, 0, h.clientWidth, h.clientHeight);
     };
-        
+
     window.onresize();
     f.uniform2f(m, Fractal.cx, Fractal.cy);
     var i = null;
     (function e() {
         if (isPlayingFractals)
             requestAnimFrame(e);
-        if (destset != Fractal.destset || startparamusage != Fractal.startparamusage || xy != Fractal.xysqrcalc || anim != Fractal.paramanim || calc != Fractal.calculator || red != fractalColor || green != fractalColor.green || blue != fractalColor.blue || transparent != fractalColor.transparent)
-        {
+        if (destset != Fractal.destset || startparamusage != Fractal.startparamusage || xy != Fractal.xysqrcalc || anim != Fractal.paramanim || calc != Fractal.calculator || red != fractalColor || green != fractalColor.green || blue != fractalColor.blue || transparent != fractalColor.transparent) {
             destset = Fractal.destset, startparamusage = Fractal.startparamusage, xy = Fractal.xysqrcalc, anim = Fractal.paramanim, calc = Fractal.calculator, red = fractalColor.red, green = fractalColor.green, blue = fractalColor.blue, transparent = fractalColor.transparent;
             a();
         }
@@ -341,6 +339,14 @@ function init() {
         //    Fractal.center[1] = i.y0 + h * (i.y - i.y0);
         //    if (i.f == 10)
         //        i = null
+        //}
+        //const offset = {
+        //    x: Fractal.center[0] + (x / (100 * Fractal.zoom)),
+        //    y: Fractal.center[1] + (y / (100 * Fractal.zoom))
+        //}
+        //if (Fractal.center[0] != offset.x || Fractal.center[1] != offset.y) {
+        //    Fractal.center[0] = offset.x;
+        //    Fractal.center[1] = offset.y;
         //}
         if (Fractal.center[0] != Fractal.center[0] + (x / (100 * Fractal.zoom)))
             Fractal.center[0] = Fractal.center[0] + (x / (100 * Fractal.zoom));
