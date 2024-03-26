@@ -118,7 +118,7 @@ function setup() {
 
 async function createScene() {
   const c = document.getElementById("flappy");
-  const size = {
+  let size = {
     width: c.clientWidth,
     height: c.clientHeight
   }
@@ -188,7 +188,7 @@ async function createFlappy() {
                 cube = new THREE.Mesh(model.children[0].geometry, new THREE.MeshBasicMaterial({ map: texture }));
                 cube.position.z = fieldDepth / 2;
                 cube.position.x = -fieldWidth / 3;
-                cube.scale.set(2, 2, 2);
+                cube.scale.set(4, 3, 3);
 
                 resolve(cube);
             }, undefined, error => reject(error));
@@ -278,6 +278,28 @@ function moveObstacles() {
 function cubeUpdate() {
   if (Key.isDown(Key.SPACE) || Key.isDown(Key.CLICK)) {
     cubeSpeedY = -cubeFlySpeedY;
+	
+	if (Math.random() < 0.1) {
+		let targetRotation = -Math.PI * 2;
+		let duration = 500;
+		let startTime = null;
+	
+		function animateRotation(timestamp) {
+			if (!startTime) {
+				startTime = timestamp;
+			}
+	
+			let elapsedTime = timestamp - startTime;
+			let progress = Math.min(elapsedTime / duration, 1);
+			let currentRotation = progress * targetRotation;
+	
+			cube.rotation.y = currentRotation;
+			if (elapsedTime < duration) {
+				requestAnimationFrame(animateRotation); 
+			}
+		}
+		requestAnimationFrame(animateRotation);
+	}
   }
   cube.position.y -= Math.ceil(
     deltaTime * cubeSpeedY + (gravity * deltaTime * deltaTime) / 2

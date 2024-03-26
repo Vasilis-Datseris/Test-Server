@@ -293,7 +293,7 @@
       "url": "Scripts\/Brotli.js"
     },
     {
-      "hash": "sha256-V2GQmUjEixGnPuj7\/9QrVLZmZhPOURPtT7yS9\/dvkx0=",
+      "hash": "sha256-ZwoyyIiPeRBdtb86pPP6RJFJGjQ43juvPCS37kh105Y=",
       "url": "Scripts\/Flappy.js"
     },
     {
@@ -533,5 +533,5 @@
       "url": "_content\/MudBlazor\/MudBlazor.min.js"
     }
   ],
-  "version": "NSMNFKN4"
+  "version": "WLsojEKh"
 };
