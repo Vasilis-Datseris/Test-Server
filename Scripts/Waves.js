@@ -77,7 +77,7 @@ Test= () => {
     gl.drawArrays(gl.TRIANGLE_STRIP, 0, 4);
 }
 WebGl = (name) => {
-    let canvas = null, gl = null, shaderProgram = null, renderLoop = null, resolutionUniformLocation = null, timeUniformLocation = null, mouseUniformLocation = null;
+    let isDragging = false, canvas = null, gl = null, shaderProgram = null, renderLoop = null, resolutionUniformLocation = null, timeUniformLocation = null, mouseUniformLocation = null;
     const shaders = [{
         name: "Illuminate",
         vertexShaderSource: `
@@ -1439,14 +1439,51 @@ WebGl = (name) => {
     isPlayingWebGl = true;
     canvas = document.getElementById('webgl');
     gl = canvas.getContext('webgl');
-    canvas.addEventListener('mousemove', function(event) {
-        const rect = canvas.getBoundingClientRect();
-        const mouseX = event.clientX - rect.left;
-        const mouseY = event.clientY - rect.top;
-        window.mouseX = mouseX;
-        window.mouseY = mouseY;
-    });
-    
+
+    // canvas.addEventListener('mousedown', function(event) {
+    //     isDragging = true;
+    //     updateMousePosition(event);
+    // });
+
+    // canvas.addEventListener('mouseup', function(event) {
+    //     isDragging = false;
+    // });
+
+    // canvas.addEventListener('touchstart', function(event) {
+    //     isDragging = true;
+    //     updateTouchPosition(event.touches[0]);
+    // });
+
+    // canvas.addEventListener('touchend', function(event) {
+    //     isDragging = false;
+    // });
+
+    // canvas.addEventListener('touchmove', function(event) {
+    //     if (isDragging) {
+    //         event.preventDefault(); // Prevent scrolling on touch devices
+    //         updateTouchPosition(event.touches[0]);
+    //     }
+    // });
+
+    // function updateMousePosition(event) {
+    //     const rect = canvas.getBoundingClientRect();
+    //     const mouseX = event.clientX - rect.left;
+    //     const mouseY = event.clientY - rect.top;
+    //     updateMousePosition(mouseX, mouseY);
+    // }
+
+    // function updateTouchPosition(touch) {
+    //     const rect = canvas.getBoundingClientRect();
+    //     const touchX = touch.clientX - rect.left;
+    //     const touchY = touch.clientY - rect.top;
+    //     updateMousePosition(touchX, touchY);
+    // }
+
+    // function updateMousePosition(x, y) {
+    //     window.mouseX = x;
+    //     window.mouseY = y;
+    // }
+
     // Set up
     const shader = shaders.find(x => x.name === name);
     const vertexShader = compileShader(gl, gl.VERTEX_SHADER, shader.vertexShaderSource);
@@ -1464,7 +1501,7 @@ WebGl = (name) => {
     ];
     const positionBuffer = gl.createBuffer();
     gl.bindBuffer(gl.ARRAY_BUFFER, positionBuffer);
-    gl.bufferData(gl.ARRAY_BUFFER, new Float32Array(vertices), gl.STREAM_DRAW);
+    gl.bufferData(gl.ARRAY_BUFFER, new Float32Array(vertices), gl.DYNAMIC_DRAW);
     // gl.bufferData(gl.ARRAY_BUFFER, new Float32Array(vertices), gl.STATIC_DRAW);
     
     // Get attribute location and enable it
@@ -1472,12 +1509,21 @@ WebGl = (name) => {
     gl.enableVertexAttribArray(positionLocation);
     gl.vertexAttribPointer(positionLocation, 2, gl.FLOAT, false, 0, 0);
     let timer = performance.now();
+    let fpsCounter = 0;
+    let fps = document.getElementById("fps");
 
     // Start render loop
     resizeCanvas();
     render();
 
     function render() {
+        const timenow= performance.now();
+        const deltaTime = timenow - timer;
+        const elapsedTimeInSeconds = deltaTime / 1000;
+            
+        fpsCounter++;
+        fps.innerHTML = Math.round(fpsCounter / elapsedTimeInSeconds);
+        
         gl.viewport(0, 0, canvas.width, canvas.height);
         gl.clearColor(0.0, 0.0, 0.0, 1.0);
         gl.clear(gl.COLOR_BUFFER_BIT);
@@ -1485,9 +1531,10 @@ WebGl = (name) => {
 
         // Set uniform values
         gl.uniform2f(resolutionUniformLocation, canvas.width, canvas.height);
-        gl.uniform1f(timeUniformLocation, (performance.now() - timer)/1000.0);
+        gl.uniform1f(timeUniformLocation, elapsedTimeInSeconds);
         // gl.uniform1f(timeUniformLocation, new Date().getTime() / 100000.0);
-        gl.uniform2f(mouseUniformLocation, window.mouseX || 0, window.mouseY || 0);
+        // gl.uniform2f(mouseUniformLocation, window.mouseX || 0, window.mouseY || 0);
+        gl.uniform2f(mouseUniformLocation, 0, 0);
 
         // Bind vertex buffer and draw
         gl.bindBuffer(gl.ARRAY_BUFFER, positionBuffer);
