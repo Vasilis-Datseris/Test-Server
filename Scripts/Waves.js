@@ -8,49 +8,578 @@
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
  * You may obtain a copy of the License at
- *
- * http://www.apache.org/licenses/LICENSE-2.0
- * MIT License
+*/
 
-Copyright (c) 2017 Pavel Dobryakov
+let isPlayingWaves = false, isPlayingWebGl = false;
+Test= () => {
+    const canvas = document.getElementById('webgl');
+    const gl = canvas.getContext('webgl');
 
-Permission is hereby granted, free of charge, to any person obtaining a copy
-of this software and associated documentation files (the "Software"), to deal
-in the Software without restriction, including without limitation the rights
-to use, copy, modify, merge, publish, distribute, sublicense, and/or sell
-copies of the Software, and to permit persons to whom the Software is
-furnished to do so, subject to the following conditions:
+     // Define the vertex shader
+     const vertexShaderSource = `
+     attribute vec2 position;
+     void main() {
+         gl_Position = vec4(position, 0.0, 1.0);
+     }
+    `;
+    
+    // Define the fragment shader
+    const fragmentShaderSource = `
+        precision highp float;
+        uniform vec2 iResolution;
+        void main() {
+            vec2 uv = gl_FragCoord.xy / iResolution;
+            gl_FragColor = vec4(uv.x, uv.y, 0.0, 1.0);
+        }
+    `;
 
-The above copyright notice and this permission notice shall be included in all
-copies or substantial portions of the Software.
+    // Compile the vertex shader
+    const vertexShader = gl.createShader(gl.VERTEX_SHADER);
+    gl.shaderSource(vertexShader, vertexShaderSource);
+    gl.compileShader(vertexShader);
 
-THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR
-IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY,
-FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE
-AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER
-LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,
-OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
-SOFTWARE.
- */
+    // Compile the fragment shader
+    const fragmentShader = gl.createShader(gl.FRAGMENT_SHADER);
+    gl.shaderSource(fragmentShader, fragmentShaderSource);
+    gl.compileShader(fragmentShader);
 
-let canvas;
-let isPlayingWaves = false;
+    // Create and link the shader program
+    const shaderProgram = gl.createProgram();
+    gl.attachShader(shaderProgram, vertexShader);
+    gl.attachShader(shaderProgram, fragmentShader);
+    gl.linkProgram(shaderProgram);
+    resolutionUniformLocation = gl.getUniformLocation(shaderProgram, 'iResolution');
+    gl.useProgram(shaderProgram);
 
-function SetCanvas(Width, Height) {
-    try {
-        canvas.clientWidth = Width;
-        canvas.clientHeight = Height;
-    } catch (e) { console.error(e) }
+    // Define the vertices of a full-screen quad
+    const vertices = [
+        -1.0,  1.0,
+        1.0,  1.0,
+        -1.0, -1.0,
+        1.0, -1.0,
+    ];
+
+    // Create a buffer and bind the vertices to it
+    const vertexBuffer = gl.createBuffer();
+    gl.bindBuffer(gl.ARRAY_BUFFER, vertexBuffer);
+    gl.bufferData(gl.ARRAY_BUFFER, new Float32Array(vertices), gl.STATIC_DRAW);
+
+    // Get the attribute location and enable it
+    const positionLocation = gl.getAttribLocation(shaderProgram, 'position');
+    gl.uniform2f(resolutionUniformLocation, canvas.width, canvas.height);
+    gl.enableVertexAttribArray(positionLocation);
+    gl.vertexAttribPointer(positionLocation, 2, gl.FLOAT, false, 0, 0);
+
+    // Render the scene
+    gl.viewport(0, 0, canvas.width, canvas.height);
+    gl.clearColor(0.0, 0.0, 0.0, 1.0);
+    gl.clear(gl.COLOR_BUFFER_BIT);
+    gl.drawArrays(gl.TRIANGLE_STRIP, 0, 4);
 }
+WebGl = (name) => {
+    let canvas = null, gl = null, shaderProgram = null, renderLoop = null, resolutionUniformLocation = null, timeUniformLocation = null, mouseUniformLocation = null;
+    const shaders = [{
+        name: "Illuminate",
+        vertexShaderSource: `
+            attribute vec2 position;
+            void main() {
+                gl_Position = vec4(position, 0.0, 1.0);
+            }
+        `,
+        fragmentShaderSource: `
+            precision highp float;
 
-WavesStop = () => {
-    isPlayingWaves = false;
+            uniform vec2 iResolution;
+            uniform float iTime;
+            uniform vec2 iMouse;
+            
+            vec3 palette( float t ) {
+                vec3 a = vec3(0.5, 0.5, 0.5);
+                vec3 b = vec3(0.5, 0.5, 0.5);
+                vec3 c = vec3(1.0, 1.0, 1.0);
+                vec3 d = vec3(0.263,0.416,0.557);
+            
+                return a + b*cos( 6.28318*(c*t+d) );
+            }
+            
+            void mainImage( out vec4 fragColor, in vec2 fragCoord ) {
+                vec2 uv = (fragCoord * 2.0 - iResolution.xy) / iResolution.y;
+                vec2 uv0 = uv;
+                vec3 finalColor = vec3(0.0);
+                
+                for (float i = 0.0; i < 4.0; i++) {
+                    uv = fract(uv * 1.5) - 0.5;
+            
+                    float d = length(uv) * exp(-length(uv0));
+            
+                    vec3 col = palette(length(uv0) + i*.4 + iTime*.4);
+            
+                    d = sin(d*8. + iTime)/8.;
+                    d = abs(d);
+            
+                    d = pow(0.01 / d, 1.2);
+            
+                    finalColor += col * d;
+                }
+                    
+                fragColor = vec4(finalColor, 1.0);
+            }
+            void main() {
+                mainImage(gl_FragColor, gl_FragCoord.xy);
+            }
+        `
+    },{
+        name: "CyberBall",
+        vertexShaderSource: `
+            attribute vec2 position;
+            void main() {
+                gl_Position = vec4(position, 0.0, 1.0);
+            }
+        `,
+        fragmentShaderSource: `
+            precision highp float;
+
+            uniform vec2 iResolution;
+            uniform float iTime;
+            uniform vec2 iMouse;
+
+            int hexid;
+            vec3 hpos, point, pt;
+            float tcol, bcol, hitbol, hexpos, fparam=0.;
+
+            mat2 rot(float a) {
+                float s=sin(a),c=cos(a);
+                return mat2(c,s,-s,c);
+            }
+
+            vec3 path(float t) {
+                return vec3(sin(t*.3+cos(t*.2)*.5)*4.,cos(t*.2)*3.,t);
+            }
+
+            float hexagon( in vec2 p, in float r )
+            {
+                const vec3 k = vec3(-0.866025404,0.5,0.577350269);
+                p = abs(p);
+                p -= 2.0*min(dot(k.xy,p),0.0)*k.xy;
+                p -= vec2(clamp(p.x, -k.z*r, k.z*r), r);
+                return length(p)*sign(p.y);
+            }
+
+            float hex(vec2 p) {
+                p.x *= 0.57735*2.0;
+                p.y += mod(floor(p.x), 2.0)*0.5;
+                p = abs((mod(p, 1.0) - 0.5));
+                return abs(max(p.x*1.5 + p.y, p.y*2.0) - 1.0);
+            }
+
+            mat3 lookat(vec3 dir) {
+                vec3 up=vec3(0.,1.,0.);
+                vec3 rt=normalize(cross(dir,up));
+                return mat3(rt, cross(rt,dir), dir);
+            }
+
+            float hash12(vec2 p)
+            {
+                p *= 1000.;
+                vec3 p3  = fract(vec3(p.xyx) * .1031);
+                p3 += dot(p3, p3.yzx + 33.33);
+                return fract((p3.x + p3.y) * p3.z);
+            }
+
+            float de(vec3 p) {
+                pt = vec3(p.xy-path(p.z).xy,p.z);
+                float h = abs(hexagon(pt.xy,3.+fparam));
+                hexpos = hex(pt.yz);
+                tcol = smoothstep(.0,.15,hexpos);
+                h -= tcol*.1;
+                vec3 pp = p-hpos;
+                pp = lookat(point)*pp;
+                pp.y -= abs(sin(iTime))*3.+(fparam-(2.-fparam));
+                pp.yz *= rot(-iTime);
+                float bola = length(pp)-1.;
+                bcol = smoothstep(0.,.5,hex(pp.xy*3.));
+                bola -= bcol*.1;
+                vec3 pr = p;
+                pr.z = mod(p.z,6.)-3.;
+                float d = min(h,bola);
+                if (d == bola) {
+                    tcol = 1.;
+                    hitbol = 1.;
+                }
+                else {
+                    hitbol = 0.;
+                    bcol = 1.;
+                }
+                return d*.5;
+            }
+
+            vec3 normal(vec3 p) {
+                vec2 e = vec2(0.,.005);
+                return normalize(vec3(de(p+e.yxx),de(p+e.xyx),de(p+e.xxy))-de(p));
+            }
+
+            vec3 march(vec3 from, vec3 dir) {
+                vec3 odir = dir;
+                vec3 p = from, col = vec3(0.);
+                float d, td = 0.;
+                vec3 g = vec3(0.);
+                for (int i = 0; i < 200; i++) {
+                    d = de(p);
+                    if (d < .001 || td > 200.) break;
+                    p += dir*d;
+                    td += d;
+                    g += .1/(.1+d)*hitbol*abs(normalize(point));
+                }
+                float hp = hexpos*(1.-hitbol);
+                p -= dir*.01;
+                vec3 n = normal(p);
+                if (d < .001) {
+                    col = pow(max(0.,dot(-dir,n)),2.)*vec3(.6,.7,.8)*tcol*bcol;
+                }
+                col += float(hexid);
+                vec3 pr = pt;
+                dir = reflect(dir,n);
+                td = 0.;
+                for (int i = 0; i < 200; i++) {
+                    d = de(p);
+                    if (d < .001 || td > 200.) break;
+                    p += dir*d;
+                    td += d;
+                    g += .1/(.1+d)*abs(normalize(point));
+                }
+                float zz = p.z;
+                if (d < .001) {
+                    vec3 refcol = pow(max(0.,dot(-odir,n)),2.)*vec3(.6,.7,.8)*tcol*bcol;
+                    p = pr;
+                    p = abs(.5-fract(p*.1));
+                    float m = 100.;
+                    for (int i = 0; i < 10; i++) {
+                        p = abs(p)/dot(p,p)-.8;
+                        m = min(m,length(p));
+                    }
+                    col = mix(col,refcol,m)-m*.3;
+                    col += step(.3,hp)*step(.9,fract(pr.z*.05+iTime*.5+hp*.1))*.7;
+                    col += step(.3,hexpos)*step(.9,fract(zz*.05+iTime+hexpos*.1))*.3;
+                }
+                col += g*.03;
+                col.rb *= rot(odir.y*.5);
+                return col;
+            }
+
+            void main() {
+                vec2 uv = gl_FragCoord.xy / iResolution.xy - 0.5;
+                uv.x *= iResolution.x / iResolution.y;
+                float t = iTime * 2.;
+                vec3 from = path(t);
+                if (mod(iTime - 10., 20.) > 10.) {
+                    from = path(floor(t / 20.) * 20. + 10.);
+                    from.x += 2.;
+                }
+                hpos = path(t + 3.);
+                vec3 adv = path(t + 2.);
+                vec3 dir = normalize(vec3(uv, .7));
+                vec3 dd = normalize(adv - from);
+                point = normalize(adv - hpos);
+                point.xz *= rot(sin(iTime) * .2);
+                dir = lookat(dd) * dir;
+                vec3 col = march(from, dir);
+                col *= vec3(1., .9, .8);
+                gl_FragColor = vec4(col, 1.0);
+            }
+        `
+    },{
+        name: "Hexagon",
+        vertexShaderSource: `
+            attribute vec2 position;
+        
+            void main() {
+                gl_Position = vec4(position, 0.0, 1.0);
+            }
+        `,
+        fragmentShaderSource: `
+        precision highp float;
+
+        #define R3 1.732051
+        uniform vec2 iResolution;
+        uniform float iTime;
+        uniform vec2 iMouse;
+
+        
+        vec4 HexCoords(vec2 uv) {
+            vec2 s = vec2(1.0, R3);
+            vec2 h = 0.5 * s;
+        
+            vec2 gv = s * uv;
+            
+            vec2 a = mod(gv, s) - h;
+            vec2 b = mod(gv + h, s) - h;
+            
+            vec2 ab = dot(a, a) < dot(b, b) ? a : b;
+            vec2 st = ab;
+            vec2 id = gv - ab;
+            
+            st = ab;
+            return vec4(st, id);
+        }
+        
+        float GetSize(vec2 id, float seed) {
+            float d = length(id);
+            float t = iTime * 0.5;
+            float a = sin(d * seed + t) + sin(d * seed * seed * 10.0 + t * 2.0);
+            return a / 2.0 + 0.5;
+        }
+        
+        mat2 Rot(float a) {
+            float s = sin(a);
+            float c = cos(a);
+            return mat2(c, -s, s, c);
+        }
+        
+        float Hexagon(vec2 uv, float r, vec2 offs) {
+            uv *= Rot(mix(0.0, 3.1415, r));
+            
+            r /= 1.0 / sqrt(2.0);
+            uv = vec2(-uv.y, uv.x);
+            uv.x *= R3;
+            uv = abs(uv);
+            
+            vec2 n = normalize(vec2(1.0, 1.0));
+            float d = dot(uv, n) - r;
+            d = max(d, uv.y - r * 0.707);
+            
+            d = smoothstep(0.06, 0.02, abs(d));
+            
+            d += smoothstep(0.1, 0.09, abs(r - 0.5)) * sin(iTime);
+            return d;
+        }
+        
+        float Xor(float a, float b) {
+            return a + b;
+        }
+        
+        float Layer(vec2 uv, float s) {
+            vec4 hu = HexCoords(uv * 2.0);
+        
+            float d = Hexagon(hu.xy, GetSize(hu.zw, s), vec2(0.0));
+            vec2 offs = vec2(1.0, 0.0);
+            d = Xor(d, Hexagon(hu.xy - offs, GetSize(hu.zw + offs, s), offs));
+            d = Xor(d, Hexagon(hu.xy + offs, GetSize(hu.zw - offs, s), -offs));
+            offs = vec2(0.5, 0.8725);
+            d = Xor(d, Hexagon(hu.xy - offs, GetSize(hu.zw + offs, s), offs));
+            d = Xor(d, Hexagon(hu.xy + offs, GetSize(hu.zw - offs, s), -offs));
+            offs = vec2(-0.5, 0.8725);
+            d = Xor(d, Hexagon(hu.xy - offs, GetSize(hu.zw + offs, s), offs));
+            d = Xor(d, Hexagon(hu.xy + offs, GetSize(hu.zw - offs, s), -offs));
+            
+            return d;
+        }
+        
+        float N(float p) {
+            return fract(sin(p * 123.34) * 345.456);
+        }
+        
+        vec3 Col(float p, float offs) {
+            float n = N(p) * 1234.34;
+            
+            return sin(n * vec3(12.23, 45.23, 56.2) + offs * 3.0) * 0.5 + 0.5;
+        }
+        
+        vec3 GetRayDir(vec2 uv, vec3 p, vec3 lookat, float zoom) {
+            vec3 f = normalize(lookat - p),
+                r = normalize(cross(vec3(0.0, 1.0, 0.0), f)),
+                u = cross(f, r),
+                c = p + f * zoom,
+                i = c + uv.x * r + uv.y * u,
+                d = normalize(i - p);
+            return d;
+        }
+        
+        void main() {
+            vec2 uv = (gl_FragCoord.xy - vec2(0.5 * iResolution.xy)) / iResolution.y;
+            vec2 UV = gl_FragCoord.xy / iResolution.xy - vec2(0.5);
+            float duv = dot(UV, UV);
+            vec2 m = iMouse.xy / iResolution.xy - vec2(0.5);
+            
+            float t = iTime * 0.2 + m.x * 10.0 + 5.0;
+            
+            float y = sin(t * 0.5);
+            vec3 ro = vec3(0.0, 20.0 * y, -5.0);
+            vec3 lookat = vec3(0.0, 0.0, -10.0);
+            vec3 rd = GetRayDir(uv, ro, lookat, 1.0);
+            
+            vec3 col = vec3(0.0);
+            
+            vec3 p = ro + rd * (ro.y / rd.y);
+            float dp = length(p.xz);
+            
+            if (ro.y / rd.y > 0.0)
+                col *= 0.0;
+            else {
+                uv = p.xz * 0.1;
+        
+                uv *= mix(1.0, 5.0, sin(t * 0.5) * 0.5 + 0.5);
+        
+                uv *= Rot(t);
+                m *= Rot(t);
+        
+                uv.x *= R3;
+        
+                for (float i = 0.0; i < 1.0; i += 1.0 / 3.0) {
+                    float id = floor(i + t);
+                    float t = fract(i + t);
+                    float z = mix(5.0, 0.1, t);
+                    float fade = smoothstep(0.0, 0.3, t) * smoothstep(1.0, 0.7, t);
+        
+                    col += fade * t * Layer(uv * z, N(i + id)) * Col(id, duv);
+                }
+            }
+            col *= 2.0;
+            
+            if (ro.y < 0.0)
+                col = 1.0 - col;
+            
+            col *= smoothstep(18.0, 5.0, dp);
+            col *= 1.0 - duv * 2.0;
+            gl_FragColor = vec4(col, 1.0);
+        }
+        `
+    }]
+
+    isPlayingWebGl = true;
+    canvas = document.getElementById('webgl');
+    gl = canvas.getContext('webgl');
+    canvas.addEventListener('mousemove', function(event) {
+        const rect = canvas.getBoundingClientRect();
+        const mouseX = event.clientX - rect.left;
+        const mouseY = event.clientY - rect.top;
+        window.mouseX = mouseX;
+        window.mouseY = mouseY;
+    });
+    
+    // Set up
+    const shader = shaders.find(x => x.name === name);
+    const vertexShader = compileShader(gl, gl.VERTEX_SHADER, shader.vertexShaderSource);
+    const fragmentShader = compileShader(gl, gl.FRAGMENT_SHADER, shader.fragmentShaderSource);
+    shaderProgram = linkProgram(gl, vertexShader, fragmentShader);
+    resolutionUniformLocation = gl.getUniformLocation(shaderProgram, 'iResolution');
+    timeUniformLocation = gl.getUniformLocation(shaderProgram, 'iTime');
+    mouseUniformLocation = gl.getUniformLocation(shaderProgram, 'iMouse');
+    // Initialize vertex buffer and attribute pointers
+    const vertices = [
+        -1.0,  1.0,
+         1.0,  1.0,
+        -1.0, -1.0,
+         1.0, -1.0,
+    ];
+    const positionBuffer = gl.createBuffer();
+    gl.bindBuffer(gl.ARRAY_BUFFER, positionBuffer);
+    gl.bufferData(gl.ARRAY_BUFFER, new Float32Array(vertices), gl.STREAM_DRAW);
+    // gl.bufferData(gl.ARRAY_BUFFER, new Float32Array(vertices), gl.STATIC_DRAW);
+    
+    // Get attribute location and enable it
+    const positionLocation = gl.getAttribLocation(shaderProgram, 'position');
+    gl.enableVertexAttribArray(positionLocation);
+    gl.vertexAttribPointer(positionLocation, 2, gl.FLOAT, false, 0, 0);
+    let timer = performance.now();
+
+    // Start render loop
+    resizeCanvas();
+    render();
+
+    function render() {
+        gl.viewport(0, 0, canvas.width, canvas.height);
+        gl.clearColor(0.0, 0.0, 0.0, 1.0);
+        gl.clear(gl.COLOR_BUFFER_BIT);
+        gl.useProgram(shaderProgram);
+
+        // Set uniform values
+        gl.uniform2f(resolutionUniformLocation, canvas.width, canvas.height);
+        gl.uniform1f(timeUniformLocation, (performance.now() - timer)/1000.0);
+        // gl.uniform1f(timeUniformLocation, new Date().getTime() / 100000.0);
+        gl.uniform2f(mouseUniformLocation, window.mouseX || 0, window.mouseY || 0);
+
+        // Bind vertex buffer and draw
+        gl.bindBuffer(gl.ARRAY_BUFFER, positionBuffer);
+        gl.drawArrays(gl.TRIANGLE_STRIP, 0, 4);
+
+        if (isPlayingWebGl) {   
+            requestAnimationFrame(render);
+        } else {
+            cleanupWebGL();
+        }
+    }
+
+
+    function compileShader(gl, type, source) {
+        const shader = gl.createShader(type);
+        gl.shaderSource(shader, source);
+        gl.compileShader(shader);
+
+        if (!gl.getShaderParameter(shader, gl.COMPILE_STATUS)) {
+            console.error('Shader compilation error:', gl.getShaderInfoLog(shader));
+            gl.deleteShader(shader);
+            return null;
+        }
+
+        return shader;
+    };
+
+    function linkProgram(gl, vertexShader, fragmentShader) {
+        const program = gl.createProgram();
+        gl.attachShader(program, vertexShader);
+        gl.attachShader(program, fragmentShader);
+        gl.linkProgram(program);
+
+        if (!gl.getProgramParameter(program, gl.LINK_STATUS)) {
+            console.error('Shader program linking error:', gl.getProgramInfoLog(program));
+            gl.deleteProgram(program);
+            return null;
+        }
+
+        return program;
+    };
+    
+    function cleanupWebGL() {
+        gl.deleteProgram(shaderProgram);
+        gl.deleteShader(vertexShader);
+        gl.deleteShader(fragmentShader);
+        gl.bindBuffer(gl.ARRAY_BUFFER, null);
+        gl.bindBuffer(gl.ELEMENT_ARRAY_BUFFER, null);
+        gl.bindTexture(gl.TEXTURE_2D, null);
+    }
+    
+    function resizeCanvas() {
+        let width = scaleByPixelRatio(canvas.clientWidth ??= 0);
+        let height = scaleByPixelRatio(canvas.clientHeight ??= 0);
+        if (canvas.width != width || canvas.height != height) {
+            canvas.width = width;
+            canvas.height = height;
+            return true;
+        }
+        return false;
+    }
+    
+    function scaleByPixelRatio(input) {
+        let pixelRatio = window.devicePixelRatio || 1;
+        return Math.floor(input * pixelRatio);
+    }
+};
+WebGlStop = () => {
+    isPlayingWebGl = false;
 }
 
 Waves = () => {
+    function SetCanvas(Width, Height) {
+        try {
+            canvas.clientWidth = Width;
+            canvas.clientHeight = Height;
+        } catch (e) { console.error(e) }
+    }
+
     isPlayingWaves = true;
+    let canvas;
     try {
-        canvas = document.getElementById('waves');
+        canvas = document.getElementById('canvas');
         if (canvas === null)
             canvas = document.getElementById('background');
     } catch (e) {
@@ -1544,4 +2073,7 @@ Waves = () => {
         }
         return hash;
     };
+}
+WavesStop = () => {
+    isPlayingWaves = false;
 }
