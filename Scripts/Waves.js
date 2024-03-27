@@ -92,7 +92,7 @@ WebGl = (name) => {
             uniform vec2 iResolution;
             uniform float iTime;
             uniform vec2 iMouse;
-            
+
             vec3 palette( float t ) {
                 vec3 a = vec3(0.5, 0.5, 0.5);
                 vec3 b = vec3(0.5, 0.5, 0.5);
@@ -124,6 +124,997 @@ WebGl = (name) => {
                     
                 fragColor = vec4(finalColor, 1.0);
             }
+            void main() {
+                mainImage(gl_FragColor, gl_FragCoord.xy);
+            }
+        `
+    // },{
+    //     name: "Template",
+    //     vertexShaderSource: `
+    //         attribute vec2 position;
+    //         void main() {
+    //             gl_Position = vec4(position, 0.0, 1.0);
+    //         }
+    //     `,
+    //     fragmentShaderSource: `
+    //         precision highp float;
+
+    //         uniform vec2 iResolution;
+    //         uniform float iTime;
+    //         uniform vec2 iMouse;
+
+            
+    //         void main() {
+    //             mainImage(gl_FragColor, gl_FragCoord.xy);
+    //         }
+    //     `
+    },{
+        name: "VanGogh",
+        vertexShaderSource: `
+            attribute vec2 position;
+            void main() {
+                gl_Position = vec4(position, 0.0, 1.0);
+            }
+        `,
+        fragmentShaderSource: `
+            precision highp float;
+
+            uniform vec2 iResolution;
+            uniform float iTime;
+            uniform vec2 iMouse;
+
+            #define p(t, a, b, c, d) ( a + b*cos( 6.28318*(c*t+d) ) ) //IQ's palette function (https://www.iquilezles.org/www/articles/palettes/palettes.htm)
+            #define sp(t) p(t,vec3(.26,.76,.77),vec3(1,.3,1),vec3(.8,.4,.7),vec3(0,.12,.54)) //sky palette
+            #define hue(v) ( .6 + .76 * cos(6.3*(v) + vec4(0,23,21,0) ) ) //hue
+
+            float hash12(vec2 p)
+            {
+            vec3 p3  = fract(vec3(p.xyx) * .1031);
+                p3 += dot(p3, p3.yzx + 33.33);
+                return fract((p3.x + p3.y) * p3.z);
+            }
+
+            vec2 hash22(vec2 p)
+            {
+            vec3 p3 = fract(vec3(p.xyx) * vec3(.1031, .1030, .0973));
+                p3 += dot(p3, p3.yzx+33.33);
+                return fract((p3.xx+p3.yz)*p3.zy);
+            }
+
+            vec2 rotate2D (vec2 st, float a){
+                return  mat2(cos(a),-sin(a),sin(a),cos(a))*st;
+            }
+
+            float st(float a, float b, float s) //AA bar
+            {
+                return smoothstep (a-s, a+s, b);
+            }
+
+            float noise( in vec2 p ) //gradient noise
+            {
+                vec2 i = floor( p );
+                vec2 f = fract( p );
+                
+                vec2 u = f*f*(3.-2.*f);
+
+                return mix( mix( dot( hash22( i+vec2(0,0) ), f-vec2(0,0) ), 
+                                dot( hash22( i+vec2(1,0) ), f-vec2(1,0) ), u.x),
+                            mix( dot( hash22( i+vec2(0,1) ), f-vec2(0,1) ), 
+                                dot( hash22( i+vec2(1,1) ), f-vec2(1,1) ), u.x), u.y);
+            }
+
+            void mainImage( out vec4 O, in vec2 g)
+            {
+                vec2 r = iResolution.xy
+                    ,uv = (g+g-r)/r.y
+                    ,sun_pos = vec2(r.x/r.y*.42,-.53) //sun position 
+                    ,tree_pos = vec2(-r.x/r.y*.42,-.2) //tree position 
+                    ,sh, u, id, lc, t;
+
+                vec3 f, c;
+                float xd, yd, h, a, l;
+                vec4 C;
+                
+                float sm = 3./r.y; //smoothness factor for AA
+
+                sh = rotate2D(sun_pos, noise(uv+iTime*.25)*.3); //big noise on the sky
+                
+                if (uv.y > -.4) //drawing the sky
+                {
+                    u = uv + sh;
+                    
+                    yd = 60.; //number of rings 
+                    
+                    id =  vec2((length(u)+.01)*yd,0); //segment id: x - ring number, y - segment number in the ring  
+                    xd = floor(id.x)*.09; //number of ring segments
+                    h = (hash12(floor(id.xx))*.5+.25)*(iTime+10.)*.25; //ring shift
+                    t = rotate2D (u,h); //rotate the ring to the desired angle
+                
+                    id.y = atan(t.y,t.x)*xd;
+                    lc = fract(id); //segment local coordinates
+                    id -= lc;
+                
+                    // determining the coordinates of the center of the segment in uv space
+                    t = vec2(cos((id.y+.5)/xd)*(id.x+.5)/yd,sin((id.y+.5)/xd)*(id.x+.5)/yd); 
+                    t = rotate2D(t,-h) - sh;
+                
+                    h = noise(t*vec2(.5,1)-vec2(iTime*.2,0)) //clouds
+                        * step(-.25,t.y); //do not draw clouds below -.25
+                    h = smoothstep (.052,.055, h);
+                    
+                    
+                    lc += (noise(lc*vec2(1,4)+id))*vec2(.7,.2); //add fine noise
+                    
+                    f = mix (sp(sin(length(u)-.1))*.35, //sky background
+                            mix(sp(sin(length(u)-.1)+(hash12(id)-.5)*.15),vec3(1),h), //mix sky color and clouds
+                            st(abs(lc.x-.5),.4,sm*yd)*st(abs(lc.y-.5),.48,sm*xd));
+                };
+
+                if (uv.y < -.35) //drawing water
+                {
+
+                    float cld = noise(-sh*vec2(.5,1)  - vec2(iTime*.2,0)); //cloud density opposite the center of the sun
+                    cld = 1.- smoothstep(.0,.15,cld)*.5;
+
+                    u = uv*vec2(1,15);
+                    id = floor(u);
+
+                    for (float i = 1.; i > -1.; i--) //drawing a wave and its neighbors from above and below
+                    {
+                        if (id.y+i < -5.)
+                        {
+                            lc = fract(u)-.5;
+                            lc.y = (lc.y+(sin(uv.x*12.-iTime*3.+id.y+i))*.25-i)*4.; //set the waveform and divide it into four strips
+                            h = hash12(vec2(id.y+i,floor(lc.y))); //the number of segments in the strip and its horizontal offset
+                            
+                            xd = 6.+h*4.;
+                            yd = 30.;
+                            lc.x = uv.x*xd+sh.x*9.; //divide the strip into segments
+                            lc.x += sin(iTime * (.5 + h*2.))*.5; //add a cyclic shift of the strips horizontally
+                            h = .8*smoothstep(5.,.0,abs(floor(lc.x)))*cld+.1; //determine brightness of the sun track 
+                            f = mix(f,mix(vec3(0,.1,.5),vec3(.35,.35,0),h),st(lc.y,0.,sm*yd)); //mix the color of the water and the color of the track for the background of the water 
+                            lc += noise(lc*vec2(3,.5))*vec2(.1,.6); //add fine noise to the segment
+                            
+                            f = mix(f,                                                                         //mix the background color 
+                                mix(hue(hash12(floor(lc))*.1+.56).rgb*(1.2+floor(lc.y)*.17),vec3(1,1,0),h)     //and the stroke color
+                                ,st(lc.y,0.,sm*xd)
+                                *st(abs(fract(lc.x)-.5),.48,sm*xd)*st(abs(fract(lc.y)-.5),.3,sm*yd)
+                                );
+                        }
+                    }
+                }
+                
+                O = vec4(f,1);
+
+                a = 0.;
+                u = uv+noise(uv*2.)*.1 + vec2(0,sin(uv.x*1.+3.)*.4+.8);
+                
+                f = mix(vec3(.7,.6,.2),vec3(0,1,0),sin(iTime*.2)*.5+.5); //color of the grass, changing from green to yellow and back again
+                O = mix(O,vec4(f*.4,1),step(u.y,.0)); //draw grass background
+
+                xd = 60.;  //grass size
+                u = u*vec2(xd,xd/3.5); 
+                
+
+                if (u.y < 1.2)
+                {
+                    for (float y = 0.; y > -3.; y--)
+                    {
+                        for (float x = -2.; x <3.; x++)
+                        {
+                            id = floor(u) + vec2(x,y);
+                            lc = (fract(u) + vec2(1.-x,-y))/vec2(5,3);
+                            h = (hash12(id)-.5)*.25+.5; //shade and length for an individual blade of grass
+
+                            lc-= vec2(.3,.5-h*.4);
+                            lc.x += sin(((iTime*1.7+h*2.-id.x*.05-id.y*.05)*1.1+id.y*.5)*2.)*(lc.y+.5)*.5;
+                            t = abs(lc)-vec2(.02,.5-h*.5);
+                            l =  length(max(t,0.)) + min(max(t.x,t.y),0.); //distance to the segment (blade of grass)
+
+                            l -= noise (lc*7.+id)*.1; //add fine noise
+                            C = vec4(f*.25,st(l,.1,sm*xd*.09)); //grass outline                
+                            C = mix(C,vec4(f                  //grass foregroud
+                                        *(1.2+lc.y*2.)  //the grass is a little darker at the root
+                                        *(1.8-h*2.5),1.)    //brightness variations for individual blades of grass
+                                        ,st(l,.04,sm*xd*.09));
+                            
+                            O = mix (O,C,C.a*step (id.y,-1.));
+                            a = max (a, C.a*step (id.y,-5.));  //a mask to cover the trunk of the tree with grasses in the foreground
+                        }
+                    }
+                }
+
+                float T = sin(iTime*.5); //tree swing cycle
+            
+                if (abs(uv.x+tree_pos.x-.1-T*.1) < .6) // drawing the tree
+                {
+                    u = uv + tree_pos;
+                    // draw the trunk of the tree first
+                    u.x -= sin(u.y+1.)*.2*(T+.75); //the trunk bends in the wind
+                    u += noise(u*4.5-7.)*.25; //trunk curvature
+                    
+                    xd = 10., yd = 60.; 
+                    t = u * vec2(1,yd); //divide the trunk into segments
+                    h = hash12(floor(t.yy)); //horizontal shift of the segments and the color tint of the segment  
+                    t.x += h*.01;
+                    t.x *= xd;
+                    
+                    lc = fract(t); //segment local coordinates
+                    
+                    float m = st(abs(t.x-.5),.5,sm*xd)*step(abs(t.y+20.),45.); //trunk mask
+                    C = mix(vec4(.07) //outline color
+                            ,vec4(.5,.3,0,1)*(.4+h*.4) //foreground color 
+                            ,st(abs(lc.y-.5),.4,sm*yd)*st(abs(lc.x-.5),.45,sm*xd));
+                    C.a = m;
+                    
+                    xd = 30., yd = 15.;
+                    
+                    for (float xs =0.;xs<4.;xs++) //drawing four layers of foliage
+                    {
+                        u = uv + tree_pos + vec2 (xs/xd*.5 -(T +.75)*.15,-.7); //crown position
+                        u += noise(u*vec2(2,1)+vec2(-iTime+xs*.05,0))*vec2(-.25,.1)*smoothstep (.5,-1.,u.y+.7)*.75; //leaves rippling in the wind
+                
+                        t = u * vec2(xd,1.);
+                        h = hash12(floor(t.xx)+xs*1.4); //number of segments for the row
+                        
+                        yd = 5.+ h*7.;
+                        t.y *= yd;
+                
+                        sh = t;
+                        lc = fract(t);
+                        h = hash12(t-lc); //segment color shade
+                
+                        
+                        t = (t-lc)/vec2(xd,yd)+vec2(0,.7);
+                        
+                        m = (step(0.,t.y)*step (length(t),.45) //the shape of the crown - the top 
+                            + step (t.y,0.)*step (-0.7+sin((floor(u.x)+xs*.5)*15.)*.2,t.y)) //the bottom
+                            *step (abs(t.x),.5) //crown size horizontally
+                            *st(abs(lc.x-.5),.35,sm*xd*.5); 
+                
+                        lc += noise((sh)*vec2(1.,3.))*vec2(.3,.3); //add fine noise
+                        
+                        f = hue((h+(sin(iTime*.2)*.5+.5))*.2).rgb-t.x; //color of the segment changes cyclically
+                
+                        C = mix(C,
+                                vec4(mix(f*.15,f*.6*(.7+xs*.2), //mix outline and foreground color
+                                    st(abs(lc.y-.5),.47,sm*yd)*st(abs(lc.x-.5),.2,sm*xd)),m)
+                                ,m);
+                    }
+
+                    O = mix (O,C,C.a*(1.-a));
+                }
+            }
+            
+            void main() {
+                mainImage(gl_FragColor, gl_FragCoord.xy);
+            }
+        `
+    },{
+        name: "HeavenHighway",
+        vertexShaderSource: `
+            attribute vec2 position;
+            void main() {
+                gl_Position = vec4(position, 0.0, 1.0);
+            }
+        `,
+        fragmentShaderSource: `
+            precision highp float;
+
+            uniform vec2 iResolution;
+            uniform float iTime;
+            uniform vec2 iMouse;
+
+            mat2 rot(in float a){float c = cos(a), s = sin(a);return mat2(c,s,-s,c);}
+            const mat3 m3 = mat3(0.33338, 0.56034, -0.71817, -0.87887, 0.32651, -0.15323, 0.15162, 0.69596, 0.61339)*1.93;
+            float mag2(vec2 p){return dot(p,p);}
+            float linstep(in float mn, in float mx, in float x){ return clamp((x - mn)/(mx - mn), 0., 1.); }
+            float prm1 = 0.;
+            vec2 bsMo = vec2(0);
+
+            vec2 disp(float t){ return vec2(sin(t*0.22)*1., cos(t*0.175)*1.)*2.; }
+
+            vec2 map(vec3 p)
+            {
+                vec3 p2 = p;
+                p2.xy -= disp(p.z).xy;
+                p.xy *= rot(sin(p.z+iTime)*(0.1 + prm1*0.05) + iTime*0.09);
+                float cl = mag2(p2.xy);
+                float d = 0.;
+                p *= .61;
+                float z = 1.;
+                float trk = 1.;
+                float dspAmp = 0.1 + prm1*0.2;
+                for(int i = 0; i < 5; i++)
+                {
+                    p += sin(p.zxy*0.75*trk + iTime*trk*.8)*dspAmp;
+                    d -= abs(dot(cos(p), sin(p.yzx))*z);
+                    z *= 0.57;
+                    trk *= 1.4;
+                    p = p*m3;
+                }
+                d = abs(d + prm1*3.)+ prm1*.3 - 2.5 + bsMo.y;
+                return vec2(d + cl*.2 + 0.25, cl);
+            }
+
+            vec4 render( in vec3 ro, in vec3 rd, float time )
+            {
+                vec4 rez = vec4(0);
+                const float ldst = 8.;
+                vec3 lpos = vec3(disp(time + ldst)*0.5, time + ldst);
+                float t = 1.5;
+                float fogT = 0.;
+                for(int i=0; i<130; i++)
+                {
+                    if(rez.a > 0.99)break;
+
+                    vec3 pos = ro + t*rd;
+                    vec2 mpv = map(pos);
+                    float den = clamp(mpv.x-0.3,0.,1.)*1.12;
+                    float dn = clamp((mpv.x + 2.),0.,3.);
+                    
+                    vec4 col = vec4(0);
+                    if (mpv.x > 0.6)
+                    {
+                    
+                        col = vec4(sin(vec3(5.,0.4,0.2) + mpv.y*0.1 +sin(pos.z*0.4)*0.5 + 1.8)*0.5 + 0.5,0.08);
+                        col *= den*den*den;
+                        col.rgb *= linstep(4.,-2.5, mpv.x)*2.3;
+                        float dif =  clamp((den - map(pos+.8).x)/9., 0.001, 1. );
+                        dif += clamp((den - map(pos+.35).x)/2.5, 0.001, 1. );
+                        col.xyz *= den*(vec3(0.005,.045,.075) + 1.5*vec3(0.033,0.07,0.03)*dif);
+                    }
+                    
+                    float fogC = exp(t*0.2 - 2.2);
+                    col.rgba += vec4(0.06,0.11,0.11, 0.1)*clamp(fogC-fogT, 0., 1.);
+                    fogT = fogC;
+                    rez = rez + col*(1. - rez.a);
+                    t += clamp(0.5 - dn*dn*.05, 0.09, 0.3);
+                }
+                return clamp(rez, 0.0, 1.0);
+            }
+
+            float getsat(vec3 c)
+            {
+                float mi = min(min(c.x, c.y), c.z);
+                float ma = max(max(c.x, c.y), c.z);
+                return (ma - mi)/(ma+ 1e-7);
+            }
+
+            //from my "Will it blend" shader (https://www.shadertoy.com/view/lsdGzN)
+            vec3 iLerp(in vec3 a, in vec3 b, in float x)
+            {
+                vec3 ic = mix(a, b, x) + vec3(1e-6,0.,0.);
+                float sd = abs(getsat(ic) - mix(getsat(a), getsat(b), x));
+                vec3 dir = normalize(vec3(2.*ic.x - ic.y - ic.z, 2.*ic.y - ic.x - ic.z, 2.*ic.z - ic.y - ic.x));
+                float lgt = dot(vec3(1.0), ic);
+                float ff = dot(dir, normalize(ic));
+                ic += 1.5*dir*sd*ff*lgt;
+                return clamp(ic,0.,1.);
+            }
+
+            void mainImage( out vec4 fragColor, in vec2 fragCoord )
+            {	
+                vec2 q = fragCoord.xy/iResolution.xy;
+                vec2 p = (gl_FragCoord.xy - 0.5*iResolution.xy)/iResolution.y;
+                bsMo = (iMouse.xy - 0.5*iResolution.xy)/iResolution.y;
+                
+                float time = iTime*3.;
+                vec3 ro = vec3(0,0,time);
+                
+                ro += vec3(sin(iTime)*0.5,sin(iTime*1.)*0.,0);
+                    
+                float dspAmp = .85;
+                ro.xy += disp(ro.z)*dspAmp;
+                float tgtDst = 3.5;
+                
+                vec3 target = normalize(ro - vec3(disp(time + tgtDst)*dspAmp, time + tgtDst));
+                ro.x -= bsMo.x*2.;
+                vec3 rightdir = normalize(cross(target, vec3(0,1,0)));
+                vec3 updir = normalize(cross(rightdir, target));
+                rightdir = normalize(cross(updir, target));
+                vec3 rd=normalize((p.x*rightdir + p.y*updir)*1. - target);
+                rd.xy *= rot(-disp(time + 3.5).x*0.2 + bsMo.x);
+                prm1 = smoothstep(-0.4, 0.4,sin(iTime*0.3));
+                vec4 scn = render(ro, rd, time);
+                    
+                vec3 col = scn.rgb;
+                col = iLerp(col.bgr, col.rgb, clamp(1.-prm1,0.05,1.));
+                
+                col = pow(col, vec3(.55,0.65,0.6))*vec3(1.,.97,.9);
+
+                col *= pow( 16.0*q.x*q.y*(1.0-q.x)*(1.0-q.y), 0.12)*0.7+0.3; //Vign
+                
+                fragColor = vec4( col, 1.0 );
+            }
+
+            void main() {
+                mainImage(gl_FragColor, gl_FragCoord.xy);
+            }
+        `
+    },{
+        name: "MandelKnott",
+        vertexShaderSource: `
+            attribute vec2 position;
+            void main() {
+                gl_Position = vec4(position, 0.0, 1.0);
+            }
+        `,
+        fragmentShaderSource: `
+            precision highp float;
+
+            uniform vec2 iResolution;
+            uniform float iTime;
+            uniform vec2 iMouse;
+
+            float stime, ctime;
+            void ry(inout vec3 p, float a){  
+                float c,s;vec3 q=p;  
+                c = cos(a); s = sin(a);  
+                p.x = c * q.x + s * q.z;  
+                p.z = -s * q.x + c * q.z; 
+            }  
+
+            float pixel_size = 0.0;
+            
+            vec3 mb(vec3 p) {
+                p.xyz = p.xzy;
+                vec3 z = p;
+                vec3 dz=vec3(0.0);
+                float power = 8.0;
+                float r, theta, phi;
+                float dr = 1.0;
+                
+                float t0 = 1.0;
+                for(int i = 0; i < 7; ++i) {
+                    r = length(z);
+                    if(r > 2.0) continue;
+                    theta = atan(z.y / z.x);
+                    #ifdef phase_shift_on
+                    phi = asin(z.z / r) + iTime*0.1;
+                    #else
+                    phi = asin(z.z / r);
+                    #endif
+                    
+                    dr = pow(r, power - 1.0) * dr * power + 1.0;
+                
+                    r = pow(r, power);
+                    theta = theta * power;
+                    phi = phi * power;
+                    
+                    z = r * vec3(cos(theta)*cos(phi), sin(theta)*cos(phi), sin(phi)) + p;
+                    
+                    t0 = min(t0, r);
+                }
+                return vec3(0.5 * log(r) * r / dr, t0, 0.0);
+            }
+            
+             vec3 f(vec3 p){ 
+                 ry(p, iTime*0.2);
+                 return mb(p); 
+             } 
+            
+            
+             float softshadow(vec3 ro, vec3 rd, float k ){ 
+                 float akuma=1.0,h=0.0; 
+                 float t = 0.01;
+                 for(int i=0; i < 50; ++i){ 
+                     h=f(ro+rd*t).x; 
+                     if(h<0.001)return 0.02; 
+                     akuma=min(akuma, k*h/t); 
+                      t+=clamp(h,0.01,2.0); 
+                 } 
+                 return akuma; 
+             } 
+            
+            vec3 nor( in vec3 pos )
+            {
+                vec3 eps = vec3(0.001,0.0,0.0);
+                return normalize( vec3(
+                       f(pos+eps.xyy).x - f(pos-eps.xyy).x,
+                       f(pos+eps.yxy).x - f(pos-eps.yxy).x,
+                       f(pos+eps.yyx).x - f(pos-eps.yyx).x ) );
+            }
+            
+            vec3 intersect( in vec3 ro, in vec3 rd )
+            {
+                float t = 1.0;
+                float res_t = 0.0;
+                float res_d = 1000.0;
+                vec3 c, res_c;
+                float max_error = 1000.0;
+                float d = 1.0;
+                float pd = 100.0;
+                float os = 0.0;
+                float step = 0.0;
+                float error = 1000.0;
+                
+                for( int i=0; i<48; i++ )
+                {
+                    if( error < pixel_size*0.5 || t > 20.0 )
+                    {
+                    }
+                    else{  // avoid broken shader on windows
+                    
+                        c = f(ro + rd*t);
+                        d = c.x;
+            
+                        if(d > os)
+                        {
+                            os = 0.4 * d*d/pd;
+                            step = d + os;
+                            pd = d;
+                        }
+                        else
+                        {
+                            step =-os; os = 0.0; pd = 100.0; d = 1.0;
+                        }
+            
+                        error = d / t;
+            
+                        if(error < max_error) 
+                        {
+                            max_error = error;
+                            res_t = t;
+                            res_c = c;
+                        }
+                    
+                        t += step;
+                    }
+            
+                }
+                if( t>20.0/* || max_error > pixel_size*/ ) res_t=-1.0;
+                return vec3(res_t, res_c.y, res_c.z);
+            }
+            
+             void mainImage( out vec4 fragColor, in vec2 fragCoord ) 
+             { 
+                vec2 q=fragCoord.xy/iResolution.xy; 
+                 vec2 uv = -1.0 + 2.0*q; 
+                 uv.x*=iResolution.x/iResolution.y; 
+                 
+                pixel_size = 1.0/(iResolution.x * 3.0);
+                // camera
+                 stime=0.7+0.3*sin(iTime*0.4); 
+                 ctime=0.7+0.3*cos(iTime*0.4); 
+            
+                 vec3 ta=vec3(0.0,0.0,0.0); 
+                vec3 ro = vec3(0.0, 3.*stime*ctime, 3.*(1.-stime*ctime));
+            
+                 vec3 cf = normalize(ta-ro); 
+                vec3 cs = normalize(cross(cf,vec3(0.0,1.0,0.0))); 
+                vec3 cu = normalize(cross(cs,cf)); 
+                 vec3 rd = normalize(uv.x*cs + uv.y*cu + 3.0*cf);  // transform from view to world
+            
+                vec3 sundir = normalize(vec3(0.1, 0.8, 0.6)); 
+                vec3 sun = vec3(1.64, 1.27, 0.99); 
+                vec3 skycolor = vec3(0.6, 1.5, 1.0); 
+            
+                vec3 bg = exp(uv.y-2.0)*vec3(0.4, 1.6, 1.0);
+            
+                float halo=clamp(dot(normalize(vec3(-ro.x, -ro.y, -ro.z)), rd), 0.0, 1.0); 
+                vec3 col=bg+vec3(1.0,0.8,0.4)*pow(halo,17.0); 
+            
+            
+                float t=0.0;
+                vec3 p=ro; 
+                 
+                vec3 res = intersect(ro, rd);
+                 if(res.x > 0.0){
+                       p = ro + res.x * rd;
+                       vec3 n=nor(p); 
+                       float shadow = softshadow(p, sundir, 10.0 );
+            
+                       float dif = max(0.0, dot(n, sundir)); 
+                       float sky = 0.6 + 0.4 * max(0.0, dot(n, vec3(0.0, 1.0, 0.0))); 
+                        float bac = max(0.3 + 0.7 * dot(vec3(-sundir.x, -1.0, -sundir.z), n), 0.0); 
+                       float spe = max(0.0, pow(clamp(dot(sundir, reflect(rd, n)), 0.0, 1.0), 10.0)); 
+            
+                       vec3 lin = 4.5 * sun * dif * shadow; 
+                       lin += 0.8 * bac * sun; 
+                       lin += 0.6 * sky * skycolor*shadow; 
+                       lin += 3.0 * spe * shadow; 
+            
+                       res.y = pow(clamp(res.y, 0.0, 1.0), 0.55);
+                       vec3 tc0 = 0.5 + 0.5 * sin(3.0 + 4.2 * res.y + vec3(0.0, 0.5, 1.0));
+                       col = lin *vec3(0.9, 0.8, 0.6) *  0.2 * tc0;
+                        col=mix(col,bg, 1.0-exp(-0.001*res.x*res.x)); 
+                } 
+            
+                // post
+                col=pow(clamp(col,0.0,1.0),vec3(0.45)); 
+                col=col*0.6+0.4*col*col*(3.0-2.0*col);  // contrast
+                col=mix(col, vec3(dot(col, vec3(0.33))), -0.5);  // satuation
+                col*=0.5+0.5*pow(16.0*q.x*q.y*(1.0-q.x)*(1.0-q.y),0.7);  // vigneting
+                 fragColor = vec4(col.xyz, smoothstep(0.55, .76, 1.-res.x/5.)); 
+             }
+
+            void main() {
+                mainImage(gl_FragColor, gl_FragCoord.xy);
+            }
+        `
+    },{
+        name: "DarkMatter",
+        vertexShaderSource: `
+            attribute vec2 position;
+            void main() {
+                gl_Position = vec4(position, 0.0, 1.0);
+            }
+        `,
+        fragmentShaderSource: `
+            precision highp float;
+
+            uniform vec2 iResolution;
+            uniform float iTime;
+            uniform vec2 iMouse;
+
+            vec3 palette(float d){
+                return mix(vec3(0.2,0.7,0.9),vec3(1.,0.,1.),d);
+            }
+            
+            vec2 rotate(vec2 p,float a){
+                float c = cos(a);
+                float s = sin(a);
+                return p*mat2(c,s,-s,c);
+            }
+            
+            float map(vec3 p){
+                for( int i = 0; i<8; ++i){
+                    float t = iTime*0.2;
+                    p.xz =rotate(p.xz,t);
+                    p.xy =rotate(p.xy,t*1.89);
+                    p.xz = abs(p.xz);
+                    p.xz-=.5;
+                }
+                return dot(sign(p),p)/5.;
+            }
+            
+            vec4 rm (vec3 ro, vec3 rd){
+                float t = 0.;
+                vec3 col = vec3(0.);
+                float d;
+                for(float i =0.; i<64.; i++){
+                    vec3 p = ro + rd*t;
+                    d = map(p)*.5;
+                    if(d<0.02){
+                        break;
+                    }
+                    if(d>100.){
+                        break;
+                    }
+                    //col+=vec3(0.6,0.8,0.8)/(400.*(d));
+                    col+=palette(length(p)*.1)/(400.*(d));
+                    t+=d;
+                }
+                return vec4(col,1./(d*100.));
+            }
+            void mainImage( out vec4 fragColor, in vec2 fragCoord )
+            {
+                vec2 uv = (fragCoord-(iResolution.xy/2.))/iResolution.x;
+                vec3 ro = vec3(0.,0.,-50.);
+                ro.xz = rotate(ro.xz,iTime);
+                vec3 cf = normalize(-ro);
+                vec3 cs = normalize(cross(cf,vec3(0.,1.,0.)));
+                vec3 cu = normalize(cross(cf,cs));
+                
+                vec3 uuv = ro+cf*3. + uv.x*cs + uv.y*cu;
+                
+                vec3 rd = normalize(uuv-ro);
+                
+                vec4 col = rm(ro,rd);
+                
+                
+                fragColor = col;
+            }
+            
+            void main() {
+                mainImage(gl_FragColor, gl_FragCoord.xy);
+            }
+        `
+    },{
+        name: "OpenSea",
+        vertexShaderSource: `
+            attribute vec2 position;
+            void main() {
+                gl_Position = vec4(position, 0.0, 1.0);
+            }
+        `,
+        fragmentShaderSource: `
+            precision highp float;
+
+            uniform vec2 iResolution;
+            uniform float iTime;
+            uniform vec2 iMouse;
+
+            const int NUM_STEPS = 8;
+            const float PI	 	= 3.141592;
+            const float EPSILON	= 1e-3;
+            #define EPSILON_NRM (0.1 / iResolution.x)
+            //#define AA
+
+            // sea
+            const int ITER_GEOMETRY = 3;
+            const int ITER_FRAGMENT = 5;
+            const float SEA_HEIGHT = 0.6;
+            const float SEA_CHOPPY = 4.0;
+            const float SEA_SPEED = 0.8;
+            const float SEA_FREQ = 0.16;
+            const vec3 SEA_BASE = vec3(0.0,0.09,0.18);
+            const vec3 SEA_WATER_COLOR = vec3(0.8,0.9,0.6)*0.6;
+            #define SEA_TIME (1.0 + iTime * SEA_SPEED)
+            const mat2 octave_m = mat2(1.6,1.2,-1.2,1.6);
+
+            // math
+            mat3 fromEuler(vec3 ang) {
+                vec2 a1 = vec2(sin(ang.x),cos(ang.x));
+                vec2 a2 = vec2(sin(ang.y),cos(ang.y));
+                vec2 a3 = vec2(sin(ang.z),cos(ang.z));
+                mat3 m;
+                m[0] = vec3(a1.y*a3.y+a1.x*a2.x*a3.x,a1.y*a2.x*a3.x+a3.y*a1.x,-a2.y*a3.x);
+                m[1] = vec3(-a2.y*a1.x,a1.y*a2.y,a2.x);
+                m[2] = vec3(a3.y*a1.x*a2.x+a1.y*a3.x,a1.x*a3.x-a1.y*a3.y*a2.x,a2.y*a3.y);
+                return m;
+            }
+            float hash( vec2 p ) {
+                float h = dot(p,vec2(127.1,311.7));	
+                return fract(sin(h)*43758.5453123);
+            }
+            float noise( in vec2 p ) {
+                vec2 i = floor( p );
+                vec2 f = fract( p );	
+                vec2 u = f*f*(3.0-2.0*f);
+                return -1.0+2.0*mix( mix( hash( i + vec2(0.0,0.0) ), 
+                                hash( i + vec2(1.0,0.0) ), u.x),
+                            mix( hash( i + vec2(0.0,1.0) ), 
+                                hash( i + vec2(1.0,1.0) ), u.x), u.y);
+            }
+
+            // lighting
+            float diffuse(vec3 n,vec3 l,float p) {
+                return pow(dot(n,l) * 0.4 + 0.6,p);
+            }
+            float specular(vec3 n,vec3 l,vec3 e,float s) {    
+                float nrm = (s + 8.0) / (PI * 8.0);
+                return pow(max(dot(reflect(e,n),l),0.0),s) * nrm;
+            }
+
+            // sky
+            vec3 getSkyColor(vec3 e) {
+                e.y = (max(e.y,0.0)*0.8+0.2)*0.8;
+                return vec3(pow(1.0-e.y,2.0), 1.0-e.y, 0.6+(1.0-e.y)*0.4) * 1.1;
+            }
+
+            // sea
+            float sea_octave(vec2 uv, float choppy) {
+                uv += noise(uv);        
+                vec2 wv = 1.0-abs(sin(uv));
+                vec2 swv = abs(cos(uv));    
+                wv = mix(wv,swv,wv);
+                return pow(1.0-pow(wv.x * wv.y,0.65),choppy);
+            }
+
+            float map(vec3 p) {
+                float freq = SEA_FREQ;
+                float amp = SEA_HEIGHT;
+                float choppy = SEA_CHOPPY;
+                vec2 uv = p.xz; uv.x *= 0.75;
+                
+                float d, h = 0.0;    
+                for(int i = 0; i < ITER_GEOMETRY; i++) {        
+                    d = sea_octave((uv+SEA_TIME)*freq,choppy);
+                    d += sea_octave((uv-SEA_TIME)*freq,choppy);
+                    h += d * amp;        
+                    uv *= octave_m; freq *= 1.9; amp *= 0.22;
+                    choppy = mix(choppy,1.0,0.2);
+                }
+                return p.y - h;
+            }
+
+            float map_detailed(vec3 p) {
+                float freq = SEA_FREQ;
+                float amp = SEA_HEIGHT;
+                float choppy = SEA_CHOPPY;
+                vec2 uv = p.xz; uv.x *= 0.75;
+                
+                float d, h = 0.0;    
+                for(int i = 0; i < ITER_FRAGMENT; i++) {        
+                    d = sea_octave((uv+SEA_TIME)*freq,choppy);
+                    d += sea_octave((uv-SEA_TIME)*freq,choppy);
+                    h += d * amp;        
+                    uv *= octave_m; freq *= 1.9; amp *= 0.22;
+                    choppy = mix(choppy,1.0,0.2);
+                }
+                return p.y - h;
+            }
+
+            vec3 getSeaColor(vec3 p, vec3 n, vec3 l, vec3 eye, vec3 dist) {  
+                float fresnel = clamp(1.0 - dot(n,-eye), 0.0, 1.0);
+                fresnel = min(pow(fresnel,3.0), 0.5);
+                    
+                vec3 reflected = getSkyColor(reflect(eye,n));    
+                vec3 refracted = SEA_BASE + diffuse(n,l,80.0) * SEA_WATER_COLOR * 0.12; 
+                
+                vec3 color = mix(refracted,reflected,fresnel);
+                
+                float atten = max(1.0 - dot(dist,dist) * 0.001, 0.0);
+                color += SEA_WATER_COLOR * (p.y - SEA_HEIGHT) * 0.18 * atten;
+                
+                color += vec3(specular(n,l,eye,60.0));
+                
+                return color;
+            }
+
+            // tracing
+            vec3 getNormal(vec3 p, float eps) {
+                vec3 n;
+                n.y = map_detailed(p);    
+                n.x = map_detailed(vec3(p.x+eps,p.y,p.z)) - n.y;
+                n.z = map_detailed(vec3(p.x,p.y,p.z+eps)) - n.y;
+                n.y = eps;
+                return normalize(n);
+            }
+
+            float heightMapTracing(vec3 ori, vec3 dir, out vec3 p) {  
+                float tm = 0.0;
+                float tx = 1000.0;    
+                float hx = map(ori + dir * tx);
+                if(hx > 0.0) {
+                    p = ori + dir * tx;
+                    return tx;   
+                }
+                float hm = map(ori + dir * tm);    
+                float tmid = 0.0;
+                for(int i = 0; i < NUM_STEPS; i++) {
+                    tmid = mix(tm,tx, hm/(hm-hx));                   
+                    p = ori + dir * tmid;                   
+                    float hmid = map(p);
+                    if(hmid < 0.0) {
+                        tx = tmid;
+                        hx = hmid;
+                    } else {
+                        tm = tmid;
+                        hm = hmid;
+                    }
+                }
+                return tmid;
+            }
+
+            vec3 getPixel(in vec2 coord, float time) {    
+                vec2 uv = coord / iResolution.xy;
+                uv = uv * 2.0 - 1.0;
+                uv.x *= iResolution.x / iResolution.y;    
+                    
+                // ray
+                vec3 ang = vec3(sin(time*3.0)*0.1,sin(time)*0.2+0.3,time);    
+                vec3 ori = vec3(0.0,3.5,time*5.0);
+                vec3 dir = normalize(vec3(uv.xy,-2.0)); dir.z += length(uv) * 0.14;
+                dir = normalize(dir) * fromEuler(ang);
+                
+                // tracing
+                vec3 p;
+                heightMapTracing(ori,dir,p);
+                vec3 dist = p - ori;
+                vec3 n = getNormal(p, dot(dist,dist) * EPSILON_NRM);
+                vec3 light = normalize(vec3(0.0,1.0,0.8)); 
+                        
+                // color
+                return mix(
+                    getSkyColor(dir),
+                    getSeaColor(p,n,light,dir,dist),
+                    pow(smoothstep(0.0,-0.02,dir.y),0.2));
+            }
+
+            // main
+            void mainImage( out vec4 fragColor, in vec2 fragCoord ) {
+                float time = iTime * 0.3 + iMouse.x*0.01;
+                
+            #ifdef AA
+                vec3 color = vec3(0.0);
+                for(int i = -1; i <= 1; i++) {
+                    for(int j = -1; j <= 1; j++) {
+                        vec2 uv = fragCoord+vec2(i,j)/3.0;
+                        color += getPixel(uv, time);
+                    }
+                }
+                color /= 9.0;
+            #else
+                vec3 color = getPixel(fragCoord, time);
+            #endif
+                
+                // post
+                fragColor = vec4(pow(color,vec3(0.65)), 1.0);
+            }
+
+            void main() {
+                mainImage(gl_FragColor, gl_FragCoord.xy);
+            }
+        `
+    },{
+        name: "FreezeRay",
+        vertexShaderSource: `
+            attribute vec2 position;
+            void main() {
+                gl_Position = vec4(position, 0.0, 1.0);
+            }
+        `,
+        fragmentShaderSource: `
+            precision highp float;
+
+            uniform vec2 iResolution;
+            uniform float iTime;
+            uniform vec2 iMouse;
+
+            mat2 rot(float a) {
+                float c = cos(a), s = sin(a);
+                return mat2(c,s,-s,c);
+            }
+            
+            const float pi = acos(-1.0);
+            const float pi2 = pi*2.0;
+            
+            vec2 pmod(vec2 p, float r) {
+                float a = atan(p.x, p.y) + pi/r;
+                float n = pi2 / r;
+                a = floor(a/n)*n;
+                return p*rot(-a);
+            }
+            
+            float box( vec3 p, vec3 b ) {
+                vec3 d = abs(p) - b;
+                return min(max(d.x,max(d.y,d.z)),0.0) + length(max(d,0.0));
+            }
+            
+            float ifsBox(vec3 p) {
+                for (int i=0; i<5; i++) {
+                    p = abs(p) - 1.0;
+                    p.xy *= rot(iTime*0.3);
+                    p.xz *= rot(iTime*0.1);
+                }
+                p.xz *= rot(iTime);
+                return box(p, vec3(0.4,0.8,0.3));
+            }
+            
+            float map(vec3 p, vec3 cPos) {
+                vec3 p1 = p;
+                p1.x = mod(p1.x-5., 10.) - 5.;
+                p1.y = mod(p1.y-5., 10.) - 5.;
+                p1.z = mod(p1.z, 16.)-8.;
+                p1.xy = pmod(p1.xy, 5.0);
+                return ifsBox(p1);
+            }
+            
+            void mainImage( out vec4 fragColor, in vec2 fragCoord ) {
+                vec2 p = (fragCoord.xy * 2.0 - iResolution.xy) / min(iResolution.x, iResolution.y);
+            
+                vec3 cPos = vec3(0.0,0.0, -3.0 * iTime);
+                // vec3 cPos = vec3(0.3*sin(iTime*0.8), 0.4*cos(iTime*0.3), -6.0 * iTime);
+                vec3 cDir = normalize(vec3(0.0, 0.0, -1.0));
+                vec3 cUp  = vec3(sin(iTime), 1.0, 0.0);
+                vec3 cSide = cross(cDir, cUp);
+            
+                vec3 ray = normalize(cSide * p.x + cUp * p.y + cDir);
+            
+                // Phantom Mode https://www.shadertoy.com/view/MtScWW by aiekick
+                float acc = 0.0;
+                float acc2 = 0.0;
+                float t = 0.0;
+                for (int i = 0; i < 99; i++) {
+                    vec3 pos = cPos + ray * t;
+                    float dist = map(pos, cPos);
+                    dist = max(abs(dist), 0.02);
+                    float a = exp(-dist*3.0);
+                    if (mod(length(pos)+24.0*iTime, 30.0) < 3.0) {
+                        a *= 2.0;
+                        acc2 += a;
+                    }
+                    acc += a;
+                    t += dist * 0.5;
+                }
+            
+                vec3 col = vec3(acc * 0.01, acc * 0.011 + acc2*0.002, acc * 0.012+ acc2*0.005);
+                fragColor = vec4(col, 1.0 - t * 0.03);
+            }
+
             void main() {
                 mainImage(gl_FragColor, gl_FragCoord.xy);
             }
