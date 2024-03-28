@@ -1522,7 +1522,8 @@ WebGl = (name) => {
         const elapsedTimeInSeconds = deltaTime / 1000;
             
         fpsCounter++;
-        fps.innerHTML = Math.round(fpsCounter / elapsedTimeInSeconds);
+        if (fps)
+            fps.innerHTML = Math.round(fpsCounter / elapsedTimeInSeconds);
         
         gl.viewport(0, 0, canvas.width, canvas.height);
         gl.clearColor(0.0, 0.0, 0.0, 1.0);

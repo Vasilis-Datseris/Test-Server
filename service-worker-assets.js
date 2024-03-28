@@ -293,7 +293,7 @@
       "url": "Scripts\/Brotli.js"
     },
     {
-      "hash": "sha256-ZwoyyIiPeRBdtb86pPP6RJFJGjQ43juvPCS37kh105Y=",
+      "hash": "sha256-Mp6VXjvh4sK5X7qJLIYoV0+tzOQM9l1Ny9\/uFm2VI78=",
       "url": "Scripts\/Flappy.js"
     },
     {
@@ -317,7 +317,7 @@
       "url": "Scripts\/Splashscreen.js"
     },
     {
-      "hash": "sha256-1pmnYXdt79msDJCn0MPoY0KBjd\/mIaiSr9fbfJJMNog=",
+      "hash": "sha256-sY1hMpkkSlTVP5u89xlE\/EOMwq\/OT9WxTR51VbHnnWY=",
       "url": "Scripts\/Waves.js"
     },
     {
@@ -533,5 +533,5 @@
       "url": "_content\/MudBlazor\/MudBlazor.min.js"
     }
   ],
-  "version": "x1hxFY9v"
+  "version": "T3uje5gJ"
 };

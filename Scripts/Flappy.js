@@ -252,11 +252,15 @@ function moveObstacles() {
       if (scoringTimer >= scoringTimeInterval) {
         scoringTimer = 0;
         score++;
-        document.getElementById("flappy-score").innerHTML = score;
+        const scoreHtml = document.getElementById("flappy-score")
+		if (scoreHtml)
+			scoreHtml.innerHTML = score;
 		if (score > highScore) {
 			highScore = score;
 			localStorage.setItem("flappy-highscore", highScore);
-			document.getElementById("flappy-highscore").innerHTML = highScore;
+			const highscoreHtml = document.getElementById("flappy-highscore")
+			if (highscoreHtml)
+				highscoreHtml.innerHTML = highScore;
 		}
       }
     }
